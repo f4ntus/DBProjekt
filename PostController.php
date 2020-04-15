@@ -11,7 +11,7 @@
             $kennwort = $post["kennwort"];
             // hier kommt eine Gültigkeitsprüfung rein 
 
-            $this->sqlWrapper->insertIntoBefrager($benutzername,$kennwort);
+           return $this->sqlWrapper->insertIntoBefrager($benutzername,$kennwort);
 
         }
         public function __destruct()

@@ -11,19 +11,20 @@
             $this->db = new MySQLi(self::DBHOST, self::DBUSER, self::DBPASSWORD, self::DATABASE);
         }
 
-        public function insertIntoBefrager($benutzername,$passwort){
+        public function insertIntoBefrager($benutzername,$kennwort){
             $sql = "INSERT INTO tbl_befrager (Benutzername, Kennwort) VALUES ('$benutzername', '$kennwort')";
 
             if ($this->db->query($sql)) {
-                return true;
+                return 'success';
             } else {
-                echo "Error: " . $sql . "<br>" . $this->db->error;
+                return $this->db->error;
+                
             }
         }
 
         public function __destruct()
         {
-            $this->db->close;
+            $this->db->close();
         }
 
     }
