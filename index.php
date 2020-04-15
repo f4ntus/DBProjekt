@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <body> <html>
-<form method="post" action="http://vorlesungen.kirchbergnet.de/inhalte/DB-PR/output_posted_vars.php">
+<form method="post" action="<?php $_PHP_SELF ?>">
   <h1>Login</h1>
     </br>
     Benutzername: 
-        <input type="text" name="benutername">
+        <input type="text" name="benutzername">
             </br>
             </br>
     Passwort: 
-        <input type="password" name="passwort" required>   
+        <input type="password" name="kennwort" required>   
             </br>
             </br>
   
@@ -18,18 +18,27 @@
             </br>
 
     <?php
-            $servername = "localhost";
-            $username = "root";
-            $password = "";
+           $dbhost = "localhost";
+           $dbuser="root";
+           $dbpassword = "";
+           $db = "befragungstool";
 
-            // Create connection
-            $conn = new mysqli($servername, $username, $password);
+           $benutzername = $_POST["benutzername"];
+           $kennwort = $_POST["kennwort"];
 
-            // Check connection
-         if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+           $db = new MySQLi($dbhost, $dbuser, $dbpassword, $db);
+           
+           $sql = "INSERT INTO tbl_befrager (Benutzername, Kennwort) VALUES ('$benutzername', '$kennwort')";
+
+            if ($db->query($sql) === TRUE) {
+             echo "New record created successfully";
+            } 
+            else {
+                echo "Error: " . $sql . "<br>" . $db->error;
             }
-        echo "Connected successfully";
+
+           
+        $db->close();
     ?>
 </form>
 
