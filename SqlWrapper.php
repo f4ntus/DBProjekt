@@ -22,6 +22,17 @@
             }
         }
 
+        public function selectAlleFrageboegen()
+            $sql = "SELECT * FROM tbl_fragebogen";
+
+            if ($this->db->query($sql)) {
+                return 'success';
+            } else {
+                return 'Sie haben noch keinen Fragebogene erstellt.';
+                
+            }
+        }
+
         public function __destruct()
         {
             $this->db->close();
