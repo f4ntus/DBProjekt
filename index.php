@@ -20,6 +20,7 @@
         </br>
 
         <?php
+        require 'PostController.php';
         $postController = new PostController();
         $postController->controllAnmeldung($_POST);
         $postController = NULL;

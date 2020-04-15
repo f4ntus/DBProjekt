@@ -1,4 +1,5 @@
 <?php
+    require 'SqlWrapper.php';
     class PostController {
         private $sqlWrapper;
         public function __construct()
