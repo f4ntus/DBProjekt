@@ -2,7 +2,7 @@
 
 <body>
     <html>
-    <form method="post" action="<?php $_PHP_SELF ?>">
+    <form method="post" action="postHandler.php">
         <h1>Login</h1>
         </br>
         Benutzername:
@@ -19,8 +19,12 @@
         </br>
         </br>
 
-        <?php
-        $dbhost = "localhost";
+      <!--  <?php
+        require 'PostController.php';
+        $postController = new PostController();
+        $postController->controllAnmeldung($_POST);
+        $postController = NULL;
+        /*$dbhost = "localhost";
         $dbuser = "root";
         $dbpassword = "";
         $db = "befragungstool";
@@ -39,8 +43,8 @@
         }
 
 
-        $db->close();
-        ?>
+        $db->close(); */
+        ?>--> 
     </form>
 
 </body>
