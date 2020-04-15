@@ -20,7 +20,10 @@
         </br>
 
         <?php
-        $dbhost = "localhost";
+        $postController = new PostController();
+        $postController->controllAnmeldung($_POST);
+        $postController = NULL;
+        /*$dbhost = "localhost";
         $dbuser = "root";
         $dbpassword = "";
         $db = "befragungstool";
@@ -39,7 +42,7 @@
         }
 
 
-        $db->close();
+        $db->close(); */
         ?>
     </form>
 
