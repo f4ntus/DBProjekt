@@ -1,46 +1,48 @@
 <!DOCTYPE html>
-<body> <html>
-<form method="post" action="<?php $_PHP_SELF ?>">
-  <h1>Login</h1>
-    </br>
-    Benutzername: 
+
+<body>
+    <html>
+    <form method="post" action="<?php $_PHP_SELF ?>">
+        <h1>Login</h1>
+        </br>
+        Benutzername:
         <input type="text" name="benutzername">
-            </br>
-            </br>
-    Passwort: 
-        <input type="password" name="kennwort" required>   
-            </br>
-            </br>
-  
-  <input type="submit" name="anmelden" value="Anmelden"/>
-  <input type="submit" name="registrieren" value="Registrieren"/>
-            </br>
-            </br>
+        </br>
+        </br>
+        Passwort:
+        <input type="password" name="kennwort" required>
+        </br>
+        </br>
 
-    <?php
-           $dbhost = "localhost";
-           $dbuser="root";
-           $dbpassword = "";
-           $db = "befragungstool";
+        <input type="submit" name="anmelden" value="Anmelden" />
+        <input type="submit" name="registrieren" value="Registrieren" />
+        </br>
+        </br>
 
-           $benutzername = $_POST["benutzername"];
-           $kennwort = $_POST["kennwort"];
+        <?php
+        $dbhost = "localhost";
+        $dbuser = "root";
+        $dbpassword = "";
+        $db = "befragungstool";
 
-           $db = new MySQLi($dbhost, $dbuser, $dbpassword, $db);
-           
-           $sql = "INSERT INTO tbl_befrager (Benutzername, Kennwort) VALUES ('$benutzername', '$kennwort')";
+        $benutzername = $_POST["benutzername"];
+        $kennwort = $_POST["kennwort"];
 
-            if ($db->query($sql) === TRUE) {
-             echo "New record created successfully";
-            } 
-            else {
-                echo "Error: " . $sql . "<br>" . $db->error;
-            }
+        $db = new MySQLi($dbhost, $dbuser, $dbpassword, $db);
 
-           
+        $sql = "INSERT INTO tbl_befrager (Benutzername, Kennwort) VALUES ('$benutzername', '$kennwort')";
+
+        if ($db->query($sql) === TRUE) {
+            echo "New record created successfully";
+        } else {
+            echo "Error: " . $sql . "<br>" . $db->error;
+        }
+
+
         $db->close();
-    ?>
-</form>
+        ?>
+    </form>
 
-</body> </html>
+</body>
 
+</html>
