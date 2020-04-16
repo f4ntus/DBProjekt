@@ -4,7 +4,7 @@
         const DBUSER = "root";
         const DBPASSWORD = "";
         const DATABASE = "befragungstool";
-        global $db;
+        private $db;
         
         public function __construct()
         {
@@ -22,15 +22,19 @@
             }
         }
 
-        public function selectFragebogen(){
-            $abfrage = "SELECT * FROM Fragebogen";
-
-            if ($this->db->query($abfrage)) {
-                return 'success';
-            } else {
-                return $this->db->error;
+        public function select() {
+             $q = $this->db->query("SELECT * FROM tbl_fragebogen");
+             echo "<table><tr><th>FragebogenNr</th><th>Titel</th>";
+            
+            while($row = $q->fetch_assoc()) { 
+                echo "<tr>";
+                echo "<td>" . $row['FbNr'] . "</td>";
+                echo "<td>" . $row['Titel'] . "</td>";
+                echo "</tr>";
+            } 
+            echo "</table>";
+            
             }
-        }
 
 
 

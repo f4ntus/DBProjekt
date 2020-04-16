@@ -1,37 +1,34 @@
+<!DOCTYPE html>
 <html> 
 <head>
-<title>MenüStudent</title>
+        <title>MenüStudent</title>
 </head>
 <body>
+    <h1>Hallo 2596940</h1>
+        <form method="post" action="MenuStudent.php">
+        <input type="submit" name="anzeigen" value="Anzeigen" />
+        </form>
+
+</body>
+</html>
+
+
+
+
+
+
 
 <?php
 
-
-$host = "localhost"; 
-$user= "root";
-$password = "";
-$db = "befragungstool";
-$db = new MySQLi($host, $user, $password, $db);
-
-$q = $db->query("SELECT * FROM tbl_fragebogen");
-
-
-echo "<table><tr><th>FragebogenNr</th><th>Titel</th>";
-
-while($row = $q->fetch_assoc()) { 
-    echo "<tr>";
-    echo "<td>" . $row['FbNr'] . "</td>";
-    echo "<td>" . $row['Titel'] . "</td>";
-    echo "</tr>";
-
-} 
-
-echo "</table>"
-
-
-
-
+require 'SqlWrapper.php';
+$sqlWrapper = new SqlWrapper();
+$dbergebnis = $sqlWrapper->select();
+echo $dbergebnis;
 
 ?>
-</body>
-</html>
+
+
+
+
+
+
