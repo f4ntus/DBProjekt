@@ -4,7 +4,7 @@
         const DBUSER = "root";
         const DBPASSWORD = "";
         const DATABASE = "befragungstool";
-        global $db;
+        private $db;
         
         public function __construct()
         {
@@ -23,14 +23,10 @@
         }
 
         public function selectFragebogen(){
-            $abfrage = "SELECT * FROM Fragebogen";
-
-            if ($this->db->query($abfrage)) {
-                return 'success';
-            } else {
-                return $this->db->error;
+            $abfrage = "SELECT * FROM tbl_fragebogen";  
+        
+            return $this->sqlWrapper->insertIntoBefrager();
             }
-        }
 
 
 
