@@ -14,7 +14,7 @@
            return $this->sqlWrapper->insertIntoBefrager($benutzername,$kennwort);
 
         }
-        public function __destruct()    
+        public function __destruct()
         {
             $this->sqlWrapper = NULL;
         }
