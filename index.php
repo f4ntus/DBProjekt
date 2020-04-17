@@ -11,44 +11,57 @@
     <h1> Herzlich willkommen im Befragungstool der DHBW </h1>
     <!-- Abfrage ob Student oder Befrager -->
     <?php
-    if (!((isset($_GET['befrager']))||(isset($_GET['stundent'])))){
-        echo '<h2> Bitte wähle aus ob du ein Student oder ein Befrager bist </h2>
+    // Formular wird nur angezeigt, wenn weder befrager noch student ausgewählt ist
+    if (!((isset($_GET['befrager']))||(isset($_GET['student'])))){
+        echo '<div>';
+    } else {
+        echo '<div hidden>';
+    }
+    ?>
+        <h2> Bitte wähle aus ob du ein Student oder ein Befrager bist </h2>
         <form methode="get" action="index.php">
             <input type="submit" name="befrager" value="Befrager" />
             <input type="submit" name="student" value="Student" />
-        </form>'; // Formular ist nur sichtbar, wenn noch nichts ausgewählt wurde
-    } else {
-        
-    }
-    ?>
+        </form>'
+    </div>
+    
     <!-- Formular für Anmeldung oder Registrieren -->
-    <form method="post" action="postHandler.php">
-        <h1>Login</h1>
-        <!-- Für Befrager Benutzername -->
-        <?php
-        if (isset($_GET['befrager'])) { 
-            echo 'Benutzername:
-            <input type="text" name="benutzername">';
-        }
-        ?>
-        <!-- Für Student Matrikelnummer -->
-        <?php
-        if (isset($_GET['student'])) { 
-            echo 'Matrikelnummer:
-            <input type="text" name="matrikelnummer">';
-        }
-        ?>
-        </br>
-        </br>
-        Passwort:
-        <input type="password" name="kennwort" required>
-        </br>
-        </br>
-        <input type="submit" name="anmelden" value="Anmelden" />
-        <input type="submit" name="registrieren" value="Registrieren" />
-        </br>
-        </br>
-    </form>
+    
+    <?php
+    // Formular wird nur angezeigt, wenn Befrager oder Student ausgewählt ist
+    if (((isset($_GET['befrager']))||(isset($_GET['student'])))){
+        echo '<div>';
+    } else {
+        echo '<div hidden>';
+    } ?>
+        <form method="post" action="index.php">
+            <h1>Login</h1>
+            <!-- Für Befrager Benutzername -->
+            <?php
+            if (isset($_GET['befrager'])) { 
+                echo 'Benutzername:
+                <input type="text" name="benutzername">';
+            }
+            ?>
+            <!-- Für Student Matrikelnummer -->
+            <?php
+            if (isset($_GET['student'])) { 
+                echo 'Matrikelnummer:
+                <input type="text" name="matrikelnummer">';
+            }
+            ?>
+            </br>
+            </br>
+            Passwort:
+            <input type="password" name="kennwort" required>
+            </br>
+            </br>
+            <input type="submit" name="anmelden" value="Anmelden" />
+            <input type="submit" name="registrieren" value="Registrieren" />
+            </br>
+            </br>
+        </form>
+    </div>
     <?php
     if (isset($_POST['anmelden'])) {
         require 'PostController.php';
@@ -56,6 +69,7 @@
         $response = $postController->controllAnmeldung($_POST);
 
         if ($response == 'success') {
+            // weiterleitung zum Hauptmenü
             echo "<p> Du hast dich erfolgreich angemeldet </p>";
         } else {
             echo $response;

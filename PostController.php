@@ -10,11 +10,12 @@
         public function controllAnmeldung($post){
             
             $benutzername = $post["benutzername"];
+            $matrikelnummer = $post["matrikelnummer"];
             $kennwort = $post["kennwort"];
             // hier kommt eine Gültigkeitsprüfung rein 
-
-           return $this->sqlWrapper->insertIntoBefrager($benutzername,$kennwort);
-
+            if (isset($benutzername)){
+                return $this->sqlWrapper->insertIntoBefrager($benutzername,$kennwort);
+            }    
         }
         public function __destruct()
         {
