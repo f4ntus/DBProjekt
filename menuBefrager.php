@@ -16,14 +16,8 @@
 
 
 <?php
-require 'PostController.php';
-$postController = new PostController();
-$db_erg = $postController->controllAnmeldung($_POST);
-//$postController->controllAnmeldung($_POST);
-if ( $db_erg == 'success'){
-    echo "<p> Sie haben noch keinen Fragebogen erstellt. </p>"; 
-} else {
-    echo $db_erg;
-}
-$postController = NULL;
+require 'SqlWrapper.php';
+$sqlWrapper = new SqlWrapper();
+$db_erg = $sqlWrapper->selectAlleFrageboegen();
+  echo $db_erg;
 ?>
