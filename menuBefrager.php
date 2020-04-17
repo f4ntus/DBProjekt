@@ -2,7 +2,7 @@
 <html>
                 <h1>Hallo Gregory Peck!</h1>
         <form>
-                <input type="submit" name="fb_neu" value=" + Neuen Fragebogen erstellen" />
+                <input action ="neuerFragebogen.php" type="button" name="fb_neu" value=" + Neuen Fragebogen erstellen" />
         </form>
 
         <p>Übersicht Ihrer bereits erstellen Fragebögen:</p>
