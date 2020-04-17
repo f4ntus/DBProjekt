@@ -24,7 +24,7 @@
 
         public function select() {
              $q = $this->db->query("SELECT * FROM tbl_fragebogen");
-             echo "<table><tr><th>FragebogenNr</th><th>Titel</th>";
+             echo "<table border='8' cellpadding='20'><tr><th>FragebogenNr</th><th>Titel</th>";
             
             while($row = $q->fetch_assoc()) { 
                 echo "<tr>";
