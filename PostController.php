@@ -6,7 +6,9 @@
         {
             $this->sqlWrapper = new SqlWrapper();
         }
+        
         public function controllAnmeldung($post){
+            
             $benutzername = $post["benutzername"];
             $kennwort = $post["kennwort"];
             // hier kommt eine Gültigkeitsprüfung rein 
