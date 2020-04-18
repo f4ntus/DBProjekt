@@ -2,16 +2,18 @@
 
 <h1>Neuen Fragebogen erstellen:</h1>
 
-<form>
-    <p>Titel des Fragebogens</p>
+<form method="post" action="neuerFragebogen1.php">
 
-    <input type="text" name="titel">
+<p>Anzahl Fragen</p>
+    <input type="number" name="anzahlFragen">
+</br>
+</br>
+
+    <input type="submit" name="submitAnzFragen" value="Bestätigen">
     
 
-
-
-
-
+</form>
 
 </html>
+
 

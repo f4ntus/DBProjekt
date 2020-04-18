@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
                 <h1>Hallo Gregory Peck!</h1>
-        <form>
-                <input action ="neuerFragebogen.php" type="button" name="fb_neu" value=" + Neuen Fragebogen erstellen" />
+        <form action ="neuerFragebogen.php">
+                <input type="submit" name="fb_neu" value=" + Neuen Fragebogen erstellen" />
         </form>
 
         <p>Übersicht Ihrer bereits erstellen Fragebögen:</p>
@@ -16,8 +16,9 @@
 
 
 <?php
-require 'SqlWrapper.php';
-$sqlWrapper = new SqlWrapper();
-$db_erg = $sqlWrapper->selectAlleFrageboegen();
-  echo $db_erg;
+require 'PostController.php';
+$postController = new PostController();
+$response = $postController->anzeigenFrageboegen();
+    echo $response;
+$postController = NULL;
 ?>

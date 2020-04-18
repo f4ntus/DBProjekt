@@ -29,6 +29,17 @@
                 echo "</br>";
              }
             }
+
+        public function insertIntoFragebogen($titel) {
+            $sql = "INSERT INTO tbl_fragebogen (Titel) VALUES ('$titel')";
+
+            if ($this->db->query($sql)) {
+                return 'success';
+            } else {
+                return $this->db->error;
+                
+            }
+        }
         public function __destruct()
         {
             $this->db->close();
