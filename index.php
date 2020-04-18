@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
     <title>Befragungstool</title>
 </head>
 
@@ -34,32 +35,29 @@
     } else {
         echo '<div hidden>';
     } ?>
-        <form method="post" action="index.php">
-            <h1>Login</h1>
-            <!-- Für Befrager Benutzername -->
-            <?php
-            if (isset($_GET['befrager'])) { 
-                echo 'Benutzername:
-                <input type="text" name="benutzername">';
-            }
-            ?>
-            <!-- Für Student Matrikelnummer -->
+        <form id="login" method="post" action="index.php">
+            <label form="login" class="lableHeadline">Login</label>
+            </br>
+            
+            <!-- Für den Student wird nur die Matrikelnummer angezeigt -->
             <?php
             if (isset($_GET['student'])) { 
-                echo 'Matrikelnummer:
-                <input type="text" name="matrikelnummer">';
-            }
-            ?>
-            </br>
-            </br>
-            Passwort:
-            <input type="password" name="kennwort" required>
-            </br>
-            </br>
-            <input type="submit" name="anmelden" value="Anmelden" />
-            <input type="submit" name="registrieren" value="Registrieren" />
-            </br>
-            </br>
+                echo '<label for="matirkelnummer">Matrikelnummer</label></br>
+                <input type="text" name="matrikelnummer" id="matirkelnummer"> </br>';
+                echo '<div hidden>';
+            } else {
+                echo '<div>';
+            } ?>
+            
+            <!-- Für den Befrager wird Benutzername und Passwort angezeigt -->
+            <label for="benutzername">Benutzername:</label> </br>
+            <input type="text" name="benutzername" id="benutzername"> </br>
+
+            <label for="passwort">Passwort</label> </br>
+            <input type="password" name="password" id="password" required> </br>
+            <input type="submit" name="registrieren" value="Registrieren" /> 
+        </div>
+        <input type="submit" name="anmelden" value="Anmelden" />
         </form>
     </div>
     <?php
