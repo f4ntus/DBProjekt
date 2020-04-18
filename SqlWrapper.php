@@ -21,15 +21,11 @@
                 
             }
         }
-        public function insertIntoStudent($matrikelnummer, $kennwort){
-            $sql = "INSERT INTO tbl_student (Benutzername, Kennwort) VALUES ('$benutzername', '$kennwort')";
-
-            if ($this->db->query($sql)) {
-                return 'success';
-            } else {
-                return $this->db->error;
-                
-            }
+        public function selectFromStudent($matrikelnummer){
+            $sql = "SELECT * FROM tbl_student WHERE Matrikelnummer = '$matrikelnummer'";
+            $result = $this->db->query($sql);
+            return $result->fetch_object(); // es kann davon ausgegangen werden, dass nur ein Datensatz zurück kommt
+            // da matrikelnummer der Primärschlüssel ist.
         }
 
 

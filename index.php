@@ -54,7 +54,7 @@
             <input type="text" name="benutzername" id="benutzername"> </br>
 
             <label for="passwort">Passwort</label> </br>
-            <input type="password" name="password" id="password" required> </br>
+            <input type="password" name="password" id="password"> </br>
             <input type="submit" name="registrieren" value="Registrieren" /> 
         </div>
         <input type="submit" name="anmelden" value="Anmelden" />
