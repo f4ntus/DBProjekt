@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="de">
 
@@ -80,19 +83,22 @@
         </form>
     </div>
     <?php
+    require 'PostController.php';
     if (isset($_POST['anmelden'])) {
-        require 'PostController.php';
         $postController = new PostController();
-        $response = $postController->controllAnmeldung($_POST);
-
+        $postController->controllAnmeldung($_POST);
+    }
+    if (isset($_POST['registrieren'])){
+        $postController = new PostController();
+        $response = $postController->controllRegister($_POST['benutzername'],$_POST['password']);
         if ($response == 'success') {
             // weiterleitung zum Hauptmenü
             echo "<p> Du hast dich erfolgreich angemeldet </p>";
         } else {
             echo $response;
         }
-        $postController = NULL;
     }
+
     ?>
 
 </body>

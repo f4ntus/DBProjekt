@@ -34,21 +34,24 @@ class PostController
                 $GETString = '?befrager=Befrager&error=BefragerNotFound';
                 $this->moveToPage('index.php', $GETString);
             } else {
-                // Wenn Passwort nicht übereinstimmt
-                if ($befrager->Kennwort != $kennwort) {
-                    // weiterleitung zu index.php - Befrageranmeldung mit Fehlercode
-                    $GETString = '?befrager=Befrager&error=wrongPassword';
-                    $this->moveToPage('index.php', $GETString);
-                } else { // Anmeldung erfolgreich
+                if (password_verify($kennwort,$befrager->Kennwort)) {
                     // weiterleitung zu main.php
                     $GETString = '?Kennwort=' . $befrager->Kennwort . '&Befrager=' . $benutzername;
                     $this->moveToPage('main.php', $GETString);
+                } else { // Wenn password nicht übereinstimmt
+                    // weiterleitung zu index.php - Befrageranmeldung mit Fehlercode
+                    $GETString = '?befrager=Befrager&error=wrongPassword';
+                    $this->moveToPage('index.php', $GETString);
                 }
             }
             //return $this->sqlWrapper->insertIntoBefrager($benutzername, $kennwort);
         }
     }
 
+    public function controllRegister($benutzername,$kennwort){
+        $kennwort_hash = password_hash($kennwort,PASSWORD_DEFAULT);
+        return $this->sqlWrapper->insertIntoBefrager($benutzername, $kennwort_hash);
+    }
     private function moveToPage($pageName, $suffix = '')
     {
         // Redirect auf eine andere Seite im aktuell angeforderten Verzeichnis 
