@@ -13,11 +13,14 @@ class PostController
         if (isset($post["matrikelnummer"])) {
             $matrikelnummer = $post["matrikelnummer"];
             $student = $this->sqlWrapper->selectFromStudent($matrikelnummer);
-            echo $student->KursName;
-
-            //weiterleitung zu main.php
-            $GETString = '?Matrikelnummer=' . $student->Matrikelnummer . '&Kurs='. $student->KursName; 
-            $this->moveToPage('main.php',$GETString);
+            if (is_null($student)) {
+                echo '<p class="error"> Die Matrikelnummer ist nicht im System vorhanden, 
+                bitte überprüfen Sie Ihre Eingabe oder wenden sich and den Administrator </p>';
+            } else {
+                // weiterleitung zu main.php
+                $GETString = '?Matrikelnummer=' . $student->Matrikelnummer . '&Kurs=' . $student->KursName;
+                $this->moveToPage('main.php', $GETString);
+            }
         } else {
             $benutzername = $post["benutzername"];
             $kennwort = $post["kennwort"];
@@ -25,7 +28,7 @@ class PostController
         }
     }
 
-    private function moveToPage($pageName, $suffix='')
+    private function moveToPage($pageName, $suffix = '')
     {
         // Redirect auf eine andere Seite im aktuell angeforderten Verzeichnis 
         $host  = $_SERVER['HTTP_HOST'];
