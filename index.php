@@ -18,6 +18,12 @@
                 echo '<p>Die Matrikelnummer ist nicht im System vorhanden, 
                 bitte überprüfen Sie Ihre Eingabe oder wenden sich and den Administrator </p>';
             }
+            if ($_GET['error'] == 'BefragerNotFound'){
+                echo '<p>Der Benutzername wurde nicht gefunden</p>';
+            }
+            if ($_GET['error'] == 'wrongPassword'){
+                echo '<p>Das Passwort ist falsch, geben Sie das Passwort erneut ein</p>';
+            } 
             echo '</div>';
         }
     ?>

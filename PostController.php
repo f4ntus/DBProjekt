@@ -11,6 +11,7 @@ class PostController
     public function controllAnmeldung($post)
     {
         if (isset($post["matrikelnummer"])) {
+            // Code für Studentenanmeldung
             $matrikelnummer = $post["matrikelnummer"];
             $student = $this->sqlWrapper->selectFromStudent($matrikelnummer);
             if (is_null($student)) {
@@ -23,9 +24,28 @@ class PostController
                 $this->moveToPage('main.php', $GETString);
             }
         } else {
+            // Code für Befrageranmeldung
             $benutzername = $post["benutzername"];
-            $kennwort = $post["kennwort"];
-            return $this->sqlWrapper->insertIntoBefrager($benutzername, $kennwort);
+            $kennwort = $post["password"];
+            $befrager = $this->sqlWrapper->selectFromBefrager($benutzername);
+            // Wenn Benutzername nicht gefunden wird
+            if (is_null($befrager)) {
+                // weiterleitung zu index.php - Befrageranmeldung mit Fehlercode
+                $GETString = '?befrager=Befrager&error=BefragerNotFound';
+                $this->moveToPage('index.php', $GETString);
+            } else {
+                // Wenn Passwort nicht übereinstimmt
+                if ($befrager->Kennwort != $kennwort) {
+                    // weiterleitung zu index.php - Befrageranmeldung mit Fehlercode
+                    $GETString = '?befrager=Befrager&error=wrongPassword';
+                    $this->moveToPage('index.php', $GETString);
+                } else { // Anmeldung erfolgreich
+                    // weiterleitung zu main.php
+                    $GETString = '?Kennwort=' . $befrager->Kennwort . '&Befrager=' . $benutzername;
+                    $this->moveToPage('main.php', $GETString);
+                }
+            }
+            //return $this->sqlWrapper->insertIntoBefrager($benutzername, $kennwort);
         }
     }
 
