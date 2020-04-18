@@ -8,5 +8,9 @@ if ( $response == 'success'){
 } else {
     echo $response;
 }
+
+$test = $postController->controllStudent($_POST);
+echo $test;
+
 $postController = NULL;
 ?>

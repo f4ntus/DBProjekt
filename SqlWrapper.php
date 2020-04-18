@@ -22,12 +22,23 @@
             }
         }
 
-        public function select() {
+
+        public function student($Matrikelnummer) {
+                $abfrage = "SELECT tbl_kurs.Name FROM tbl_student, tbl_kurs where tbl_student.Matrikelnummer = '$Matrikelnummer'";
+                $ergebnis = $this->db->query($abfrage);
+                echo $ergebnis;
+                
+                    
+                
+            }  
+
+
+        /*public function select() {
              $q = $this->db->query("SELECT * FROM tbl_fragebogen");
              echo "<table border='8' cellpadding='20'><tr><th>FragebogenNr</th><th>Titel</th>";
             
             while($row = $q->fetch_assoc()) { 
-                echo "<tr>";
+                echo "<tr>";    
                 echo "<td>" . $row['FbNr'] . "</td>";
                 echo "<td>" . $row['Titel'] . "</td>";
                 echo "</tr>";
@@ -35,6 +46,7 @@
             echo "</table>";
             
             }
+        */
             
             public function select118() {
                 $q = $this->db->query("SELECT tbl_fragebogen.FbNr, tbl_fragebogen.Titel FROM tbl_fragebogen, tbl_freigeschaltet 
@@ -83,6 +95,8 @@
                echo "</table>";
                
                }
+
+               
 
 
 
