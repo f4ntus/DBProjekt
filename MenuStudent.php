@@ -34,8 +34,10 @@
 require 'SqlWrapper.php';
 $sqlWrapper = new SqlWrapper();
 
-$dbergebnis = $sqlWrapper->test();
+/*$dbergebnis = $sqlWrapper->test();
 echo $dbergebnis;
+
+*/
 
 
 /*if(isset($_POST["anzeigen"])) {
