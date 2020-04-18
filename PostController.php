@@ -14,8 +14,9 @@ class PostController
             $matrikelnummer = $post["matrikelnummer"];
             $student = $this->sqlWrapper->selectFromStudent($matrikelnummer);
             if (is_null($student)) {
-                echo '<p class="error"> Die Matrikelnummer ist nicht im System vorhanden, 
-                bitte überprüfen Sie Ihre Eingabe oder wenden sich and den Administrator </p>';
+                // weiterleitung zu index.php - Studentenanmeldung mit Fehlercode
+                $GETString = '?student=Student&error=StudentNotFound';
+                $this->moveToPage('index.php', $GETString);
             } else {
                 // weiterleitung zu main.php
                 $GETString = '?Matrikelnummer=' . $student->Matrikelnummer . '&Kurs=' . $student->KursName;

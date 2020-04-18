@@ -9,6 +9,19 @@
 </head>
 
 <body>
+
+    <!-- Platzhalter, hier werden potentzielle Fehler angezeigt -->
+    <?php 
+        if (isset($_GET['error'])) {
+            echo '<div class="errorKasten">';
+            if ($_GET['error'] == 'StudentNotFound'){
+                echo '<p>Die Matrikelnummer ist nicht im System vorhanden, 
+                bitte überprüfen Sie Ihre Eingabe oder wenden sich and den Administrator </p>';
+            }
+            echo '</div>';
+        }
+    ?>
+    
     <h1> Herzlich willkommen im Befragungstool der DHBW </h1>
     <!-- Abfrage ob Student oder Befrager -->
     <?php
