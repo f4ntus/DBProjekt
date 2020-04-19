@@ -57,7 +57,13 @@ class PostController
             exit;
         }
         $kennwort_hash = password_hash($kennwort, PASSWORD_DEFAULT);
-        return $this->sqlWrapper->insertIntoBefrager($benutzername, $kennwort_hash);
+        $response = $this->sqlWrapper->insertIntoBefrager($benutzername, $kennwort_hash);
+        if ($response == 'success') {
+            // weiterleitung zur Anmeldung
+            $this->moveToPage('index.php','?befrager=Befrager&registriert=success');
+        } else {
+            $this->moveToPage('index.php','?befrager=Befrager&registriert=unsuccess');
+        }
     }
 
     private function handleError($moveTo, $errorCode)
