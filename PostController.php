@@ -98,14 +98,6 @@ class PostController
         return $tableString;
     }
 
-
-
-
-
-
-
-
-
     public function __destruct()
     {
         $this->sqlWrapper = NULL;
