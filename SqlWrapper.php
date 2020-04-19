@@ -22,6 +22,20 @@
             }
         }
 
+        public function selectFromBefrager($benutzername){
+            $sql = "SELECT * FROM tbl_befrager WHERE Benutzername = '$benutzername'";
+            $result = $this->db->query($sql);
+            return $result->fetch_object(); // es kann davon ausgegangen werden, dass nur ein Datensatz zurück kommt
+            // da matrikelnummer der Primärschlüssel ist.
+        }
+
+        public function selectFromStudent($matrikelnummer){
+            $sql = "SELECT * FROM tbl_student WHERE Matrikelnummer = '$matrikelnummer'";
+            $result = $this->db->query($sql);
+            return $result->fetch_object(); // es kann davon ausgegangen werden, dass nur ein Datensatz zurück kommt
+            // da matrikelnummer der Primärschlüssel ist.
+        }
+
         public function __destruct()
         {
             $this->db->close();
