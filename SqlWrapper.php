@@ -23,7 +23,7 @@
         }
 
 
-        public function student($Matrikelnummer) {
+        /*public function student($Matrikelnummer) {
                 $abfrage = "SELECT tbl_student.Name FROM tbl_student, tbl_kurs where tbl_student.Matrikelnummer = '$Matrikelnummer'";
                 $check = $this->db->query($abfrage);
                 $row = $check->fetch_assoc();
@@ -35,11 +35,11 @@
                     }
         }
 
+        */
       
-        
-        
 
-
+      
+    
         /*public function select() {
              $q = $this->db->query("SELECT * FROM tbl_fragebogen");
              echo "<table border='8' cellpadding='20'><tr><th>FragebogenNr</th><th>Titel</th>";
@@ -103,6 +103,26 @@
                
                }
 
+               public function student($Matrikelnummer) {
+                $abfrage = "SELECT tbl_student.Name FROM tbl_student, tbl_kurs where tbl_student.Matrikelnummer = '$Matrikelnummer'";
+                $check = $this->db->query($abfrage);
+                $row = $check->fetch_assoc();
+                    if($row) {
+                        if($row['Name'] == 'WWI118'){
+                            echo $this->select118();
+                        }
+                        if($row['Name'] == 'WWI218'){
+                            echo $this->select218();
+                        }
+                        if($row['Name'] == 'WWI318'){
+                            echo $this->select318();
+                        }
+                    }       
+                    else {
+                        echo "Matrikelnummer nicht gefunden"; 
+                    }
+                }   
+            
                
 
 
