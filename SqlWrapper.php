@@ -24,9 +24,8 @@
 
         public function selectAlleFrageboegen() {
             $sql = $this->db->query("SELECT * FROM tbl_fragebogen");
-             while ($row = $sql->fetch_assoc())
-             { echo $row['FbNr'] . $row['Titel'];
-                echo "</br>";
+             while ($row = $sql->fetch_object())
+             { return $row;
              }
             }
 
