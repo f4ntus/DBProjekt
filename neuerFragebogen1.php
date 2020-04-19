@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<form method="post" action="FreischaltungKurs.php">
+
 <h1>Neuen Fragebogen erstellen:</h1>
         </br>
         Titel des Fragebogens: </br></br>
@@ -8,9 +8,6 @@
         </br></br>
         
         Fragen: </br></br>
-
-        
-</form>
 
 <?php
 require 'PostController.php';
@@ -20,9 +17,9 @@ $postController->createFrageFelder($anzFragen);
 $postController = NULL;
 
 ?>
-
+<form method="post" action="FreischaltungKurs.php">
   <input type="submit" name="speichern" value="Speichern" />
-
+</form>
 
 </html>
 
