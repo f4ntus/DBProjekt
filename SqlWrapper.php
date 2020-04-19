@@ -24,13 +24,20 @@
 
 
         public function student($Matrikelnummer) {
-                $abfrage = "SELECT tbl_kurs.Name FROM tbl_student, tbl_kurs where tbl_student.Matrikelnummer = '$Matrikelnummer'";
-                $ergebnis = $this->db->query($abfrage);
-                echo $ergebnis;
-                
-                    
-                
-            }  
+                $abfrage = "SELECT tbl_student.Name FROM tbl_student, tbl_kurs where tbl_student.Matrikelnummer = '$Matrikelnummer'";
+                $check = $this->db->query($abfrage);
+                $row = $check->fetch_assoc();
+                    if($row) {
+                        header('location: MenuStudent.php');
+                    }
+                    else {
+                        echo "Matrikelnummer nicht gefunden"; 
+                    }
+        }
+
+      
+        
+        
 
 
         /*public function select() {

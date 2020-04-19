@@ -39,23 +39,6 @@ echo $dbergebnis;
 
 */
 
-
-/*if(isset($_POST["anzeigen"])) {
-        echo $sqlWrapper->select118();
-       
-    }
-
-*/
-
-
-/*if (isset($_POST["anzeigen"])){
-    if ($_POST["Auswahl"]=="WWI118"){
-               echo $sqlWrapper->select118();
-       
-    }
-*/
-
-    
     if (isset($_POST["anzeigen"])){
          if ($_POST['Auswahl']=="WWI118"){
             echo $sqlWrapper->select118();

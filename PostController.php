@@ -14,17 +14,6 @@
            return $this->sqlWrapper->insertIntoBefrager($benutzername,$kennwort);
         }
 
-         
-    
-        
-        public function controllStudent($post){
-            $Matrikelnummer = $post["EingabeMatr"];
-            // hier kommt eine Gültigkeitsprüfung rein 
-
-           return $this->sqlWrapper->student($Matrikelnummer);
-
-        }
-
 
         public function __destruct()
         {

@@ -5,10 +5,10 @@
 </head>
 <body>
 
-<form method="POST" action="postHandler.php">    
+<form method="POST" action="">    
         
 Matrikelnummer:
-        <input type="text" name="EingabeMatr">
+        <input type="text" name="matrikelnummer">
         <input type="submit" name="absenden" value="absenden">
 </form>
 </br>
@@ -19,13 +19,22 @@ Matrikelnummer:
 
 
 <?php
+require 'SqlWrapper.php';
+$sqlWrapper = new SqlWrapper();
+$sqlWrapper->__construct();
+
+if(isset($_POST['absenden'])){
+$Matrikelnummer = $_POST["matrikelnummer"]; 
+$sqlWrapper->student($Matrikelnummer);
+}
 
 
+/*if(isset($_POST["absenden"])) {
+    $test = $sqlWrapper->student($Matrikelnummer);
+    echo $test;
+}
+*/
 
-
-
-
-    
     
     /*$q = "SELECT * FROM tbl_student, tbl_kurs where tbl_student.Matrikelnummer = '$Matrikelnummer'";
 
