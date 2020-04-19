@@ -19,38 +19,25 @@ Matrikelnummer:
 
 
 <?php
-require 'SqlWrapper.php';
-$sqlWrapper = new SqlWrapper();
-$sqlWrapper->__construct();
 
-if(isset($_POST['absenden'])){
+
+
+/*if(isset($_POST['absenden'])){
 $Matrikelnummer = $_POST["matrikelnummer"]; 
 $sqlWrapper->student($Matrikelnummer);
 }
-
-
-/*if(isset($_POST["absenden"])) {
-    $test = $sqlWrapper->student($Matrikelnummer);
-    echo $test;
-}
 */
-
-    
-    /*$q = "SELECT * FROM tbl_student, tbl_kurs where tbl_student.Matrikelnummer = '$Matrikelnummer'";
-
-    echo $q;
-    */
-
-
-    /*if ($this->db->query($q)) {
-        echo $q;
-    } else {
-        return "Fehler";
-        
-    }
-    */
-
-
-
-
 ?>
+
+
+<table border='8' cellpadding='20'><tr><th>FragebogenNr</th><th>Titel</th>
+  <?php 
+  require ('PostController.php');
+  $postController = new PostController();
+  
+  echo $postController->createInnerTable();
+  ?>             
+</table>
+
+
+
