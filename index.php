@@ -17,11 +17,11 @@ session_start();
     <?php 
         if (isset($_GET['error'])) {
             echo '<div class="errorKasten">';
-            if ($_GET['error'] == 'StudentNotFound'){
+            if ($_GET['error'] == 'studentNotFound'){
                 echo '<p>Die Matrikelnummer ist nicht im System vorhanden, 
                 bitte überprüfen Sie Ihre Eingabe oder wenden sich and den Administrator </p>';
             }
-            if ($_GET['error'] == 'BefragerNotFound'){
+            if ($_GET['error'] == 'befragerNotFound'){
                 echo '<p>Der Benutzername wurde nicht gefunden</p>';
             }
             if ($_GET['error'] == 'wrongPassword'){

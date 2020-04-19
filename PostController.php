@@ -16,8 +16,7 @@ class PostController
             $student = $this->sqlWrapper->selectFromStudent($matrikelnummer);
             if (is_null($student)) {
                 // weiterleitung zu index.php - Studentenanmeldung mit Fehlercode
-                $GETString = '?student=Student&error=StudentNotFound';
-                $this->moveToPage('index.php', $GETString);
+                $this->handleError('anmeldungStudent','studentNotFound');
             } else {
                 // weiterleitung zu main.php
                 $GETString = '?Matrikelnummer=' . $student->Matrikelnummer . '&Kurs=' . $student->KursName;
@@ -31,28 +30,39 @@ class PostController
             // Wenn Benutzername nicht gefunden wird
             if (is_null($befrager)) {
                 // weiterleitung zu index.php - Befrageranmeldung mit Fehlercode
-                $GETString = '?befrager=Befrager&error=BefragerNotFound';
-                $this->moveToPage('index.php', $GETString);
+                $this->handleError('anmeldungBefrager', 'befragerNotFound');
             } else {
-                if (password_verify($kennwort,$befrager->Kennwort)) {
+                if (password_verify($kennwort, $befrager->Kennwort)) {
                     // Anmeldung Erfolgreich:
                     $_SESSION['befrager'] = $befrager->Benutzername;
                     // weiterleitung zu main.php
                     $this->moveToPage('main.php');
                 } else { // Wenn password nicht übereinstimmt
                     // weiterleitung zu index.php - Befrageranmeldung mit Fehlercode
-                    $GETString = '?befrager=Befrager&error=wrongPassword';
-                    $this->moveToPage('index.php', $GETString);
+                    $this->handleError('anmeldungBefrager','wrongPassword');
                 }
             }
-            //return $this->sqlWrapper->insertIntoBefrager($benutzername, $kennwort);
         }
     }
 
-    public function controllRegister($benutzername,$kennwort){
-        $kennwort_hash = password_hash($kennwort,PASSWORD_DEFAULT);
+    public function controllRegister($benutzername, $kennwort)
+    {
+
+        $kennwort_hash = password_hash($kennwort, PASSWORD_DEFAULT);
         return $this->sqlWrapper->insertIntoBefrager($benutzername, $kennwort_hash);
     }
+
+    private function handleError($moveTo, $errorCode)
+    {
+        if ($moveTo == 'anmeldungBefrager'){
+            $GETString = '?befrager=Befrager&error=' . $errorCode;
+        }
+        if ($moveTo == 'anmeldungStudent'){
+            $GETString = '?student=Student&error='. $errorCode;
+        }
+        $this->moveToPage('index.php', $GETString);
+    }
+
     private function moveToPage($pageName, $suffix = '')
     {
         // Redirect auf eine andere Seite im aktuell angeforderten Verzeichnis 
