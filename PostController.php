@@ -47,7 +47,15 @@ class PostController
 
     public function controllRegister($benutzername, $kennwort)
     {
-
+       if (empty($benutzername)){
+            
+            $this->handleError('anmeldungBefrager','noUsername');
+            exit;
+        }
+        if (empty($kennwort)){
+            $this->handleError('anmeldungBefrager','noPassword');
+            exit;
+        }
         $kennwort_hash = password_hash($kennwort, PASSWORD_DEFAULT);
         return $this->sqlWrapper->insertIntoBefrager($benutzername, $kennwort_hash);
     }

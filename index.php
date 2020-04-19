@@ -27,7 +27,14 @@ session_start();
             if ($_GET['error'] == 'wrongPassword'){
                 echo '<p>Das Passwort ist falsch, geben Sie das Passwort erneut ein</p>';
             } 
-            echo '</div>';
+            if ($_GET['error'] == 'noUsername'){
+                echo '<p>Geben Sie ein Benutzername ein</p>';
+            }
+            if ($_GET['error'] == 'noPassword'){
+                echo '<p>Geben Sie ein Passwort ein</p>';
+            }
+
+            echo '</div>'; 
         }
     ?>
     
@@ -75,7 +82,7 @@ session_start();
             <label for="benutzername">Benutzername:</label> </br>
             <input type="text" name="benutzername" id="benutzername"> </br>
 
-            <label for="passwort">Passwort</label> </br>
+            <label for="password">Passwort</label> </br>
             <input type="password" name="password" id="password"> </br>
             <input type="submit" name="registrieren" value="Registrieren" /> 
         </div>
