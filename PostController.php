@@ -85,6 +85,18 @@ class PostController
         header("Location: http://$host$uri/$pageName$suffix");
     }
 
+    public function createInnerTable() {
+    
+        $sqlObject = $this->sqlWrapper->selectFreigeschaltet('WWI318');
+        //später: $_SESSION['kurs']
+        $tableString = '';
+        while($row = $sqlObject->fetch_object()) {
+            $tableString = $tableString . '<tr> <td>' . $row->FbNr . '</td><td>' . $row->Titel . '</td></tr>';
+           
+        }
+        return $tableString;
+    }
+
     public function __destruct()
     {
         $this->sqlWrapper = NULL;
