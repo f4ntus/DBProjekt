@@ -22,23 +22,11 @@
             }
         }
 
-        public function selectAlleFrageboegen() {
-            $sql = $this->db->query("SELECT * FROM tbl_fragebogen");
-             while ($row = $sql->fetch_object())
-             { return $row;
-             }
+        public function selectErstellteFrageboegen($recentUser) {
+            $sql = "SELECT * FROM tbl_fragebogen WHERE Benutzername = '$recentUser'";
+              return $this->db->query($sql);
             }
 
-        public function insertIntoFragebogen($titel) {
-            $sql = "INSERT INTO tbl_fragebogen (Titel) VALUES ('$titel')";
-
-            if ($this->db->query($sql)) {
-                return 'success';
-            } else {
-                return $this->db->error;
-                
-            }
-        }
         public function selectFromBefrager($benutzername){
             $sql = "SELECT * FROM tbl_befrager WHERE Benutzername = '$benutzername'";
             $result = $this->db->query($sql);

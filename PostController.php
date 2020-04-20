@@ -65,25 +65,7 @@ class PostController
             $this->moveToPage('index.php','?befrager=Befrager&registriert=unsuccess');
         }
     }
-
-
-    public function anzeigenFrageboegen() {
-        return $this->sqlWrapper->selectAlleFrageboegen();
-    } 
     
-    public function getAnzahlFragen($post){
-        $anzFragen = $post["anzahlFragen"];
-
-        return $anzFragen;
-    }
-
-    public function createFrageFelder ($anzFragen) {
-        for ($i = 1; $i <= $anzFragen; $i++) {
-            echo $i . " ";
-            echo "<input type='text'>";
-            echo "</br></br>";
-        }
-    }
     private function handleError($moveTo, $errorCode)
     {
         if ($moveTo == 'anmeldungBefrager'){
@@ -115,6 +97,32 @@ class PostController
         }
         return $tableString;
     }
+
+    public function createInnerTableBefrager($recentUser) {
+        
+        $sqlObject = $this->sqlWrapper->selectErstellteFrageboegen($recentUser);
+        $tableString = '';
+        while($row = $sqlObject->fetch_object()) {
+            $tableString = $tableString . '<tr> <td>' . $row->FbNr . '</td><td>' . $row->Titel . '</td></tr>' . '</br>';
+           
+        }
+        return $tableString;
+    }
+
+    public function getAnzahlFragen($post){
+        $anzFragen = $post["anzahlFragen"];
+
+        return $anzFragen;
+    }
+
+    public function createFrageFelder ($anzFragen) {
+        for ($i = 1; $i <= $anzFragen; $i++) {
+            echo $i . " ";
+            echo "<input type='text'>";
+            echo "</br></br>";
+        }
+    }
+
 
     public function __destruct()
     {

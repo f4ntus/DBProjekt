@@ -20,12 +20,14 @@ echo "<h2>Was möchten Sie tun?</h2>"
         </form>
 
         <p>Übersicht Ihrer bereits erstellen Fragebögen:</p>
-        <table>
-                <tr>
-                        <th>FragebogenNr</th>
-                        <th>Fragebogentitel</th>
-                </tr>
-        </table>
 
+<?php
+
+require 'PostController.php';
+$postController = new PostController();
+$response = $postController->createInnerTableBefrager($recentUser);
+
+echo $response;
+?>
 
 </html>
