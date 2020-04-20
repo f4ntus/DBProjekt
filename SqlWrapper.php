@@ -57,7 +57,6 @@
             
 
 
-
             public function selectFreigeschaltet($kurs) {
                 $sql = "SELECT tbl_fragebogen.FbNr, tbl_fragebogen.Titel FROM tbl_fragebogen, tbl_freigeschaltet 
                 where tbl_fragebogen.FbNr = tbl_freigeschaltet.FbNr and tbl_freigeschaltet.Name = '$kurs'";
@@ -65,7 +64,7 @@
                                                                        
                }
 
-               public function select218() {
+            /*  public function select218() {
                 $q = $this->db->query("SELECT tbl_fragebogen.FbNr, tbl_fragebogen.Titel FROM tbl_fragebogen, tbl_freigeschaltet 
                                         where tbl_fragebogen.FbNr = tbl_freigeschaltet.FbNr and tbl_freigeschaltet.Name = 'WWI218'");
                                                          
@@ -79,23 +78,11 @@
                } 
                echo "</table>";
                
-               }
+              }
+        
+            */    
 
-               public function select318() {
-                $q = $this->db->query("SELECT tbl_fragebogen.FbNr, tbl_fragebogen.Titel FROM tbl_fragebogen, tbl_freigeschaltet 
-                                        where tbl_fragebogen.FbNr = tbl_freigeschaltet.FbNr and tbl_freigeschaltet.Name = 'WWI318'");
-                                                         
-                echo "<table border='8' cellpadding='20'><tr><th>FragebogenNr</th><th>Titel</th>";
-               
-               while($row = $q->fetch_assoc()) { 
-                   echo "<tr>";
-                   echo "<td>" . $row['FbNr'] . "</td>";
-                   echo "<td>" . $row['Titel'] . "</td>";
-                   echo "</tr>";
-               } 
-               echo "</table>";
-               
-               }
+            
 
                public function student($Matrikelnummer) {
                 $abfrage = "SELECT tbl_student.Name FROM tbl_student, tbl_kurs where tbl_student.Matrikelnummer = '$Matrikelnummer'";
@@ -134,12 +121,7 @@
             // da matrikelnummer der Primärschlüssel ist.
         }
 
-        public function selectFreigeschaltet($kurs) {
-            $sql = "SELECT tbl_fragebogen.FbNr, tbl_fragebogen.Titel FROM tbl_fragebogen, tbl_freigeschaltet 
-            where tbl_fragebogen.FbNr = tbl_freigeschaltet.FbNr and tbl_freigeschaltet.Name = '$kurs'";
-            return $this->db->query($sql);
-                                                                   
-        }
+        
 
         
         public function __destruct()

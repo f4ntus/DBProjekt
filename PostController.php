@@ -19,8 +19,8 @@ class PostController
                 $this->handleError('anmeldungStudent','studentNotFound');
             } else {
                 // weiterleitung zu main.php
-                $GETString = '?Matrikelnummer=' . $student->Matrikelnummer . '&Kurs=' . $student->KursName;
-                $this->moveToPage('main.php', $GETString);
+                $_SESSION['student'] = $student->Matrikelnummer . $_SESSION['kurs'] = $student->Name;
+                $this->moveToPage('Matrikelnummer.php');
             }
         } else {
             // Code für Befrageranmeldung
@@ -88,8 +88,7 @@ class PostController
 
     public function createInnerTable() {
     
-        $sqlObject = $this->sqlWrapper->selectFreigeschaltet('WWI318');
-        //später: $_SESSION['kurs']
+        $sqlObject = $this->sqlWrapper->selectFreigeschaltet($_SESSION['kurs']);
         $tableString = '';
         while($row = $sqlObject->fetch_object()) {
             $tableString = $tableString . '<tr> <td>' . $row->FbNr . '</td><td>' . $row->Titel . '</td></tr>';

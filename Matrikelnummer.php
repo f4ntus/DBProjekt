@@ -5,13 +5,6 @@
 </head>
 <body>
 
-<form method="POST" action="">    
-        
-Matrikelnummer:
-        <input type="text" name="matrikelnummer">
-        <input type="submit" name="absenden" value="absenden">
-</form>
-</br>
 
 </body>
 
@@ -19,24 +12,22 @@ Matrikelnummer:
 
 
 <?php
-
-
-
-/*if(isset($_POST['absenden'])){
-$Matrikelnummer = $_POST["matrikelnummer"]; 
-$sqlWrapper->student($Matrikelnummer);
-}
-*/
+session_start();
+require ('PostController.php');
+$postController = new PostController();
 ?>
+<h1><?php echo "Hallo" . " " . $_SESSION['student'];?></h1>
 
-
+<p>Diese Fragebögen sind für Sie freigeschaltet:</p>
 <table border='8' cellpadding='20'><tr><th>FragebogenNr</th><th>Titel</th>
-  <?php 
-  require ('PostController.php');
-  $postController = new PostController();
+
+<?php 
+ echo $postController->createInnerTable();      
   
-  echo $postController->createInnerTable();
-  ?>             
+
+
+?> 
+
 </table>
 
 
