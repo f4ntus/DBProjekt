@@ -35,8 +35,8 @@ class PostController
                 if (password_verify($kennwort, $befrager->Kennwort)) {
                     // Anmeldung Erfolgreich:
                     $_SESSION['befrager'] = $befrager->Benutzername;
-                    // weiterleitung zu main.php
-                    $this->moveToPage('main.php');
+                    // weiterleitung zu menuBefrager.php
+                    $this->moveToPage('menuBefrager.php');
                 } else { // Wenn password nicht übereinstimmt
                     // weiterleitung zu index.php - Befrageranmeldung mit Fehlercode
                     $this->handleError('anmeldungBefrager','wrongPassword');

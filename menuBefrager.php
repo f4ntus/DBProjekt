@@ -1,6 +1,20 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
+
+
 <html>
-                <h1>Hallo $benutzername</h1>
+
+<?php
+
+$recentUser = $_SESSION['befrager'];
+echo "<h1>Willkommen zurück, $recentUser!</h1>";
+echo "<h2>Was möchten Sie tun?</h2>"
+?>
+
+<h1></h1>
         <form action ="neuerFragebogen.php">
                 <input type="submit" name="fb_neu" value=" + Neuen Fragebogen erstellen" />
         </form>
@@ -13,17 +27,5 @@
                 </tr>
         </table>
 
-
-<?php
-require 'PostController.php';
-$postController = new PostController();
-$response = $postController->anzeigenFrageboegen();
-    echo $response;
-$postController = NULL;
-?>
-
-<form action ="Auswertung.php">
-</br> <input type="submit" name="auswertung" value="Auswertung erstellen" />
-</form>
 
 </html>
