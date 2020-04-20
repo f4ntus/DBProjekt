@@ -16,11 +16,12 @@ class PostController
             $student = $this->sqlWrapper->selectFromStudent($matrikelnummer);
             if (is_null($student)) {
                 // weiterleitung zu index.php - Studentenanmeldung mit Fehlercode
-                $this->handleError('anmeldungStudent','studentNotFound');
+                $this->handleError('anmeldungStudent', 'studentNotFound');
             } else {
                 // weiterleitung zu main.php
-                $_SESSION['student'] = $student->Matrikelnummer . $_SESSION['kurs'] = $student->Name;
-                $this->moveToPage('Matrikelnummer.php');
+                $_SESSION['matrikelnummer'] = $student->Matrikelnummer;
+                $_SESSION['kurs'] = $student->Name;
+                $this->moveToPage('MenuStudent.php');
             }
         } else {
             // Code für Befrageranmeldung
@@ -39,7 +40,7 @@ class PostController
                     $this->moveToPage('main.php');
                 } else { // Wenn password nicht übereinstimmt
                     // weiterleitung zu index.php - Befrageranmeldung mit Fehlercode
-                    $this->handleError('anmeldungBefrager','wrongPassword');
+                    $this->handleError('anmeldungBefrager', 'wrongPassword');
                 }
             }
         }
@@ -48,32 +49,32 @@ class PostController
 
     public function controllRegister($benutzername, $kennwort)
     {
-       if (empty($benutzername)){
-            
-            $this->handleError('anmeldungBefrager','noUsername');
+        if (empty($benutzername)) {
+
+            $this->handleError('anmeldungBefrager', 'noUsername');
             exit;
         }
-        if (empty($kennwort)){
-            $this->handleError('anmeldungBefrager','noPassword');
+        if (empty($kennwort)) {
+            $this->handleError('anmeldungBefrager', 'noPassword');
             exit;
         }
         $kennwort_hash = password_hash($kennwort, PASSWORD_DEFAULT);
         $response = $this->sqlWrapper->insertIntoBefrager($benutzername, $kennwort_hash);
         if ($response == 'success') {
             // weiterleitung zur Anmeldung
-            $this->moveToPage('index.php','?befrager=Befrager&registriert=success');
+            $this->moveToPage('index.php', '?befrager=Befrager&registriert=success');
         } else {
-            $this->moveToPage('index.php','?befrager=Befrager&registriert=unsuccess');
+            $this->moveToPage('index.php', '?befrager=Befrager&registriert=unsuccess');
         }
     }
 
     private function handleError($moveTo, $errorCode)
     {
-        if ($moveTo == 'anmeldungBefrager'){
+        if ($moveTo == 'anmeldungBefrager') {
             $GETString = '?befrager=Befrager&error=' . $errorCode;
         }
-        if ($moveTo == 'anmeldungStudent'){
-            $GETString = '?student=Student&error='. $errorCode;
+        if ($moveTo == 'anmeldungStudent') {
+            $GETString = '?student=Student&error=' . $errorCode;
         }
         $this->moveToPage('index.php', $GETString);
     }
@@ -86,13 +87,13 @@ class PostController
         header("Location: http://$host$uri/$pageName$suffix");
     }
 
-    public function createInnerTable() {
-    
+    public function createInnerTable()
+    {
+
         $sqlObject = $this->sqlWrapper->selectFreigeschaltet($_SESSION['kurs']);
         $tableString = '';
-        while($row = $sqlObject->fetch_object()) {
+        while ($row = $sqlObject->fetch_object()) {
             $tableString = $tableString . '<tr> <td>' . $row->FbNr . '</td><td>' . $row->Titel . '</td></tr>';
-           
         }
         return $tableString;
     }
