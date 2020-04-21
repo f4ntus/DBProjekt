@@ -106,7 +106,7 @@ class PostController
         $sqlObject = $this->sqlWrapper->selectErstellteFrageboegen($recentUser);
         $tableString = '';
         while($row = $sqlObject->fetch_object()) {
-            $tableString = $tableString . '<tr> <td>' . $row->FbNr . '</td><td>' . $row->Titel . '</td></tr>' . '</br>';
+            $tableString = $tableString . '<tr> <td>' . $row->FbNr . '</td><td>' . $row->Titel . '</td></tr>';
            
         }
 
@@ -118,19 +118,21 @@ class PostController
             $frageString = '';
 
             for ($i = 1; $i <= $anzFragen; $i++) {
-            $frageString = "<form>" . $frageString . $i . "<input type ='text' name ='fragetext'>" . "</br> </br>" . "</form>"; 
+            $frageString = "<form>" . $frageString . $i . " " . "<input type ='text' name ='fragetext" . $i . "'>" . "</br> </br>" . "</form>"; 
             }
 
             return $frageString;
     }
 
-    public function createFragebogen($post){
-            $benutzername = $_SESSION["befrager"];
-            $titel = $post["titel"];
+    public function createFragen ($fragefelder) {
+        // $fragefelder String wieder auseinander bauen um einzelne Werte an insertToFrage zu schicken.
+    }
+
+    public function createFragebogen($titel, $benutzername){
             $response = $this->sqlWrapper->insertIntoFragebogen($titel, $benutzername);
 
             if($response =="success"){
-                "Fragebogen wurde erstellt.";
+                return "<p>Fragebogen wurde erstellt.</p>";
             } else return $response;
     }
     public function __destruct()

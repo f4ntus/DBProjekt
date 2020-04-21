@@ -28,8 +28,6 @@ $postController = new PostController();
 $response = $postController->createInnerTableBefrager($recentUser);
 
         if ($response == '') {
-
-                //Johannes fragen, funktioniert noch nicht, falls noch keine Fragebögen erstellt sind, vielleicht in Handleerror auslagern?
                 echo '<p>Sie haben noch keinen Fragebogen erstellt.</p>';
         } else {
                 echo '<table> <tr> <th>FbNr</th> <th>Titel</th> </tr>' . $response . '</table>';

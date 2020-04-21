@@ -50,7 +50,7 @@
               return $this->db->query($sql);
             }
 
-        public function insertIntoFragebogen($titel,$benutzername){
+        public function insertIntoFragebogen($titel, $benutzername){
             $sql = "INSERT INTO tbl_fragebogen (Titel, Benutzername) VALUES ('$titel', '$benutzername')";
 
             if ($this->db->query($sql)) {
@@ -62,6 +62,8 @@
         }
 
         public function insertIntoFrage($fbnr,$fragetext){
+            //auseinandergebauter String von public function createFragen nutzen für den Insert
+            // Auto Increment bei FNr falsch? Erzeugt unabhängig von FbNr aufsteigende IDs?
             $sql = "INSERT INTO tbl_frage (FbNr, Fragetext) VALUES ('$fbnr', '$fragetext')";
 
             if ($this->db->query($sql)) {
