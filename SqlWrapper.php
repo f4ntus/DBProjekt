@@ -22,11 +22,6 @@
             }
         }
 
-        public function selectErstellteFrageboegen($recentUser) {
-            $sql = "SELECT * FROM tbl_fragebogen WHERE Benutzername = '$recentUser'";
-              return $this->db->query($sql);
-            }
-
         public function selectFromBefrager($benutzername){
             $sql = "SELECT * FROM tbl_befrager WHERE Benutzername = '$benutzername'";
             $result = $this->db->query($sql);
@@ -48,7 +43,34 @@
                                                                    
         }
 
-        
+        /* @Author: Chris
+        Hier stehen alle relevanten Funktionen für die Datenbankabfragen durch den Befrager, im Hauptmenü.*/
+        public function selectErstellteFrageboegen($recentUser) {
+            $sql = "SELECT * FROM tbl_fragebogen WHERE Benutzername = '$recentUser'";
+              return $this->db->query($sql);
+            }
+
+        public function insertIntoFragebogen($titel,$benutzername){
+            $sql = "INSERT INTO tbl_fragebogen (Titel, Benutzername) VALUES ('$titel', '$benutzername')";
+
+            if ($this->db->query($sql)) {
+                return 'success';
+            } else {
+                return $this->db->error;
+                
+            }
+        }
+
+        public function insertIntoFrage($fbnr,$fragetext){
+            $sql = "INSERT INTO tbl_frage (FbNr, Fragetext) VALUES ('$fbnr', '$fragetext')";
+
+            if ($this->db->query($sql)) {
+                return 'success';
+            } else {
+                return $this->db->error;
+                
+            }
+        }
         public function __destruct()
         {
             $this->db->close();

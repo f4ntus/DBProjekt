@@ -75,6 +75,7 @@ class PostController
         if ($moveTo == 'anmeldungStudent'){
             $GETString = '?student=Student&error='. $errorCode;
         }
+        
         $this->moveToPage('index.php', $GETString);
     }
 
@@ -98,6 +99,8 @@ class PostController
         return $tableString;
     }
 
+    /* @Author: Chris
+        Hier stehen alle relevanten Funktionen für das Menü des Befragers.*/
     public function createInnerTableBefrager($recentUser) {
         
         $sqlObject = $this->sqlWrapper->selectErstellteFrageboegen($recentUser);
@@ -106,24 +109,30 @@ class PostController
             $tableString = $tableString . '<tr> <td>' . $row->FbNr . '</td><td>' . $row->Titel . '</td></tr>' . '</br>';
            
         }
+
         return $tableString;
     }
 
-    public function getAnzahlFragen($post){
-        $anzFragen = $post["anzahlFragen"];
-
-        return $anzFragen;
-    }
-
     public function createFrageFelder ($anzFragen) {
-        for ($i = 1; $i <= $anzFragen; $i++) {
-            echo $i . " ";
-            echo "<input type='text'>";
-            echo "</br></br>";
-        }
+        
+            $frageString = '';
+
+            for ($i = 1; $i <= $anzFragen; $i++) {
+            $frageString = "<form>" . $frageString . $i . "<input type ='text' name ='fragetext'>" . "</br> </br>" . "</form>"; 
+            }
+
+            return $frageString;
     }
 
+    public function createFragebogen($post){
+            $benutzername = $_SESSION["befrager"];
+            $titel = $post["titel"];
+            $response = $this->sqlWrapper->insertIntoFragebogen($titel, $benutzername);
 
+            if($response =="success"){
+                "Fragebogen wurde erstellt.";
+            } else return $response;
+    }
     public function __destruct()
     {
         $this->sqlWrapper = NULL;
