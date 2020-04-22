@@ -118,22 +118,34 @@ class PostController
             $frageString = '';
 
             for ($i = 1; $i <= $anzFragen; $i++) {
-            $frageString = "<form>" . $frageString . $i . " " . "<input type ='text' name ='fragetext" . $i . "'>" . "</br> </br>" . "</form>"; 
+            $frageString = $frageString . $i . " " . "<input type ='text' name ='fragetext" . $i . "'>" . "</br> </br>"; 
             }
 
             return $frageString;
     }
 
-    public function createFragen ($fragefelder) {
-        // $fragefelder String wieder auseinander bauen um einzelne Werte an insertToFrage zu schicken.
+    public function createFragen ($fbnr, $i, $fragetext) {
+                
+        // wie spreche ich die Variable $i aus dem Inputfeld an
+        for ($fnr = 1; $fnr <= $i; $fnr++){
+            $sqlObject = $this->sqlWrapper->insertIntoFrage($fnr, $fbnr, $fragetext );
+        } 
+        if ($sqlObject == "success"){
+            return "<p>Fragen erfolgreich gespeichert</p>";
+        } else return $sqlObject;
+    }
+
+    public function getFbNr($titel) {
+        $sqlObject = $this->sqlWrapper->selectFbNrFragebogen($titel);
+        return $sqlObject;
     }
 
     public function createFragebogen($titel, $benutzername){
-            $response = $this->sqlWrapper->insertIntoFragebogen($titel, $benutzername);
+            $sqlObject = $this->sqlWrapper->insertIntoFragebogen($titel, $benutzername);
 
-            if($response =="success"){
+            if($sqlObject =="success"){
                 return "<p>Fragebogen wurde erstellt.</p>";
-            } else return $response;
+            } else return $sqlObject;
     }
     public function __destruct()
     {

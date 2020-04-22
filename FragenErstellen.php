@@ -32,7 +32,4 @@ echo "<h2>Titel des Fragebogens: $titel </h2>";
     <button type="submit" name="fragenspeichern">Fragen Speichern</button>
 </form>
 
-<?php
-?>
-
   </html>

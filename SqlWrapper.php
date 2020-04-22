@@ -61,10 +61,8 @@
             }
         }
 
-        public function insertIntoFrage($fbnr,$fragetext){
-            //auseinandergebauter String von public function createFragen nutzen für den Insert
-            // Auto Increment bei FNr falsch? Erzeugt unabhängig von FbNr aufsteigende IDs?
-            $sql = "INSERT INTO tbl_frage (FbNr, Fragetext) VALUES ('$fbnr', '$fragetext')";
+        public function insertIntoFrage($fnr, $fbnr, $fragetext){
+            $sql = "INSERT INTO tbl_frage (FNr, FbNr, Fragetext) VALUES ('$fnr', $fbnr', '$fragetext')";
 
             if ($this->db->query($sql)) {
                 return 'success';
@@ -72,6 +70,12 @@
                 return $this->db->error;
                 
             }
+        }
+
+        public function selectFbNrFragebogen($titel){
+            $sql = "SELECT FbNr FROM tbl_fragebogen WHERE FbNr ='$titel'";
+            $result = $this->db->query($sql);
+            return $result->fetch_object();
         }
         public function __destruct()
         {
