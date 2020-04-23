@@ -124,6 +124,7 @@ class PostController
             return $frageString;
     }
 
+    // noch in Bearbeitung
     public function createFragen ($fbnr, $i, $fragetext) {
                 
         // wie spreche ich die Variable $i aus dem Inputfeld an
@@ -135,6 +136,7 @@ class PostController
         } else return $sqlObject;
     }
 
+    // noch in Bearbeitung
     public function getFbNr($titel) {
         $sqlObject = $this->sqlWrapper->selectFbNrFragebogen($titel);
         return $sqlObject;
