@@ -22,6 +22,14 @@
             }
         }
 
+        public function selectFreigeschaltet($kurs) {
+                $sql = "SELECT tbl_fragebogen.FbNr, tbl_fragebogen.Titel FROM tbl_fragebogen, tbl_freigeschaltet 
+                where tbl_fragebogen.FbNr = tbl_freigeschaltet.FbNr and tbl_freigeschaltet.Name = '$kurs'";
+                return $this->db->query($sql);
+                                                                       
+               }
+ 
+            
         public function selectFromBefrager($benutzername){
             $sql = "SELECT * FROM tbl_befrager WHERE Benutzername = '$benutzername'";
             $result = $this->db->query($sql);
@@ -36,12 +44,7 @@
             // da matrikelnummer der Primärschlüssel ist.
         }
 
-        public function selectFreigeschaltet($kurs) {
-            $sql = "SELECT tbl_fragebogen.FbNr, tbl_fragebogen.Titel FROM tbl_fragebogen, tbl_freigeschaltet 
-            where tbl_fragebogen.FbNr = tbl_freigeschaltet.FbNr and tbl_freigeschaltet.Name = '$kurs'";
-            return $this->db->query($sql);
-                                                                   
-        }
+        
 
         /* @Author: Chris
         Hier stehen alle relevanten Funktionen für die Datenbankabfragen durch den Befrager, im Hauptmenü.*/

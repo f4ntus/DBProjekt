@@ -12,5 +12,6 @@ if ( $response == 'success'){
 } else {
     echo $response;
 }
+
 $postController = NULL;
 ?>
