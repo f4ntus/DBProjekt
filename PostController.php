@@ -143,13 +143,22 @@ class PostController
         return $sqlObject;
     }
 
-    public function createFragebogen($titel, $benutzername){
+    public function controllTitelFragebogen($titel, $benutzername) {
+        $sqlObject = $this->sqlWrapper->selectAlleTitel($titel);
+        if (is_null($sqlObject)) {
+            $this->createFragebogen($titel, $benutzername);
+        } else {
+            $this->moveToPage('neuerFragebogen.php');
+            return "<p> Dieser Titel wurde schon vergeben.";
+    }
+    }
+    public function createFragebogen($titel, $benutzername) {      
             $sqlObject = $this->sqlWrapper->insertIntoFragebogen($titel, $benutzername);
 
             if($sqlObject =="success"){
                 return "<p>Fragebogen wurde erstellt.</p>";
             } else return $sqlObject;
-    }
+        }
     public function __destruct()
     {
         $this->sqlWrapper = NULL;
