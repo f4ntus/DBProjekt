@@ -15,7 +15,7 @@
 <?php
   if (isset($_GET['error'])) {
     echo '<div class="errorKasten">';
-    if ($_GET['error'] == 'titelAlreadyInUse') {
+    if ($_GET['error'] == 'titleInUse') {
       echo '<p>Der Titel wurde bereits vergeben, bitte geben Sie einen neuen ein</p>';
     }
     echo '</div>';

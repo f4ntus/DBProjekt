@@ -70,16 +70,22 @@ class PostController
     
     private function handleError($moveTo, $errorCode)
     {
-        if ($moveTo == 'anmeldungBefrager') {
-            $GETString = '?befrager=Befrager&error=' . $errorCode;
+        switch ($moveTo){
+            case 'anmeldungBefrager' : {
+                $GETString = '?befrager=Befrager&error=' . $errorCode;
+                $this->moveToPage('index.php', $GETString);
+                break;
+            }
+            case 'anmeldungStudent' : {
+                $GETString = '?student=Student&error=' . $errorCode;
+                $this->moveToPage('index.php', $GETString);
+            }
+            case 'neuerFragebogen' : {
+                $GETString = '?error=' . $errorCode;
+                $this->moveToPage('neuerFragebogen.php', $GETString);
+            }
         }
-
-        if ($moveTo == 'anmeldungStudent') {
-            $GETString = '?student=Student&error=' . $errorCode;
-        }
-        
-        $this->moveToPage('index.php', $GETString);
-    }
+   }
 
     private function moveToPage($pageName, $suffix = '')
     {
@@ -148,8 +154,9 @@ class PostController
         if (is_null($sqlObject)) {
             $this->createFragebogen($titel, $benutzername);
         } else {
-            $this->moveToPage('neuerFragebogen.php');
-            return "<p> Dieser Titel wurde schon vergeben.";
+            $this->handleError('neuerFragebogen','titleInUse');
+            /*$this->moveToPage('neuerFragebogen.php');
+            return "<p> Dieser Titel wurde schon vergeben.";*/
     }
     }
     public function createFragebogen($titel, $benutzername) {      
