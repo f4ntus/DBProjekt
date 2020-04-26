@@ -80,6 +80,13 @@
             $result = $this->db->query($sql);
             return $result->fetch_object();
         }
+
+        public function selectAlleTitel($titel) {
+            $sql = "SELECT Titel FROM tbl_fragebogen WHERE Titel = '$titel'";
+            
+            $result = $this->db->query($sql);
+            return $result->fetch_object();
+        }
         public function __destruct()
         {
             $this->db->close();
