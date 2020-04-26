@@ -90,7 +90,7 @@ session_start();
     </form>
     </div>
     <?php
-    require 'IndexController.php';
+    require '../Controller/IndexController.php';
     if (isset($_POST['anmelden'])) {
         $indexController = new IndexController();
         $indexController->controllAnmeldung($_POST);

@@ -19,13 +19,13 @@ echo "<h2>Titel des Fragebogens: $titel </h2>";
   Fragen: </br></br>
 
   <?php
-  require 'PostController.php';
-  $postController = new PostController();
-  $fragefelder = $postController->createFrageFelder($_POST['anzahlFragen']);
+  require '../Controller/BefragerController.php';
+  $befragerController = new BefragerController();
+  $fragefelder = $befragerController->createFrageFelder($_POST['anzahlFragen']);
   echo $fragefelder;
-  $fragebogen = $postController->createFragebogen($titel, $benutzername); 
+  $fragebogen = $befragerController->createFragebogen($titel, $benutzername); 
   echo $fragebogen;
-  $postController = NULL;
+  $befragerController = NULL;
 
   ?>
   

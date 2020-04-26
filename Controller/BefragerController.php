@@ -12,7 +12,6 @@ class BefragerController extends GlobalFunctions
                 $tableString = $tableString . '<tr> <td>' . $row->FbNr . '</td><td>' . $row->Titel . '</td></tr>';
                
             }
-    
             return $tableString;
         }
     
