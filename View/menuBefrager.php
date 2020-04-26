@@ -31,9 +31,9 @@ echo "<h2>Was möchten Sie tun?</h2>"
 
 <?php
 
-require 'PostController.php';
-$postController = new PostController();
-$response = $postController->createInnerTableBefrager($recentUser);
+require '../Controller/BefragerController.php';
+$befragerController = new BefragerController();
+$response = $befragerController->createInnerTableBefrager($recentUser);
 
         if ($response == '') {
                 echo '<p>Sie haben noch keinen Fragebogen erstellt.</p>';
