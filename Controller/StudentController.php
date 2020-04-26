@@ -1,4 +1,5 @@
 <?php
+require 'GlobalFunctions.php';
 class PostController extends GlobalFunctions
 {
     public function __construct()

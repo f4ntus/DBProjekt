@@ -1,5 +1,5 @@
 <?php
-
+require 'GlobalFunctions.php';
 class BefragerController extends GlobalFunctions
 {
         public function __construct()
