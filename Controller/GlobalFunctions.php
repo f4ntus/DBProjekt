@@ -1,5 +1,11 @@
 <?php
+require '../Model/SqlWrapper.php';
 class GlobalFunctions {
+    protected $sqlWrapper;
+    public function __construct()
+    {
+        $this->sqlWrapper = new SqlWrapper();
+    }
     protected function handleError($moveTo, $errorCode)
     {
         if ($moveTo == 'anmeldungBefrager') {

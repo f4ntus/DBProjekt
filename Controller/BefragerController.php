@@ -1,7 +1,11 @@
 <?php
-require 'SqlWrapper.php';
+
 class BefragerController extends GlobalFunctions
 {
+        public function __construct()
+        {
+            parent::__construct();
+        }
     /* @Author: Chris
         Hier stehen alle relevanten Funktionen für das Menü des Befragers.*/
         public function createInnerTableBefrager($recentUser) {
