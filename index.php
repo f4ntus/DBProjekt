@@ -90,14 +90,14 @@ session_start();
     </form>
     </div>
     <?php
-    require 'PostController.php';
+    require 'IndexController.php';
     if (isset($_POST['anmelden'])) {
-        $postController = new PostController();
-        $postController->controllAnmeldung($_POST);
+        $indexController = new IndexController();
+        $indexController->controllAnmeldung($_POST);
     }
     if (isset($_POST['registrieren'])) {
-        $postController = new PostController();
-        $response = $postController->controllRegister($_POST['benutzername'], $_POST['password']);
+        $indexController = new IndexController();
+        $response = $indexController->controllRegister($_POST['benutzername'], $_POST['password']);
     }
     if (isset($_GET['registriert'])) {
         if ($_GET['registriert'] == 'success') {
