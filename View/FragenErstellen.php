@@ -1,5 +1,7 @@
 <?php
-session_start();
+  session_start();
+  require '../Controller/BefragerController.php';
+  $befragerController = new BefragerController();
 ?>
 
 <!DOCTYPE html>
@@ -15,7 +17,7 @@ session_start();
 
 <body>
 
-<!-- Platzhalter, hier werden potentzielle Fehler angezeigt -->
+  <!-- Platzhalter, hier werden potentzielle Fehler angezeigt -->
   <?php
   if (isset($_GET['error'])) {
     echo '<div class="errorKasten">';
@@ -24,33 +26,31 @@ session_start();
     }
     echo '</div>';
   }
-  $titel = $_POST['titel'];
-  $benutzername = $_SESSION['befrager'];
+  
   echo "<h2>Titel des Fragebogens: $titel </h2>";
- 
+
   ?>
 
   <h1>Neue Fragen erstellen:</h1>
 
 
-  <form method="post" action="FreischaltungKurs.php">
+  <form method="post" action="FragenErstellen.php">
     </br>
 
     Fragen: </br></br>
     <?php
-
-  require '../Controller/BefragerController.php';
-  $befragerController = new BefragerController();
-  $fragefelder = $befragerController->createFrageFelder($_POST['anzahlFragen']);
-  echo $fragefelder;
-  $fragebogen = $befragerController->createFragebogen($titel, $benutzername); 
-  echo $fragebogen;
-  $befragerController = NULL;
-
-  ?>
+      $fragefelder = $befragerController->createFrageFelder($_GET['anzahlFragen']);
+      echo $fragefelder;
+    ?>
     <button type="submit" name="fragenspeichern">Fragen Speichern</button>
   </form>
-
+  <?php 
+    if (isset ($_POST)){
+      if ($befragerController->createFragebogen($_GET['Title'],$_SESSION['Befrager']) == 'success'){
+        
+      }
+    } 
+  ?>
 
 </body>
 

@@ -23,7 +23,7 @@
 ?>
 <h1>Neuen Fragebogen erstellen:</h1>
 
-<form method="post" action="FragenErstellen.php">
+<form method="get" action="FragenErstellen.php">
 
     <p>Titel des Fragebogens</p>
     <input type="text" name="titel">

@@ -32,10 +32,11 @@ class BefragerController extends GlobalFunctions
         
 
         // noch in Bearbeitung --> @JOSC
-        public function createFragen ($fbnr, $i, $fragetext) {
+        public function createFragen ($fbnr, $anzFragen, $post) {
                     
             // wie spreche ich die Variable $i aus dem Inputfeld an
-            for ($fnr = 1; $fnr <= $i; $fnr++){
+            for ($fnr = 1; $fnr <= $anzFragen; $fnr++){
+                $fragetext
                 $sqlObject = $this->sqlWrapper->insertIntoFrage($fnr, $fbnr, $fragetext );
             } 
             if ($sqlObject == "success"){
