@@ -17,13 +17,7 @@ session_start();
 
 <!-- Platzhalter, hier werden potentzielle Fehler angezeigt -->
   <?php
-  if (isset($_GET['error'])) {
-    echo '<div class="errorKasten">';
-    if ($_GET['error'] == 'titelAlreadyInUse') {
-      echo '<p>Der Titel wurde bereits vergeben, bitte geben Sie einen neuen ein</p>';
-    }
-    echo '</div>';
-  }
+
   $titel = $_POST['titel'];
   $benutzername = $_SESSION['befrager'];
   echo "<h2>Titel des Fragebogens: $titel </h2>";
@@ -41,10 +35,10 @@ session_start();
 
   require '../Controller/BefragerController.php';
   $befragerController = new BefragerController();
+  $fragebogen = $befragerController->controllTitelFragebogen($titel, $benutzername);
+  echo $fragebogen;
   $fragefelder = $befragerController->createFrageFelder($_POST['anzahlFragen']);
   echo $fragefelder;
-  $fragebogen = $befragerController->createFragebogen($titel, $benutzername); 
-  echo $fragebogen;
   $befragerController = NULL;
 
   ?>
