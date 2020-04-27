@@ -49,6 +49,17 @@ class BefragerController extends GlobalFunctions
             $sqlObject = $this->sqlWrapper->selectFbNrFragebogen($titel);
             return $sqlObject;
         }
+
+        public function controllTitelFragebogen($titel, $benutzername) {
+            $sqlObject = $this->sqlWrapper->selectAlleTitel($titel);
+            if (is_null($sqlObject)) {
+                $this->createFragebogen($titel, $benutzername);
+            } else {
+                $this->handleError('neuerFragebogen','titleInUse');
+                /*$this->moveToPage('neuerFragebogen.php');
+                return "<p> Dieser Titel wurde schon vergeben.";*/
+        }
+        }
     
         public function createFragebogen($titel, $benutzername){
                 $sqlObject = $this->sqlWrapper->insertIntoFragebogen($titel, $benutzername);
