@@ -15,9 +15,10 @@
 
 <?php
 session_start();
-require('PostController.php');
-$postController = new PostController();
+require '../Controller/StudentController.php';
+$studentController = new StudentController();
 ?>
+
 <h1><?php echo "Hallo" . " " . $_SESSION['matrikelnummer']; ?></h1>
 
 <p>Diese Fragebögen sind für Sie freigeschaltet:</p>
@@ -28,7 +29,7 @@ $postController = new PostController();
         </tr>
 
         <?php
-        echo $postController->createInnerTable();
+        echo $studentController->createInnerTable();
         ?>
 
 </table>

@@ -1,6 +1,6 @@
 <?php
 require 'GlobalFunctions.php';
-class PostController extends GlobalFunctions
+class StudentController extends GlobalFunctions
 {
     public function __construct()
     {
