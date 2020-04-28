@@ -32,3 +32,10 @@ $postController = new PostController();
         ?>
 
 </table>
+
+<?php
+
+if (isset($_POST['anzeigenFragen'])) {
+        header("Location: http://localhost/DBProjekt/Fragen.php/");
+} 
+?>

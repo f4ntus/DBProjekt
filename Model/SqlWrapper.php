@@ -87,6 +87,46 @@
             $result = $this->db->query($sql);
             return $result->fetch_object();
         }
+
+
+        public function limit($fbnr) {
+
+            //Anzahl Fragen zu FragebogenNr
+            $sql = "SELECT * FROM tbl_frage where FbNr = '$fbnr'";
+            $result = $this->db->query($sql);
+            $anzahl = $result->num_rows;
+    
+            $ergebnisse_pro_Seite = 1;
+           
+    
+            //Aktuelle Seite
+           if (empty($_GET['seite_nr'])) {
+            $seite= 1;
+            } else {
+                $seite = $_GET['seite_nr'];
+            if ($seite > $anzahl) {
+                $seite = 1;
+            }
+            }
+            $limit = ($seite* $ergebnisse_pro_Seite)-$ergebnisse_pro_Seite;
+            
+            $result = $this->db->query("SELECT * FROM tbl_frage where FbNr = '$fbnr' LIMIT ".$limit.', '.$ergebnisse_pro_Seite);
+            $string = '';
+            while ($row = $result->fetch_object()) {
+                
+            echo $string = $string . "<table border='8' cellpadding='20'>'<tr><td>" . $row->Fragetext . '</td><td>' . $row->FbNr . '</td></tr></table>';    
+            }
+           
+            for ($i=1; $i<=$anzahl; ++$i) {
+                if ($seite == $i) {
+                    echo '<a href="Fragen.php?seite_nr='.$i.'" style="font-weight: bold;">'.$i.'</a>';
+                } else {
+                    echo '<a href="Fragen.php?seite_nr='.$i.'">'.$i.'</a>';
+                }
+            }
+    
+            
+        }
         public function __destruct()
         {
             $this->db->close();
