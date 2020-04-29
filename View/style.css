@@ -8,3 +8,24 @@ body{
 .errorKasten{
     color: red;
 }
+
+.SeiteFrage{
+    height: 900px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+} 
+
+.aktuelleSeite{
+    text-align: top;
+    color: red;
+       
+}
+
+.aktuelleFrage{
+    background-color: yellow;
+}
+
+  

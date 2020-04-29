@@ -89,44 +89,24 @@
         }
 
 
-        public function limit($fbnr) {
-
-            //Anzahl Fragen zu FragebogenNr
+            public function anzahlSeiten($fbnr) {
             $sql = "SELECT * FROM tbl_frage where FbNr = '$fbnr'";
             $result = $this->db->query($sql);
-            $anzahl = $result->num_rows;
-    
-            $ergebnisse_pro_Seite = 1;
-           
-    
-            //Aktuelle Seite
-           if (empty($_GET['seite_nr'])) {
-            $seite= 1;
-            } else {
-                $seite = $_GET['seite_nr'];
-            if ($seite > $anzahl) {
-                $seite = 1;
+            return $result->num_rows;
             }
-            }
-            $limit = ($seite* $ergebnisse_pro_Seite)-$ergebnisse_pro_Seite;
-            
-            $result = $this->db->query("SELECT * FROM tbl_frage where FbNr = '$fbnr' LIMIT ".$limit.', '.$ergebnisse_pro_Seite);
+
+
+            public function FragenEinzeln($fbnr) {
+            $result = $this->db->query("SELECT * FROM tbl_frage where FbNr = '$fbnr' LIMIT " . $_SESSION["aktseite"] . ',1');
             $string = '';
             while ($row = $result->fetch_object()) {
                 
-            echo $string = $string . "<table border='8' cellpadding='20'>'<tr><td>" . $row->Fragetext . '</td><td>' . $row->FbNr . '</td></tr></table>';    
+            echo $string = $string . '<tr><td>' . $row->Fragetext . '</td></tr>';
             }
-           
-            for ($i=1; $i<=$anzahl; ++$i) {
-                if ($seite == $i) {
-                    echo '<a href="Fragen.php?seite_nr='.$i.'" style="font-weight: bold;">'.$i.'</a>';
-                } else {
-                    echo '<a href="Fragen.php?seite_nr='.$i.'">'.$i.'</a>';
-                }
-            }
-    
             
         }
+            
+
         public function __destruct()
         {
             $this->db->close();

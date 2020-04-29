@@ -2,11 +2,14 @@
 <html>
 
 <head>
-        <title>Matrikelnummer</title>
+<meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>MenuStudent</title>
 </head>
 
 <body>
-
+height:
 
 </body>
 
@@ -31,12 +34,4 @@ $studentController = new StudentController();
         <?php
         echo $studentController->createInnerTable();
         ?>
-
 </table>
-
-<?php
-
-if (isset($_POST['anzeigenFragen'])) {
-        header("Location: http://localhost/DBProjekt/Fragen.php/");
-} 
-?>
