@@ -34,13 +34,15 @@ class BefragerController extends GlobalFunctions
         // noch in Bearbeitung --> @JOSC
         // Fragen müssen noch geprüft werden --> @JOSC
         public function createFragen ($fbnr, $anzFragen, $post) {
-            echo('ich war hier')     ;
+       
             // wie spreche ich die Variable $i aus dem Inputfeld an
             for ($fnr = 1; $fnr <= $anzFragen; $fnr++){
                 $postArrayName = 'fragetext' . $fnr;
                 $fragetext = $post[$postArrayName];
                 $sqlObject = $this->sqlWrapper->insertIntoFrage($fnr, $fbnr, $fragetext );
                 if ($sqlObject != 'success'){
+
+                    // @ Chris -> Fehlermeldung
                     var_dump($sqlObject);
                     exit;         
                 }
