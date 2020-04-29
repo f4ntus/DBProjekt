@@ -23,7 +23,7 @@ echo "<h1>Willkommen zurück, $recentUser!</h1>";
 echo "<h2>Was möchten Sie tun?</h2>"
 ?>
 
-        <form action ="neuerFragebogen.php">
+        <form method="post" action="neuerFragebogen.php">
                 <button type="submit" name="fb_neu">+ Neuen Fragebogen erstellen</button>
         </form>
 

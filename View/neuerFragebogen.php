@@ -1,3 +1,8 @@
+<?php
+  session_start();
+  require '../Controller/BefragerController.php';
+  $befragerController = new BefragerController();
+?>
 <!DOCTYPE html>
 
 <html lang="de">
@@ -18,12 +23,16 @@
     if ($_GET['error'] == 'titleInUse') {
       echo '<p>Der Titel wurde bereits vergeben, bitte geben Sie einen neuen ein</p>';
     }
+    if ($_GET['error'] == 'sqlError') {
+      echo '<p>Ups da ist etwas schief gelaufen versuchen sie es nochmal oder wenden Sie sich an ihren Systemadmistrator</p>';
+    }
+    
     echo '</div>';
   }
 ?>
 <h1>Neuen Fragebogen erstellen:</h1>
 
-<form method="get" action="FragenErstellen.php">
+<form method="post" action="neuerFragebogen.php">
 
     <p>Titel des Fragebogens</p>
     <input type="text" name="titel">
@@ -40,6 +49,11 @@
 
     <input type="submit" name="submitAnzFragen" value="Bestätigen">
 
+  <?php 
+    if (isset($_POST['titel'])){
+      $befragerController->controllTitelFragebogen($_POST['titel'],$_SESSION['befrager'],$_POST['anzahlFragen']);
+    }
+  ?>
 
 </form>
 

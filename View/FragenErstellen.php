@@ -2,6 +2,9 @@
   session_start();
   require '../Controller/BefragerController.php';
   $befragerController = new BefragerController();
+  $fbnr = $_GET['Fbnr'];
+  $anzFragen = $_GET['AnzahlFragen'];
+  $title = $_GET['Titel']
 ?>
 
 <!DOCTYPE html>
@@ -27,28 +30,27 @@
     echo '</div>';
   }
   
-  echo "<h2>Titel des Fragebogens: $titel </h2>";
+  echo "<h2>Titel des Fragebogens: $title </h2>";
 
   ?>
 
   <h1>Neue Fragen erstellen:</h1>
 
 
-  <form method="post" action="FragenErstellen.php">
+  <form method="post" action="">
     </br>
 
     Fragen: </br></br>
     <?php
-      $fragefelder = $befragerController->createFrageFelder($_GET['anzahlFragen']);
+      $fragefelder = $befragerController->createFrageFelder($anzFragen);
       echo $fragefelder;
     ?>
     <button type="submit" name="fragenspeichern">Fragen Speichern</button>
   </form>
   <?php 
-    if (isset ($_POST)){
-      if ($befragerController->createFragebogen($_GET['Title'],$_SESSION['Befrager']) == 'success'){
-        
-      }
+    if (isset ($_POST['fragenspeichern'])){
+      echo $befragerController->createFragen($fbnr,$anzFragen,$_POST);
+      // movetofreiben mit nummer und erfolgsmeldung
     } 
   ?>
 

@@ -53,20 +53,19 @@
               return $this->db->query($sql);
             }
 
-        public function insertIntoFragebogen($titel, $benutzername){
+        public  function insertIntoFragebogen($titel, $benutzername){
             $sql = "INSERT INTO tbl_fragebogen (Titel, Benutzername) VALUES ('$titel', '$benutzername')";
 
             if ($this->db->query($sql)) {
-                return 'success';
+                return $this->db->insert_id;
+               
             } else {
-                return $this->db->error;
-                
+                return 'error';
             }
         }
 
         public function insertIntoFrage($fnr, $fbnr, $fragetext){
-            $sql = "INSERT INTO tbl_frage (FNr, FbNr, Fragetext) VALUES ('$fnr', $fbnr', '$fragetext')";
-
+            $sql = "INSERT INTO tbl_frage (FNr, FbNr, Fragetext) VALUES ('$fnr', '$fbnr', '$fragetext')";
             if ($this->db->query($sql)) {
                 return 'success';
             } else {

@@ -33,15 +33,19 @@ class BefragerController extends GlobalFunctions
 
         // noch in Bearbeitung --> @JOSC
         public function createFragen ($fbnr, $anzFragen, $post) {
-                    
+            echo('ich war hier')     ;
             // wie spreche ich die Variable $i aus dem Inputfeld an
             for ($fnr = 1; $fnr <= $anzFragen; $fnr++){
-                $fragetext
+                $postArrayName = 'fragetext' . $fnr;
+                $fragetext = $post[$postArrayName];
                 $sqlObject = $this->sqlWrapper->insertIntoFrage($fnr, $fbnr, $fragetext );
+                if ($sqlObject != 'success'){
+                    var_dump($sqlObject);
+                    exit;         
+                }
             } 
-            if ($sqlObject == "success"){
-                return "<p>Fragen erfolgreich gespeichert</p>";
-            } else return $sqlObject;
+            $suffixString = '?fbnr='. $fbnr .'&erstellt=true';
+            $this->moveToPage('FreischaltungKurs.php',$suffixString);
         }
     
         // noch in Bearbeitung --> @JOSC
@@ -50,22 +54,26 @@ class BefragerController extends GlobalFunctions
             return $sqlObject;
         }
 
-        public function controllTitelFragebogen($titel, $benutzername) {
+        public function controllTitelFragebogen($titel, $benutzername, $anzFragen) {
             $sqlObject = $this->sqlWrapper->selectAlleTitel($titel);
             if (is_null($sqlObject)) {
-                $this->createFragebogen($titel, $benutzername);
+                $sqlResult = $this->sqlWrapper->insertIntoFragebogen($titel, $benutzername);
+                if ( $sqlResult != 'error'){
+                    $suffixString = '?AnzahlFragen=' . $anzFragen . '&Fbnr=' . $sqlResult . '&Titel=' . $titel; 
+                    $this->moveToPage('FragenErstellen.php',$suffixString);
+                } else {
+                    $this->handleError('neuerFragebogen','sqlError');
+                }
             } else {
                 $this->handleError('neuerFragebogen','titleInUse');
-                /*$this->moveToPage('neuerFragebogen.php');
-                return "<p> Dieser Titel wurde schon vergeben.";*/
         }
         }
     
         public function createFragebogen($titel, $benutzername){
                 $sqlObject = $this->sqlWrapper->insertIntoFragebogen($titel, $benutzername);
-    
-                if($sqlObject =="success"){
+
+                /*if($sqlObject =="success"){
                     return "<p>Fragebogen wurde erstellt.</p>";
-                } else return $sqlObject;
+                } else return $sqlObject;*/
         }
 }
