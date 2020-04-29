@@ -70,8 +70,8 @@ INSERT INTO `tbl_befrager` (`Benutzername`, `Kennwort`) VALUES
 --
 
 CREATE TABLE `tbl_frage` (
-  `FNr` tinyint(4) NOT NULL,
   `FbNr` mediumint(9) NOT NULL,
+  `FNr` tinyint(4) NOT NULL,
   `Fragetext` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
