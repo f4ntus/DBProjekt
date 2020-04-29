@@ -32,6 +32,7 @@ class BefragerController extends GlobalFunctions
         
 
         // noch in Bearbeitung --> @JOSC
+        // Fragen müssen noch geprüft werden --> @JOSC
         public function createFragen ($fbnr, $anzFragen, $post) {
             echo('ich war hier')     ;
             // wie spreche ich die Variable $i aus dem Inputfeld an
@@ -47,12 +48,6 @@ class BefragerController extends GlobalFunctions
             $suffixString = '?fbnr='. $fbnr .'&erstellt=true';
             $this->moveToPage('FreischaltungKurs.php',$suffixString);
         }
-    
-        // noch in Bearbeitung --> @JOSC
-        public function getFbNr($titel) {
-            $sqlObject = $this->sqlWrapper->selectFbNrFragebogen($titel);
-            return $sqlObject;
-        }
 
         public function controllTitelFragebogen($titel, $benutzername, $anzFragen) {
             $sqlObject = $this->sqlWrapper->selectAlleTitel($titel);
@@ -67,13 +62,5 @@ class BefragerController extends GlobalFunctions
             } else {
                 $this->handleError('neuerFragebogen','titleInUse');
         }
-        }
-    
-        public function createFragebogen($titel, $benutzername){
-                $sqlObject = $this->sqlWrapper->insertIntoFragebogen($titel, $benutzername);
-
-                /*if($sqlObject =="success"){
-                    return "<p>Fragebogen wurde erstellt.</p>";
-                } else return $sqlObject;*/
         }
 }
