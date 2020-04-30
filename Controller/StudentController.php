@@ -25,12 +25,17 @@ class StudentController extends GlobalFunctions
     }
 
     public function anzahlSeitenProFB() {
-        $lala = $this->sqlWrapper->anzahlSeiten($_SESSION['FbNr']);
-        return $lala;
+        $test = $this->sqlWrapper->anzahlSeiten($_SESSION['FbNr']);
+        return $test;
     }
 
     public function showFragen() {
         $test = $this->sqlWrapper->FragenEinzeln($_SESSION['FbNr']);
+        return $test;
+    }
+
+    public function FrageBewerten() {
+        $test = $this->sqlWrapper->bewerten($_SESSION['FNr'], $_SESSION['FbNr'], $_SESSION['matrikelnummer'], $_GET['rating']);
         return $test;
     }
 

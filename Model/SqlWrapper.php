@@ -97,14 +97,28 @@
 
 
             public function FragenEinzeln($fbnr) {
-            $result = $this->db->query("SELECT * FROM tbl_frage where FbNr = '$fbnr' LIMIT " . $_SESSION["aktseite"] . ',1');
+            $result = $this->db->query("SELECT * FROM tbl_frage where FbNr = '$fbnr' LIMIT " . $_SESSION["aktfrage"] . ',1');
             $string = '';
             while ($row = $result->fetch_object()) {
                 
-            echo $string = $string . '<tr><td>' . $row->Fragetext . '</td></tr>';
+            echo $string = $string . '<tr><td>' . $_SESSION['FNr'] = $row->FNr . '</td><td>' . $row->Fragetext . '</td></tr>';
             }
             
-        }
+            }
+
+            public function bewerten($fnr, $fbnr, $matrikelnummer, $bewertung) {
+                if(!is_numeric($bewertung)) return false;
+                $bewertung = (int)$bewertung;
+                if($bewertung < 1 || $bewertung > 5) return false;
+                $sql = "INSERT INTO tbl_beantwortet (FNr, FbNr, Matrikelnummer, Bewertung) VALUES ('$fnr', '$fbnr', '$matrikelnummer', '$bewertung')";
+                
+                if ($this->db->query($sql)) {   
+                    return 'success';
+                } else {
+                    return $this->db->error;
+                    
+                }
+            }
             
 
         public function __destruct()
