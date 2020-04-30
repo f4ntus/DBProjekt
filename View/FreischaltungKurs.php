@@ -11,13 +11,36 @@
 
 <body>
 
+<!-- Platzhalter, hier werden potentzielle Fehler und Informationen angezeigt -->
 <?php
-// wird noch bearbeitet, Funktion noch nicht gegeben;
 require "../Controller/BefragerController.php";
 $befragerController = new BefragerController();
+if (isset($_GET['erstellt'])) {
+    echo '<div class="infoKasten">';
+    if ($_GET['erstellt'] == 'true') {
+      echo '<p>Ihr Fragebogen wurde erfolgreich erstellt. Bitte wählen Sie den zu freischaltenen Kurs aus.</p>';
+    }
+    echo '</div>';
+  }
+?>
+
+<h1>Kurs freischalten:</h1>
+
+<form>
+<!-- Checkboxen für die einzelnen Kurse über Controller aufrufen -->
+<?php
+$kursfelder = $befragerController->createKursFelder();
+echo $kursfelder;
+?>
+</form>
+
+
+<?php
+// wird noch bearbeitet, Funktion noch nicht gegeben;
+
 
 //$fbnr = $befragerController->getFbNr($_POST['titel']);
-var_dump($_POST);
+//var_dump($_POST);
 // $postController->createFragen($fbnr, $_POST[$i], $_POST['fragetext']);
 ?>
 

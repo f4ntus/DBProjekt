@@ -22,15 +22,6 @@
 
   <!-- Platzhalter, hier werden potentzielle Fehler angezeigt -->
   <?php
-  if (isset($_GET['error'])) {
-    echo '<div class="errorKasten">';
-    if ($_GET['error'] == 'titelAlreadyInUse') {
-      echo '<p>Der Titel wurde bereits vergeben, bitte geben Sie einen neuen ein</p>';
-    }
-    echo '</div>';
-  }
-  
-  echo "<h2>Titel des Fragebogens: $title </h2>";
 
   ?>
 

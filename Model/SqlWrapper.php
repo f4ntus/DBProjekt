@@ -86,6 +86,14 @@
             $result = $this->db->query($sql);
             return $result->fetch_object();
         }
+
+        public function selectKurse() {
+            $sql = "SELECT * FROM tbl_kurs";
+            
+            return $this->db->query($sql);
+            
+        }
+
         public function __destruct()
         {
             $this->db->close();

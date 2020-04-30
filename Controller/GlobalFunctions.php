@@ -22,6 +22,22 @@ class GlobalFunctions {
                 $GETString = '?error=' . $errorCode;
                 $this->moveToPage('neuerFragebogen.php', $GETString);
             }
+            case 'fragenErstellen' : {
+                $GETString = '?error=' . $errorCode;
+                $this->moveToPage('FragenErstellen.php', $GETString);
+            }
+    }
+}
+
+protected function handleInfo ($moveTo, $infoCode){
+    {
+        switch($moveTo){
+            case "fragebogenErstellt" : {
+                $GETString = $infoCode;
+            $this->moveToPage('FreischaltungKurs.php',$GETString);
+            }
+
+        }
     }
 }
     protected function moveToPage($pageName, $suffix = '')
