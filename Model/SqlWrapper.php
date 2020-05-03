@@ -90,9 +90,19 @@
         public function selectKurse() {
             $sql = "SELECT * FROM tbl_kurs";
             
-            return $this->db->query($sql);
+            $result = $this->db->query($sql);
+            return $result->fetch_all();
             
         }
+
+        public function insertIntoFreigeschaltet($fbnr, $kurs) {
+            $sql = "INSERT INTO tbl_freigeschaltet (FbNr, Name) VALUES ('$fbnr', '$kurs')";
+            if ($this->db->query($sql)) {
+                return 'success';
+            } else {
+                return $this->db->error;
+        }
+    }
 
         public function __destruct()
         {
@@ -100,4 +110,3 @@
         }
 
     }
-?>

@@ -1,3 +1,9 @@
+<?php
+  session_start();
+  require '../Controller/BefragerController.php';
+  $befragerController = new BefragerController();
+  $fbnr = $_GET['fbnr'];
+?>
 <!DOCTYPE html>
 
 <html lang="de">
@@ -13,8 +19,6 @@
 
 <!-- Platzhalter, hier werden potentzielle Fehler und Informationen angezeigt -->
 <?php
-require "../Controller/BefragerController.php";
-$befragerController = new BefragerController();
 if (isset($_GET['erstellt'])) {
     echo '<div class="infoKasten">';
     if ($_GET['erstellt'] == 'true') {
@@ -26,22 +30,22 @@ if (isset($_GET['erstellt'])) {
 
 <h1>Kurs freischalten:</h1>
 
-<form>
+<form method="post">
 <!-- Checkboxen für die einzelnen Kurse über Controller aufrufen -->
 <?php
 $kursfelder = $befragerController->createKursFelder();
 echo $kursfelder;
 ?>
+
+<button type="submit" name="kurs_freischalten">Kurs freischalten</button>
+
 </form>
 
-
 <?php
-// wird noch bearbeitet, Funktion noch nicht gegeben;
-
-
-//$fbnr = $befragerController->getFbNr($_POST['titel']);
-//var_dump($_POST);
-// $postController->createFragen($fbnr, $_POST[$i], $_POST['fragetext']);
+if (isset($_POST['kurs_freischalten'])){
+  $result = $befragerController->freischaltenKurs($fbnr,$_POST);
+  echo $result;
+}
 ?>
 
 </body>

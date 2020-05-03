@@ -70,9 +70,16 @@ class BefragerController extends GlobalFunctions
     {
 
         $arrayKurse = $this->sqlWrapper->selectKurse();
-        
-        array_walk($arrayKurse, function ($kurs) {
-            echo "<input type='checkbox' name='kursfeld" . $kurs . "'>" . "<label for='kursfeld" . $kurs . "'>" . $kurs . "</label></br>";
-        });
+        foreach ($arrayKurse as $key => $row) {
+            echo "<input type='checkbox' name='kursfeld" . $row[0] . "'>" . "<label for='kursfeld" . $row[0] . "'>" . $row[0] . "</label></br>";
+        }
+    }
+
+    public function freischaltenKurs($fbnr, $post)
+    {
+        foreach($post as $key => $kurs){
+            $this->sqlWrapper->insertIntoFreigeschaltet($fbnr, $kurs);
+
+        }
     }
 }
