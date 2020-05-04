@@ -41,7 +41,7 @@ class IndexController extends GlobalFunctions
                     $this->handleError('anmeldungBefrager', 'wrongPassword');
                 }
             }
-        }   
+        }
     }
     public function controllRegister($benutzername, $kennwort)
     {
@@ -64,4 +64,3 @@ class IndexController extends GlobalFunctions
         }
     }
 }
-?>
