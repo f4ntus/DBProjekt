@@ -37,7 +37,7 @@ protected function handleInfo ($moveTo, $infoCode){
     {
         switch($moveTo){
             case "fragebogenErstellt" : {
-                $GETString = '?info=' . $infoCode;
+                $GETString = $infoCode;
             $this->moveToPage('FreischaltungKurs.php',$GETString);
             }
             case 'fbfreigeschalten' : {

@@ -19,9 +19,9 @@
 
 <!-- Platzhalter, hier werden potentzielle Fehler und Informationen angezeigt -->
 <?php
-if (isset($_GET['info'])) {
+if (isset($_GET['erstellt'])) {
     echo '<div class="infoKasten">';
-    if ($_GET['info'] == 'erstellt') {
+    if ($_GET['erstellt'] == 'true') {
       echo '<p>Ihr Fragebogen wurde erfolgreich erstellt. Bitte wählen Sie den zu freischaltenen Kurs aus.</p>';
     }
     echo '</div>';

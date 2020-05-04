@@ -46,7 +46,7 @@ class BefragerController extends GlobalFunctions
                 exit;
             }
         }
-        $infoCode = '?fbnr=' . $fbnr . '&erstellt=true';
+        $infoCode = '?fbnr=' . $fbnr . '&info=true';
         $this->handleInfo('fragebogenErstellt', $infoCode);
     }
 
@@ -81,7 +81,8 @@ class BefragerController extends GlobalFunctions
         foreach ($arrayKurs as $key => $kurs) {
             $sqlObject = $this->sqlWrapper->insertIntoFreigeschaltet($fbnr, $key);
         } if($sqlObject !='error') {
-               $this->handleInfo('fbfreigeschalten', 'freigeschalten');
+            $infoCode = '?freigeschalten=true';
+        $this->handleInfo('fbfreigeschalten', $infoCode);
         } else $this->handleError('kursFreischalten', 'sqlError');
     }
 }
