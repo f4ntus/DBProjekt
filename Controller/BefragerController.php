@@ -46,7 +46,7 @@ class BefragerController extends GlobalFunctions
                 exit;
             }
         }
-        $infoCode = '?fbnr=' . $fbnr . '&info=true';
+        $infoCode = '?fbnr=' . $fbnr . '&erstellt=true';
         $this->handleInfo('fragebogenErstellt', $infoCode);
     }
 
@@ -72,6 +72,7 @@ class BefragerController extends GlobalFunctions
         $arrayKurse = $this->sqlWrapper->selectKurse();
         foreach ($arrayKurse as $kurs) {
             echo "<input type='checkbox' name='" . $kurs[0] . "'><label for='" . $kurs[0] . "'>" . $kurs[0] . "</label></br>";
+            echo "</br>";
         }
     }
 
@@ -80,9 +81,6 @@ class BefragerController extends GlobalFunctions
         $arrayKurs = array_slice($post, 0, count($post) - 1);
         foreach ($arrayKurs as $key => $kurs) {
             $sqlObject = $this->sqlWrapper->insertIntoFreigeschaltet($fbnr, $key);
-        } if($sqlObject !='error') {
-            $infoCode = '?freigeschalten=true';
-        $this->handleInfo('fbfreigeschalten', $infoCode);
-        } else $this->handleError('kursFreischalten', 'sqlError');
+        }
     }
 }

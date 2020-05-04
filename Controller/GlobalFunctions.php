@@ -40,10 +40,7 @@ protected function handleInfo ($moveTo, $infoCode){
                 $GETString = $infoCode;
             $this->moveToPage('FreischaltungKurs.php',$GETString);
             }
-            case 'fbfreigeschalten' : {
-                $GETString = '?info=' . $infoCode;
-                $this->moveToPage('menuBefrager.php', $GETString);
-            }
+
         }
     }
 }
