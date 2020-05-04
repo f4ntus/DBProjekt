@@ -18,6 +18,14 @@ session_start();
 
 <?php
 
+if (isset($_GET['info'])) {
+        echo '<div class="infoKasten">';
+        if ($_GET['info'] == 'freigeschalten') {
+          echo '<p>Ihr Fragebogen wurde für die ausgewählten Kurse erfolgreich freigeschalten.</p>';
+        }
+        echo '</div>';
+      }
+
 $recentUser = $_SESSION['befrager'];
 echo "<h1>Willkommen zurück, $recentUser!</h1>";
 echo "<h2>Was möchten Sie tun?</h2>"

@@ -19,6 +19,13 @@
 
 <!-- Platzhalter, hier werden potentzielle Fehler und Informationen angezeigt -->
 <?php
+if (isset($_GET['error'])) {
+  echo '<div class="errorKasten">';
+  if ($_GET['error'] == 'sqlError') {
+    echo '<p>Etwas ist schiefgelaufen, wurde ihr Fragebogen schon freigeschalten?</p>';
+  }
+  echo '</div>';
+}
 if (isset($_GET['erstellt'])) {
     echo '<div class="infoKasten">';
     if ($_GET['erstellt'] == 'true') {

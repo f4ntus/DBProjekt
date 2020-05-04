@@ -81,6 +81,11 @@ class BefragerController extends GlobalFunctions
         $arrayKurs = array_slice($post, 0, count($post) - 1);
         foreach ($arrayKurs as $key => $kurs) {
             $sqlObject = $this->sqlWrapper->insertIntoFreigeschaltet($fbnr, $key);
-        }
+            if ($sqlObject != 'success') {
+                $suffixString = 'sqlError&fbnr=' . $fbnr; 
+                $this->handleError('kurseFreischalten', $suffixString);
+                exit;
+            } 
+        }$this->handleInfo('kurseFreischalten', 'freigeschalten');
     }
 }

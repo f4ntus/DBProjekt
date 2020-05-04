@@ -26,9 +26,9 @@ class GlobalFunctions {
                 $GETString = '?error=' . $errorCode;
                 $this->moveToPage('FragenErstellen.php', $GETString);
             }
-            case 'kursFreischalten' : {
+            case 'kurseFreischalten' : {
                 $GETString = '?error=' . $errorCode;
-                $this->moveToPage('KursFreischalten.php', $GETString);
+                $this->moveToPage('FreischaltungKurs.php', $GETString);
             }
     }
 }
@@ -40,7 +40,10 @@ protected function handleInfo ($moveTo, $infoCode){
                 $GETString = $infoCode;
             $this->moveToPage('FreischaltungKurs.php',$GETString);
             }
-
+            case "kurseFreischalten" : {
+                $GETString = '?info=' . $infoCode;
+            $this->moveToPage('menuBefrager.php',$GETString);
+            }
         }
     }
 }
