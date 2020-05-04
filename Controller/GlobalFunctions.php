@@ -26,6 +26,10 @@ class GlobalFunctions {
                 $GETString = '?error=' . $errorCode;
                 $this->moveToPage('FragenErstellen.php', $GETString);
             }
+            case 'kursFreischalten' : {
+                $GETString = '?error=' . $errorCode;
+                $this->moveToPage('KursFreischalten.php', $GETString);
+            }
     }
 }
 
@@ -33,10 +37,13 @@ protected function handleInfo ($moveTo, $infoCode){
     {
         switch($moveTo){
             case "fragebogenErstellt" : {
-                $GETString = $infoCode;
+                $GETString = '?info=' . $infoCode;
             $this->moveToPage('FreischaltungKurs.php',$GETString);
             }
-
+            case 'fbfreigeschalten' : {
+                $GETString = '?info=' . $infoCode;
+                $this->moveToPage('menuBefrager.php', $GETString);
+            }
         }
     }
 }

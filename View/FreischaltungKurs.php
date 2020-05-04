@@ -19,9 +19,9 @@
 
 <!-- Platzhalter, hier werden potentzielle Fehler und Informationen angezeigt -->
 <?php
-if (isset($_GET['erstellt'])) {
+if (isset($_GET['info'])) {
     echo '<div class="infoKasten">';
-    if ($_GET['erstellt'] == 'true') {
+    if ($_GET['info'] == 'erstellt') {
       echo '<p>Ihr Fragebogen wurde erfolgreich erstellt. Bitte wählen Sie den zu freischaltenen Kurs aus.</p>';
     }
     echo '</div>';
@@ -30,7 +30,7 @@ if (isset($_GET['erstellt'])) {
 
 <h1>Kurs freischalten:</h1>
 
-<form method="post">
+<form method="post" action="">
 <!-- Checkboxen für die einzelnen Kurse über Controller aufrufen -->
 <?php
 $kursfelder = $befragerController->createKursFelder();

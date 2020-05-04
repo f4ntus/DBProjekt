@@ -16,6 +16,16 @@ session_start();
 
 <body>
 
+    <!-- Platzhalter, hier werden potentzielle Fehler und Infos angezeigt -->
+    <?php
+    if (isset($_GET['info'])) {
+        echo '<div class="errorKasten">';
+        if ($_GET['info'] == 'freigeschalten') {
+                echo '<p> Fragebogen wurde erfolgreich freigeschalten.</p>';
+        echo '</div>';
+    }
+    ?>
+
 <?php
 
 $recentUser = $_SESSION['befrager'];

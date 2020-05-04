@@ -70,16 +70,18 @@ class BefragerController extends GlobalFunctions
     {
 
         $arrayKurse = $this->sqlWrapper->selectKurse();
-        foreach ($arrayKurse as $key => $row) {
-            echo "<input type='checkbox' name='kursfeld" . $row[0] . "'>" . "<label for='kursfeld" . $row[0] . "'>" . $row[0] . "</label></br>";
+        foreach ($arrayKurse as $kurs) {
+            echo "<input type='checkbox' name='" . $kurs[0] . "'><label for='" . $kurs[0] . "'>" . $kurs[0] . "</label></br>";
         }
     }
 
     public function freischaltenKurs($fbnr, $post)
     {
-        foreach($post as $key => $kurs){
-            $this->sqlWrapper->insertIntoFreigeschaltet($fbnr, $kurs);
-
-        }
+        $arrayKurs = array_slice($post, 0, count($post) - 1);
+        foreach ($arrayKurs as $key => $kurs) {
+            $sqlObject = $this->sqlWrapper->insertIntoFreigeschaltet($fbnr, $key);
+        } if($sqlObject !='error') {
+               $this->handleInfo('fbfreigeschalten', 'freigeschalten');
+        } else $this->handleError('kursFreischalten', 'sqlError');
     }
 }
