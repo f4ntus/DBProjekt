@@ -16,5 +16,4 @@ class PostController extends GlobalFunctions
         }
         return $tableString;
     }
-
 }

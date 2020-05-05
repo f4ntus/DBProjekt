@@ -1,10 +1,10 @@
 <?php
-  session_start();
-  require '../Controller/BefragerController.php';
-  $befragerController = new BefragerController();
-  $fbnr = $_GET['Fbnr'];
-  $anzFragen = $_GET['AnzahlFragen'];
-  $title = $_GET['Titel']
+session_start();
+require '../Controller/BefragerController.php';
+$befragerController = new BefragerController();
+$fbnr = $_GET['Fbnr'];
+$anzFragen = $_GET['AnzahlFragen'];
+$title = $_GET['Titel']
 ?>
 
 <!DOCTYPE html>
@@ -22,15 +22,6 @@
 
   <!-- Platzhalter, hier werden potentzielle Fehler angezeigt -->
   <?php
-  if (isset($_GET['error'])) {
-    echo '<div class="errorKasten">';
-    if ($_GET['error'] == 'titelAlreadyInUse') {
-      echo '<p>Der Titel wurde bereits vergeben, bitte geben Sie einen neuen ein</p>';
-    }
-    echo '</div>';
-  }
-  
-  echo "<h2>Titel des Fragebogens: $title </h2>";
 
   ?>
 
@@ -42,16 +33,16 @@
 
     Fragen: </br></br>
     <?php
-      $fragefelder = $befragerController->createFrageFelder($anzFragen);
-      echo $fragefelder;
+    $fragefelder = $befragerController->createFrageFelder($anzFragen);
+    echo $fragefelder;
     ?>
     <button type="submit" name="fragenspeichern">Fragen Speichern</button>
   </form>
-  <?php 
-    if (isset ($_POST['fragenspeichern'])){
-      echo $befragerController->createFragen($fbnr,$anzFragen,$_POST);
-      // movetofreiben mit nummer und erfolgsmeldung
-    } 
+  <?php
+  if (isset($_POST['fragenspeichern'])) {
+    echo $befragerController->createFragen($fbnr, $anzFragen, $_POST);
+    // movetofreiben mit nummer und erfolgsmeldung
+  }
   ?>
 
 </body>

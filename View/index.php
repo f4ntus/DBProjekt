@@ -52,7 +52,7 @@ session_start();
     <form methode="get" action="index.php">
         <input type="submit" name="befrager" value="Befrager" />
         <input type="submit" name="student" value="Student" />
-    </form>'
+    </form>
     </div>
 
     <!-- Formular für Anmeldung oder Registrieren -->
