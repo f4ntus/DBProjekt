@@ -29,9 +29,13 @@ class StudentController extends GlobalFunctions
         return $test;
     }
 
-    public function showFragen() {
-        $test = $this->sqlWrapper->FragenEinzeln($_SESSION['FbNr']);
-        return $test;
+    public function showFrage($fbnr, $fnr) {
+        $frage = $this->sqlWrapper->GetFragenText($fbnr, $fnr);
+        if (is_null($frage)){
+            //ToDo: Handle Error -> Frage not Found
+        } else{
+            return $frage->Fragetext;
+        }
     }
 
     public function FrageBewerten() {

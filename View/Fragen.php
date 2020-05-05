@@ -3,6 +3,7 @@
 session_start();
 require '../Controller/StudentController.php';
 $studentController = new StudentController();
+$anzFragen = $studentController->anzahlSeitenProFB();
 ?>
 <html>
 
@@ -14,35 +15,23 @@ $studentController = new StudentController();
 </head>
 
 <body>
-    <?php if ((isset($_POST["bnext"]) == false)) {
-        $_SESSION["aktfrage"] = 0;
-    }
-
-    $_SESSION["anzfragen"] = $studentController->anzahlSeitenProFB();
-
-    
-
-    if(isset($_POST["bnext"]) == true)
-        $_SESSION["aktfrage"]++;
-    
-?>
     <div class="SeiteFrage">
         <div class="Aktuelle Seite">
             <h4>Aktuelle Frage:
-                <?php echo $_SESSION["aktfrage"] + 1; ?> </h4>
+                <?php echo $_GET["Frage"]; ?> </h4>
 
             <?php
             echo "Inhalt der Frage ";
-            echo $_SESSION["aktfrage"] + 1 . " von " . $_SESSION["anzfragen"];
+            echo $_GET["Frage"] . " von " . $anzFragen;
             ?>
             <br><br><br><br>
         </div>
 
         <div class="AktuelleFrage">
-            <?php for ($i = 0; $i <= $_SESSION["anzfragen"]; ++$i) {
-                if ($i == ($_SESSION["aktfrage"]))
-                    echo $studentController->showFragen();
-                } ?>
+            <h2><?php echo $studentController->showFragen($_GET[]; ?></h2>
+             
+                    
+            
         
            </br></br>    
            
