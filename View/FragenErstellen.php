@@ -27,6 +27,9 @@ $title = $_GET['Titel']
 
   <h1>Neue Fragen erstellen:</h1>
 
+  <?php
+  echo "<h2>Fragebogentitel:" . $title . "</h2>";
+?>
 
   <form method="post" action="">
     </br>

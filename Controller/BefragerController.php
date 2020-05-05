@@ -89,4 +89,23 @@ class BefragerController extends GlobalFunctions
         }
         $this->handleInfo('kurseFreischalten', 'freigeschalten');
     }
+
+    public function createDropdownFragebogen($recentUser)
+    {
+
+        $sqlObject = $this->sqlWrapper->selectErstellteFrageboegen($recentUser);
+        $dropdownString = '';
+
+        while ($row = $sqlObject->fetch_object()) {
+            $dropdownString = $dropdownString . "<option>" . $row->Titel . "</option>";
+        }
+
+        return $dropdownString;
+    }
+
+    /*public function fragebogenKopieren($oldtitle, $copytitle){
+        $fbnr = $this->sqlWrapper->selectFbNrFragebogen($oldtitle);
+        //$copytitle kontrollieren ob bereits vorhanden, Fragen vom alten Fragebogen holen um dann mit fbnr neu zu erstellen. Neuer Titel einfügen
+
+    }*/
 }

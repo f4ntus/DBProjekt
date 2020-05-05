@@ -35,8 +35,12 @@ session_start();
                 <button type="submit" name="fb_neu">+ Neuen Fragebogen erstellen</button>
         </form>
         </br>
-        <form action="FreischaltungFragebogen.php">
+        <form mehthod ="post" action="FreischaltungFragebogen.php">
                 <button type="submit" name="freischalten">Kurs freischalten</button>
+        </form>
+        </br>
+        <form method="post" action="FragebogenKopieren.php">
+                <button type="submit" name="kopieren">Fragebogen kopieren</button>
         </form>
 
         <p>Übersicht Ihrer bereits erstellen Fragebögen:</p>
