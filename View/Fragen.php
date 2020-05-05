@@ -42,14 +42,26 @@ $studentController = new StudentController();
             <?php for ($i = 0; $i <= $_SESSION["anzfragen"]; ++$i) {
                 if ($i == ($_SESSION["aktfrage"]))
                     echo $studentController->showFragen();
-                    
-                    
-                      
-            } ?>
+                } ?>
+        
            </br></br>    
            
-           
+           <form action="" method="POST">
+                    
+                    <input type="radio" name="bewertung" value="Bewertung1"> 1
+                    <input type="radio" name="bewertung" value="Bewertung2"> 2
+                    <input type="radio" name="bewertung" value="Bewertung3"> 3
+                    <input type="radio" name="bewertung" value="Bewertung4"> 4 
+                    <input type="radio" name="bewertung" value="Bewertung5"> 5 
+                    <input type="submit" name="bsubmit" value="Next">
+                
+            </form>
+                      
             
+
+
+
+
             <form action="" method="POST">
                 <input type="submit" <?php
                     if ($_SESSION["aktfrage"] + 1 == $_SESSION["anzfragen"])
@@ -63,7 +75,7 @@ $studentController = new StudentController();
                         echo $result;
                     }
             ?>
-            
+
         
             
             
