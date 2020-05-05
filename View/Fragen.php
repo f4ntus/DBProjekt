@@ -28,29 +28,19 @@ $anzFragen = $studentController->anzahlSeitenProFB();
         </div>
 
         <div class="AktuelleFrage">
-            <h2><?php echo $studentController->showFragen($_GET[]; ?></h2>
-             
-                    
-            
-        
+            <h2><?php echo $studentController->showFrage($_GET["Fragebogen"],$_GET["Frage"]); ?></h2> 
            </br></br>    
            
            <form action="" method="POST">
                     
-                    <input type="radio" name="bewertung" value="Bewertung1"> 1
-                    <input type="radio" name="bewertung" value="Bewertung2"> 2
-                    <input type="radio" name="bewertung" value="Bewertung3"> 3
-                    <input type="radio" name="bewertung" value="Bewertung4"> 4 
-                    <input type="radio" name="bewertung" value="Bewertung5"> 5 
-                    <input type="submit" name="bsubmit" value="Next">
+                <input type="radio" name="bewertung" value="1"> 1
+                <input type="radio" name="bewertung" value="2"> 2
+                <input type="radio" name="bewertung" value="3"> 3
+                <input type="radio" name="bewertung" value="4"> 4 
+                <input type="radio" name="bewertung" value="5"> 5 
+                <input type="submit" name="bsubmit" value="Next">
                 
             </form>
-                      
-            
-
-
-
-
             <form action="" method="POST">
                 <input type="submit" <?php
                     if ($_SESSION["aktfrage"] + 1 == $_SESSION["anzfragen"])
@@ -64,15 +54,6 @@ $anzFragen = $studentController->anzahlSeitenProFB();
                         echo $result;
                     }
             ?>
-
-        
-            
-            
-            
-           
-            
-        
-        
         </div>
     </div>
 

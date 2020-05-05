@@ -44,6 +44,9 @@
 
 <body>
 
+<!-- in Fragen.php schieben -> Formular / Radiobuttons 
+    Submitbutton Formular -> 
+-->
 <div style= "width:500px; margin:auto;">
     <ul class="rating">
         <li class="one"><a href="?rating=1" title="1 Star">1</a></li>

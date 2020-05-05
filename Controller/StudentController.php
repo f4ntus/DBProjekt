@@ -16,13 +16,11 @@ class StudentController extends GlobalFunctions
         $tableString = '';
         while ($row = $sqlObject->fetch_object()) {
             $tableString = $tableString . '<tr><td>' . $_SESSION['FbNr'] = $row->FbNr . '</td><td>' . $row->Titel . '</td><td> 
-            <form method="POST" action="Fragen.php">    
-            <input type="submit" name="anzeigenFragen" value="Anzeigen" />
-            </form>';
-            
+             <input type="submit" name="Fragebogen" value="FbNr" />';
         }
         return $tableString;
     }
+    
 
     public function anzahlSeitenProFB() {
         $test = $this->sqlWrapper->anzahlSeiten($_SESSION['FbNr']);
