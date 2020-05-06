@@ -111,29 +111,13 @@ class SqlWrapper
         }
     }
 
-    public function selectFragetextFromFragen($fbnr) {
-        $sql ="SELECT Fragetext FROM tbl_frage WHERE FbNr = '$fbnr'";
+    public function selectFragetextFromFragen($fbnr)
+    {
+        $sql = "SELECT Fragetext FROM tbl_frage WHERE FbNr = '$fbnr'";
 
-        $result = $this->db->query($sql);
-        if($result){
-        return $result->fetch_object();
-        }
-        else {
-            return $this->db->error;
+        return $this->db->query($sql);
     }
-}
 
-    public function countFragen($fbnr){
-        $sql = "SELECT COUNT(*) FROM tbl_frage WHERE FbNr = '$fbnr'";
-
-        $result = $this->db->query($sql);
-        if($result){
-        return $result;
-        }
-        else {
-            return $this->db->error;
-    }
-}
 
     public function __destruct()
     {

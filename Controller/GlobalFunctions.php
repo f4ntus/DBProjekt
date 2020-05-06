@@ -34,6 +34,10 @@ class GlobalFunctions
                 $GETString = '?error=' . $errorCode;
                 $this->moveToPage('FreischaltungKurs.php', $GETString);
                 break;
+            case 'fragebogenKopieren':
+                $GETString = '?error=' . $errorCode;
+                $this->moveToPage('FragebogenKopieren.php', $GETString);
+                break;
         }
     }
 
@@ -45,6 +49,10 @@ class GlobalFunctions
                 $this->moveToPage('FreischaltungKurs.php', $GETString);
                 break;
             case "kurseFreischalten":
+                $GETString = '?info=' . $infoCode;
+                $this->moveToPage('menuBefrager.php', $GETString);
+                break;
+            case "fragebogenKopieren":
                 $GETString = '?info=' . $infoCode;
                 $this->moveToPage('menuBefrager.php', $GETString);
                 break;

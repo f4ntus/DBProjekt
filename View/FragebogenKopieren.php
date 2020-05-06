@@ -18,6 +18,21 @@ $recentUser = $_SESSION['befrager'];
 
 <body>
 
+    <?php
+    if (isset($_GET['error'])) {
+        echo '<div class="errorKasten">';
+        if ($_GET['error'] == 'titleInUse') {
+            echo '<p>Der Titel wurde bereits vergeben, bitte geben Sie einen neuen ein</p>';
+        }
+        if ($_GET['error'] == 'sqlError') {
+            echo '<p>Ups da ist etwas schief gelaufen versuchen sie es nochmal oder wenden Sie sich an ihren Systemadmistrator</p>';
+        }
+
+        echo '</div>';
+    }
+    ?>
+
+
     <h1>Fragebogen kopieren:</h1>
 
 
@@ -34,14 +49,13 @@ $recentUser = $_SESSION['befrager'];
 
     </form>
 
-<?php
-if (isset($_POST['kopieren'])){
-    
-    $result = $befragerController->arrayTest($_POST['Fragebogen']);
-    //$result = $befragerController->fragebogenKopieren($recentUser, $_POST['Fragebogen'],$_POST['title_copy']);
-    echo $result;
-}
-?>
+    <?php
+    if (isset($_POST['kopieren'])) {
+
+        $result = $befragerController->fragebogenKopieren($recentUser, $_POST['Fragebogen'], $_POST['title_copy']);
+        echo $result;
+    }
+    ?>
 
 </body>
 
