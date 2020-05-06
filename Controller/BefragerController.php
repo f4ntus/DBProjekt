@@ -89,4 +89,40 @@ class BefragerController extends GlobalFunctions
         }
         $this->handleInfo('kurseFreischalten', 'freigeschalten');
     }
+
+    public function createDropdownFragebogen($recentUser)
+    {
+
+        $sqlObject = $this->sqlWrapper->selectErstellteFrageboegen($recentUser);
+        $dropdownString = '';
+
+        while ($row = $sqlObject->fetch_object()) {
+            $dropdownString = $dropdownString . "<option>" . $row->Titel . "</option>";
+        }
+
+        return $dropdownString;
+    }
+
+    public function fragebogenKopieren($recentUser, $oldTitle, $copyTitle)
+    {
+        $oldFbNr = $this->sqlWrapper->selectFbNrFragebogen($oldTitle);
+        $checkTitle = $this->sqlWrapper->selectAlleTitel($copyTitle);
+        if (is_null($checkTitle)) {
+            $newFbNr = $this->sqlWrapper->insertIntoFragebogen($copyTitle, $recentUser);
+            $sqlObject1 = $this->sqlWrapper->selectFragetextFromFragen($oldFbNr);
+            $fnr = 1;
+            while ($frage = $sqlObject1->fetch_object()) {
+                $fragetext = $frage->Fragetext;
+                $sqlObject = $this->sqlWrapper->insertIntoFrage($fnr, $newFbNr, $fragetext);
+                if ($sqlObject != 'success') {
+                    $this->handleError('fragenKopieren', 'sqlError');
+                    exit;
+                }
+                $fnr++;
+            }
+            $this->handleInfo('fragebogenKopieren', 'kopiert');
+        } else {
+            $this->handleError('fragebogenKopieren', 'titleInUse');
+        }
+    }
 }

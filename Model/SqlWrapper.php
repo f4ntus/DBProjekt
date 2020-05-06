@@ -111,6 +111,14 @@ class SqlWrapper
         }
     }
 
+    public function selectFragetextFromFragen($fbnr)
+    {
+        $sql = "SELECT Fragetext FROM tbl_frage WHERE FbNr = '$fbnr'";
+
+        return $this->db->query($sql);
+    }
+
+
     public function __destruct()
     {
         $this->db->close();

@@ -23,6 +23,9 @@ session_start();
                 if ($_GET['info'] == 'freigeschalten') {
                         echo '<p>Ihr Fragebogen wurde für die ausgewählten Kurse erfolgreich freigeschalten.</p>';
                 }
+                if ($_GET['info'] == 'kopiert') {
+                        echo '<p>Ihr Fragebogen wurde erfolgreich kopiert.</p>';
+                }
                 echo '</div>';
         }
 
@@ -35,8 +38,12 @@ session_start();
                 <button type="submit" name="fb_neu">+ Neuen Fragebogen erstellen</button>
         </form>
         </br>
-        <form action="FreischaltungFragebogen.php">
+        <form mehthod ="post" action="FreischaltungFragebogen.php">
                 <button type="submit" name="freischalten">Kurs freischalten</button>
+        </form>
+        </br>
+        <form method="post" action="FragebogenKopieren.php">
+                <button type="submit" name="fb_kopieren">Fragebogen kopieren</button>
         </form>
 
         <p>Übersicht Ihrer bereits erstellen Fragebögen:</p>
