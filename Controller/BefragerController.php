@@ -127,9 +127,10 @@ class BefragerController extends GlobalFunctions
 
     }*/
 
-    public function arrayTest($oldTitle) {
-    $oldFbNr = $this->sqlWrapper->selectFbNrFragebogen($oldTitle);
-    $fragetext = $this->sqlWrapper->selectFragetextFromFragen($oldFbNr);
-    var_dump($fragetext);
+    public function arrayTest($oldTitle)
+    {
+        $oldFbNr = $this->sqlWrapper->selectFbNrFragebogen($oldTitle);
+        $fragetext = $this->sqlWrapper->selectFragetextFromFragen($oldFbNr);
+        var_dump($fragetext);
     }
 }
