@@ -103,18 +103,33 @@ class BefragerController extends GlobalFunctions
         return $dropdownString;
     }
 
-    public function fragebogenKopieren($recentUser, $oldTitle, $copyTitle){
+    /*public function fragebogenKopieren($recentUser, $oldTitle, $copyTitle)
+    {
         $oldFbNr = $this->sqlWrapper->selectFbNrFragebogen($oldTitle);
         $checkTitle = $this->sqlWrapper->selectAlleTitel($copyTitle);
         if (is_null($checkTitle)) {
             $newFbNr = $this->sqlWrapper->insertIntoFragebogen($copyTitle, $recentUser);
             $countFragen = $this->sqlWrapper->countFragen($oldFbNr);
             $fragetext = $this->sqlWrapper->selectFragetextFromFragen($oldFbNr);
-            $this->createFragen($newFbNr, $countFragen, $fragetext);
+            //$this->createFragen($newFbNr, $countFragen, $fragetext);
+            for ($fnr = 1; $fnr <= $countFragen; $fnr++) {
+                $sqlObject = $this->sqlWrapper->insertIntoFrage($fnr, $newFbNr, $fragetext);
+                if ($sqlObject != 'success') {
+                    $this->handleError('fragenKopieren', 'sqlError');
+                    exit;
+                }
+            }
+            $this->handleInfo('fragebogenKopieren', 'kopiert');
         } else {
             $this->handleError('fragebogenKopieren', 'titleInUse');
         }
         //create Fragen kann nicht so einfach verwendet werden, da handle Info hard codiert ist. 
 
+    }*/
+
+    public function arrayTest($oldTitle) {
+    $oldFbNr = $this->sqlWrapper->selectFbNrFragebogen($oldTitle);
+    $fragetext = $this->sqlWrapper->selectFragetextFromFragen($oldFbNr);
+    var_dump($fragetext);
     }
 }

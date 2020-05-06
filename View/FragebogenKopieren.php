@@ -35,10 +35,12 @@ $recentUser = $_SESSION['befrager'];
     </form>
 
 <?php
-/*if (isset($_POST['kopieren'])){
-    $result = $befragerController->fragebogenKopieren($recentUser, $_POST['Fragebogen'],$_POST['title_copy']);
+if (isset($_POST['kopieren'])){
+    
+    $result = $befragerController->arrayTest($_POST['Fragebogen']);
+    //$result = $befragerController->fragebogenKopieren($recentUser, $_POST['Fragebogen'],$_POST['title_copy']);
     echo $result;
-}*/
+}
 ?>
 
 </body>
