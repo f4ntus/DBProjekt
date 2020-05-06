@@ -24,7 +24,7 @@ $recentUser = $_SESSION['befrager'];
     <form method="post">
         <?php
         $dropdown = $befragerController->createDropdownFragebogen($recentUser);
-        echo "<label>Welchen Fragebogen möchten Sie kopieren?</br></br><select name='Fragbogen'>" . $dropdown . "</select></label>";
+        echo "<label>Welchen Fragebogen möchten Sie kopieren?</br></br><select name='Fragebogen'>" . $dropdown . "</select></label>";
         ?>
         </br></br>
         <p>Neuer Fragebogentitel (Titel muss abweichen):</p>
@@ -36,7 +36,7 @@ $recentUser = $_SESSION['befrager'];
 
 <?php
 /*if (isset($_POST['kopieren'])){
-    $result = $befragerController->fragebogenKopieren($_POST['Fragebogen'],$_POST['kopieren']);
+    $result = $befragerController->fragebogenKopieren($recentUser, $_POST['Fragebogen'],$_POST['title_copy']);
     echo $result;
 }*/
 ?>

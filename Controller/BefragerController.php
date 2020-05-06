@@ -103,9 +103,18 @@ class BefragerController extends GlobalFunctions
         return $dropdownString;
     }
 
-    /*public function fragebogenKopieren($oldtitle, $copytitle){
-        $fbnr = $this->sqlWrapper->selectFbNrFragebogen($oldtitle);
-        //$copytitle kontrollieren ob bereits vorhanden, Fragen vom alten Fragebogen holen um dann mit fbnr neu zu erstellen. Neuer Titel einfügen
+    public function fragebogenKopieren($recentUser, $oldTitle, $copyTitle){
+        $oldFbNr = $this->sqlWrapper->selectFbNrFragebogen($oldTitle);
+        $checkTitle = $this->sqlWrapper->selectAlleTitel($copyTitle);
+        if (is_null($checkTitle)) {
+            $newFbNr = $this->sqlWrapper->insertIntoFragebogen($copyTitle, $recentUser);
+            $countFragen = $this->sqlWrapper->countFragen($oldFbNr);
+            $fragetext = $this->sqlWrapper->selectFragetextFromFragen($oldFbNr);
+            $this->createFragen($newFbNr, $countFragen, $fragetext);
+        } else {
+            $this->handleError('fragebogenKopieren', 'titleInUse');
+        }
+        //create Fragen kann nicht so einfach verwendet werden, da handle Info hard codiert ist. 
 
-    }*/
+    }
 }
