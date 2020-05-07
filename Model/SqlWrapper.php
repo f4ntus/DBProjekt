@@ -105,23 +105,21 @@ class SqlWrapper
     }
 
 
-    public function FragenEinzeln($fbnr)
+    public function SelectFragen($fbnr)
     {
-        // Muss geprüft werden ob obsolet
-        $result = $this->db->query("SELECT * FROM tbl_frage where FbNr = '$fbnr' LIMIT " . $_SESSION["aktfrage"] . ',1');
-        $string = '';
-        while ($row = $result->fetch_object()) {
-            echo $string = $string . '<tr><td>' . $_SESSION['FNr'] = $row->FNr . '</td><td>' . $row->Fragetext . '</td></tr>';
-        }
+        $this->db->query("SELECT * FROM tbl_frage where FbNr = '$fbnr'");
+        
     }
 
-    public function GetFragenText($fbnr,$fnr){
+    public function SelectFragenText($fbnr, $fnr)
+    {
         $result =  $this->db->query("SELECT Fragetext FROM tbl_frage where FbNr = '$fbnr' and fnr ='$fnr'");
         return $result->fetch_object();
     }
 
     public function bewerten($fnr, $fbnr, $matrikelnummer, $bewertung)
     {
+        // ToDo: Umbenennen, muss mit select oder insert anfangen
         if (!is_numeric($bewertung)) return false;
         $bewertung = (int) $bewertung;
         if ($bewertung < 1 || $bewertung > 5) return false;
@@ -133,7 +131,10 @@ class SqlWrapper
             return $this->db->error;
         }
     }
-
+    public function SelectBeantwortet($fbnr, $matrikelnummer)
+    {
+        return $this->db->query("SELECT * FROM tbl_beantwortet where FbNr = '$fbnr' and matrikelnummer = '$matrikelnummer'");
+    }
 
     public function __destruct()
     {

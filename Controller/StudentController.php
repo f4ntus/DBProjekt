@@ -20,7 +20,21 @@ class StudentController extends GlobalFunctions
         }
         return $tableString;
     }
-    
+    // Liefert die Erste Frage in einem Fragebogen, welche nicht beantwortet wurde
+    // Sollten alle Fragen beantwortet sein, so wird False ausgegeben.
+    public function getFirstNotAnswerdQuestion ($fragebogenNr,$user){
+        $sqlObjectBeantwortet = $this->sqlWrapper->SelectBeantwortet($fragebogenNr,$user);
+        $sqlObjectFrage = $this->sqlWrapper->SelectFragen($fragebogenNr); 
+        while ($recordFrage = $sqlObjectFrage->fetch_object()){ 
+            $recordBeantwortet = $sqlObjectBeantwortet->fetch_object();
+            // funktioniert nur wenn Beantwortet und Frage beider nach der FNr sortiert sind. 
+            // Davon kann ausgeganngen werden, da FNr ein Primärschlüssel ist.
+            if ($recordBeantwortet->FNR != $recordFrage->FNr){ 
+                return $recordFrage->FNr;
+            }
+        }
+        return false;
+    }
 
     public function anzahlSeitenProFB() {
         $test = $this->sqlWrapper->anzahlSeiten($_SESSION['FbNr']);
@@ -28,7 +42,7 @@ class StudentController extends GlobalFunctions
     }
 
     public function showFrage($fbnr, $fnr) {
-        $frage = $this->sqlWrapper->GetFragenText($fbnr, $fnr);
+        $frage = $this->sqlWrapper->SelectFragenText($fbnr, $fnr);
         if (is_null($frage)){
             //ToDo: Handle Error -> Frage not Found
         } else{
