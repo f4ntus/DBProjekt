@@ -80,7 +80,7 @@ class SqlWrapper
 
     public function selectFbNrFragebogen($titel)
     {
-        $sql = "SELECT FbNr FROM tbl_fragebogen WHERE FbNr ='$titel'";
+        $sql = "SELECT FbNr FROM tbl_fragebogen WHERE Titel ='$titel'";
         $result = $this->db->query($sql);
         return $result->fetch_object();
     }
