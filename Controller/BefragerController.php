@@ -125,4 +125,18 @@ class BefragerController extends GlobalFunctions
             $this->handleError('fragebogenKopieren', 'titleInUse');
         }
     }
+    public function controllNameKurs(){ 
+        
+        $name = $_POST["kursname"];
+        $sqlObject = $this->sqlWrapper->selectAlleKurse($name);
+        if (is_null($sqlObject)) {
+            $neuerKurs = $this->sqlWrapper->insertIntoKurs($name);
+            $this->handleInfo('neuerKurs', 'erstellt');
+        }
+        else {
+                $this->handleError('neuerKurs', 'nameInUse');
+                //Message: Kurs erfolgreich erstellt
+                //Prüfung, ob Titel bereits vorhanden mit Funktion controllNameKurs
+            }   
+        }
 }

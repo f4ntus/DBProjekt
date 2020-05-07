@@ -29,6 +29,14 @@ session_start();
                 echo '</div>';
         }
 
+        if (isset($_GET['info'])) {
+                echo '<div class="infoKasten">';
+                if ($_GET['info'] == 'erstellt') {
+                        echo '<p>Ihr Kurs wurde erfolgreich angelegt.</p>';
+                }
+                echo '</div>';
+        }
+
         $recentUser = $_SESSION['befrager'];
         echo "<h1>Willkommen zurück, $recentUser!</h1>";
         echo "<h2>Was möchten Sie tun?</h2>"
@@ -60,6 +68,12 @@ session_start();
                 echo "<table> <tr> <th>FbNr</th> <th>Titel</th> </tr>" . $response . "</table>";
         }
         ?>
+
+
+        <form method="post" action="neuerKurs.php">
+                <button type="submit" name="kursanlegen">Neuen Kurs anlegen</button>
+        </form>
+        
 
 </body>
 

@@ -37,6 +37,10 @@ class GlobalFunctions
             case 'fragebogenKopieren':
                 $GETString = '?error=' . $errorCode;
                 $this->moveToPage('FragebogenKopieren.php', $GETString);
+            
+            case 'neuerKurs':
+                $GETString = '?error=' . $errorCode;
+                $this->moveToPage('neuerKurs.php', $GETString);
                 break;
         }
     }
@@ -53,6 +57,9 @@ class GlobalFunctions
                 $this->moveToPage('menuBefrager.php', $GETString);
                 break;
             case "fragebogenKopieren":
+                $GETString = '?info=' . $infoCode;
+                $this->moveToPage('menuBefrager.php', $GETString);
+            case "neuerKurs":
                 $GETString = '?info=' . $infoCode;
                 $this->moveToPage('menuBefrager.php', $GETString);
                 break;
