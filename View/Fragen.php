@@ -42,17 +42,16 @@ $anzFragen = $studentController->anzahlSeitenProFB();
                 
             </form>
             <form action="" method="POST">
-                <input type="submit" <?php
-                    if ($_SESSION["aktfrage"] + 1 == $_SESSION["anzfragen"])
-                        echo " disabled ";
-                    ?> name="bnext" value="Next" />
+                <name="bnext" value="Next" />
             </form>
-
-            <?php require_once 'Auswertung.php';
+            
+            <?php 
+            /* ich hab keine Ahnung was das soll 
+            require_once 'Auswertung.php';
                     if(isset($_GET['rating'])) {
                         $result = $studentController->FrageBewerten();
                         echo $result;
-                    }
+                    }*/
             ?>
         </div>
     </div>

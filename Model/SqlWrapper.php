@@ -107,8 +107,7 @@ class SqlWrapper
 
     public function SelectFragen($fbnr)
     {
-        $this->db->query("SELECT * FROM tbl_frage where FbNr = '$fbnr'");
-        
+        return $this->db->query("SELECT * FROM tbl_frage where FbNr = '$fbnr'");  
     }
 
     public function SelectFragenText($fbnr, $fnr)
