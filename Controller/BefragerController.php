@@ -105,7 +105,7 @@ class BefragerController extends GlobalFunctions
 
     public function fragebogenKopieren($recentUser, $oldTitle, $copyTitle)
     {
-        $oldFbNr = $this->sqlWrapper->selectFbNrFragebogen($oldTitle);
+        $oldFbNr = $this->sqlWrapper->selectFbNrFragebogen($oldTitle)->FbNr;
         $checkTitle = $this->sqlWrapper->selectAlleTitel($copyTitle);
         if (is_null($checkTitle)) {
             $newFbNr = $this->sqlWrapper->insertIntoFragebogen($copyTitle, $recentUser);
