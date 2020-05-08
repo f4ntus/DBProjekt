@@ -131,12 +131,39 @@ class BefragerController extends GlobalFunctions
         $sqlObject = $this->sqlWrapper->selectAlleKurse($name);
         if (is_null($sqlObject)) {
             $neuerKurs = $this->sqlWrapper->insertIntoKurs($name);
-            $this->handleInfo('neuerKurs', 'erstellt');
+            $this->handleInfo('neuerKurs', 'kursErstellt');
         }
         else {
                 $this->handleError('neuerKurs', 'nameInUse');
                 //Message: Kurs erfolgreich erstellt
                 //Prüfung, ob Titel bereits vorhanden mit Funktion controllNameKurs
+            }   
+        }
+
+        public function createDropdownKurs()
+    {
+
+        $sqlObject = $this->sqlWrapper->selectKurseDropdown();
+        $dropdownString = '';
+        
+        while ($row = $sqlObject->fetch_object()) {
+            $dropdownString = $dropdownString . "<option>" . $row->Name . "</option>";
+        }
+
+       return $dropdownString;
+    }
+
+    public function controllMatrikelnummer(){ 
+        
+        $matrikelnummer = $_POST["matrikelnummer"];
+        $sqlObject = $this->sqlWrapper->selectMatrikelnummern($matrikelnummer);
+        if (is_null($sqlObject)) {
+            $name = $_POST["Kurs"];
+            $neuerStudent = $this->sqlWrapper->insertIntoStudent($matrikelnummer, $name);
+            $this->handleInfo('neuerStudent', 'studentErstellt');
+        }
+        else {
+                $this->handleError('neueMatrikelnummer', 'matrikelnummerInUse');   
             }   
         }
 }

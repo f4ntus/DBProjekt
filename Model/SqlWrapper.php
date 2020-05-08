@@ -136,6 +136,29 @@ class SqlWrapper
         return $result->fetch_object();
     }
 
+    public function selectKurseDropdown()
+    {
+        $sql = "SELECT * FROM tbl_kurs";
+        return $this->db->query($sql);
+    }
+
+    public function selectMatrikelnummern($matrikelnummer)
+    {
+        $sql = "SELECT Matrikelnummer FROM tbl_student WHERE Matrikelnummer = '$matrikelnummer'";
+        $result = $this->db->query($sql);
+        return $result->fetch_object();
+    }
+
+    public function insertIntoStudent($matrikelnummer, $name)
+    {
+        $sql = "INSERT INTO tbl_student (Matrikelnummer, Name) VALUES ('$matrikelnummer', '$name')";
+        if ($this->db->query($sql)) {
+            return 'success';
+        } else {
+            return $this->db->error;
+        }
+    }
+
 
     public function __destruct()
     {

@@ -31,8 +31,16 @@ session_start();
 
         if (isset($_GET['info'])) {
                 echo '<div class="infoKasten">';
-                if ($_GET['info'] == 'erstellt') {
+                if ($_GET['info'] == 'kursErstellt') {
                         echo '<p>Ihr Kurs wurde erfolgreich angelegt.</p>';
+                }
+                echo '</div>';
+        }
+
+        if (isset($_GET['info'])) {
+                echo '<div class="infoKasten">';
+                if ($_GET['info'] == 'studentErstellt') {
+                        echo '<p>Student wurde erfolgreich angelegt.</p>';
                 }
                 echo '</div>';
         }
@@ -72,6 +80,10 @@ session_start();
 
         <form method="post" action="neuerKurs.php">
                 <button type="submit" name="kursanlegen">Neuen Kurs anlegen</button>
+        </form></br>
+
+        <form method="post" action="neuerStudent.php">
+                <button type="submit" name="studentanlegen">Neuen Student anlegen</button>
         </form>
         
 

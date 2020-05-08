@@ -42,6 +42,11 @@ class GlobalFunctions
                 $GETString = '?error=' . $errorCode;
                 $this->moveToPage('neuerKurs.php', $GETString);
                 break;
+
+            case 'neueMatrikelnummer':
+                    $GETString = '?error=' . $errorCode;
+                    $this->moveToPage('neuerStudent.php', $GETString);
+                    break;  
         }
     }
 
@@ -63,6 +68,11 @@ class GlobalFunctions
                 $GETString = '?info=' . $infoCode;
                 $this->moveToPage('menuBefrager.php', $GETString);
                 break;
+            case "neuerStudent":
+                    $GETString = '?info=' . $infoCode;
+                    $this->moveToPage('menuBefrager.php', $GETString);
+                    break;
+
         }
     }
     protected function moveToPage($pageName, $suffix = '')
