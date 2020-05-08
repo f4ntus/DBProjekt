@@ -116,6 +116,8 @@ class SqlWrapper
         $sql = "SELECT Fragetext FROM tbl_frage WHERE FbNr = '$fbnr'";
 
         return $this->db->query($sql);
+    }
+    
     public function insertIntoKurs($name)
     {
         $sql = "INSERT INTO tbl_kurs (Name) VALUES ('$name')";
