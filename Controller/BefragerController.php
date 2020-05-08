@@ -139,4 +139,20 @@ class BefragerController extends GlobalFunctions
                 //Prüfung, ob Titel bereits vorhanden mit Funktion controllNameKurs
             }   
         }
+
+        public function fragebogenLoeschen($title) {
+            $fbnr = $this->sqlWrapper->selectFbNrFragebogen($title)->FbNr;
+            $sqlObject = $this->sqlWrapper->deleteFreigeschaltet($fbnr);
+            $sqlObject = $this->sqlWrapper->deleteKommentiert($fbnr);
+            $sqlObject = $this->sqlWrapper->deleteAbschliessen($fbnr);
+            $sqlObject = $this->sqlWrapper->deleteBeantwortet($fbnr);
+            $sqlObject =  $this->sqlWrapper->deleteFrage($fbnr);
+            $sqlObject = $this->sqlWrapper->deleteFragebogen($fbnr);
+            if($sqlObject != 'success'){
+                $this->handleError('fragebogenLoeschen', 'sqlError');
+            } else {
+                $this->handleInfo('fragebogenLoeschen', 'geloescht');
+            }
+            
+        }
 }
