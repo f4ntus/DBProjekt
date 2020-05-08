@@ -117,6 +117,24 @@ class SqlWrapper
 
         return $this->db->query($sql);
     }
+    
+    public function insertIntoKurs($name)
+    {
+        $sql = "INSERT INTO tbl_kurs (Name) VALUES ('$name')";
+        if ($this->db->query($sql)) {
+            return 'success';
+        } else {
+            return $this->db->error;
+        }
+    }
+
+    public function selectAlleKurse($name)
+    {
+        $sql = "SELECT Name FROM tbl_kurs WHERE Name = '$name'";
+
+        $result = $this->db->query($sql);
+        return $result->fetch_object();
+    }
 
 
     public function __destruct()
