@@ -61,6 +61,14 @@ session_start();
         <form method="post" action="FragebogenKopieren.php">
                 <button type="submit" name="fb_kopieren">Fragebogen kopieren</button>
         </form>
+        </br>
+        <form method="post" action="neuerKurs.php">
+                <button type="submit" name="kursanlegen">Neuen Kurs anlegen</button>
+        </form></br>
+
+        <form method="post" action="neuerStudent.php">
+                <button type="submit" name="studentanlegen">Neuen Student anlegen</button>
+        </form>
 
         <p>Übersicht Ihrer bereits erstellen Fragebögen:</p>
 
@@ -78,13 +86,7 @@ session_start();
         ?>
 
 
-        <form method="post" action="neuerKurs.php">
-                <button type="submit" name="kursanlegen">Neuen Kurs anlegen</button>
-        </form></br>
-
-        <form method="post" action="neuerStudent.php">
-                <button type="submit" name="studentanlegen">Neuen Student anlegen</button>
-        </form>
+      
         
 
 </body>

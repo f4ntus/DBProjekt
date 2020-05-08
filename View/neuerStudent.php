@@ -52,12 +52,6 @@ if (isset($_GET['error'])) {
 ?>
 
 
-
-
-
-
-
-
 </body>
 
 </html>
