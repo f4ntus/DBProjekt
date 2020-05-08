@@ -136,6 +136,60 @@ class SqlWrapper
         return $result->fetch_object();
     }
 
+    public function deleteFreigeschaltet($fbnr){
+        $sql = "DELETE FROM tbl_freigeschaltet WHERE FbNr = '$fbnr'";
+        if ($this->db->query($sql)) {
+            return 'success';
+        } else {
+            return $this->db->error;
+        }
+    }
+
+    public function deleteAbschliessen($fbnr) {
+        $sql = "DELETE FROM tbl_abschliessen WHERE FbNr = '$fbnr'";
+        if ($this->db->query($sql)) {
+            return 'success';
+        } else {
+            return $this->db->error;
+        }
+    }
+
+    public function deleteKommentiert($fbnr) {
+        $sql = "DELETE FROM tbl_kommentiert WHERE FbNr = '$fbnr'";
+        if ($this->db->query($sql)) {
+            return 'success';
+        } else {
+            return $this->db->error;
+        }
+    }
+
+    public function deleteBeantwortet($fbnr){
+        $sql = "DELETE FROM tbl_beantwortet WHERE FbNr = '$fbnr'";
+        if ($this->db->query($sql)) {
+            return 'success';
+        } else {
+            return $this->db->error;
+        }
+    }
+
+    public function deleteFrage($fbnr) {
+        $sql = "DELETE FROM tbl_frage WHERE FbNr = '$fbnr'";
+        if ($this->db->query($sql)) {
+            return 'success';
+        } else {
+            return $this->db->error;
+        }
+    }
+
+    public function deleteFragebogen($fbnr){
+        $sql = "DELETE FROM tbl_fragebogen WHERE FbNr = '$fbnr'";
+        if ($this->db->query($sql)) {
+            return 'success';
+        } else {
+            return $this->db->error;
+        }
+    }
+
 
     public function __destruct()
     {
