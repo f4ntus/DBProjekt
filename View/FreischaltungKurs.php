@@ -2,7 +2,7 @@
 session_start();
 require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();
-$fbnr = $_GET['fbnr'];
+$recentUser = $_SESSION['befrager'];
 ?>
 <!DOCTYPE html>
 
@@ -19,41 +19,49 @@ $fbnr = $_GET['fbnr'];
 
   <!-- Platzhalter, hier werden potentzielle Fehler und Informationen angezeigt -->
   <?php
-  if (isset($_GET['error'])) {
-    echo '<div class="errorKasten">';
-    if ($_GET['error'] == 'sqlError') {
-      echo '<p>Etwas ist schiefgelaufen, wurde ihr Fragebogen schon freigeschalten?</p>';
-    }
-    echo '</div>';
-  }
-  if (isset($_GET['erstellt'])) {
-    echo '<div class="infoKasten">';
-    if ($_GET['erstellt'] == 'true') {
-      echo '<p>Ihr Fragebogen wurde erfolgreich erstellt. Bitte wählen Sie den zu freischaltenen Kurs aus.</p>';
-    }
-    echo '</div>';
-  }
+
   ?>
 
   <h1>Kurs freischalten:</h1>
 
-  <form method="post" action="">
-    <!-- Checkboxen für die einzelnen Kurse über Controller aufrufen -->
+  <?php
+  if (!isset($_POST['fb_auswaehlen'])) {
+    echo "<div>";
+  } else {
+    echo "<div hidden>";
+  }
+  ?>
+  <form method="post">
     <?php
-    $kursfelder = $befragerController->createKursFelder();
-    echo $kursfelder;
+    $dropdown = $befragerController->createDropdownFragebogen($recentUser);
+    echo "<label>Welchen Fragebogen möchten Sie freischalten?</br></br><select name='Fragebogen'>" . $dropdown . "</select></label>";
     ?>
-
-    <button type="submit" name="kurs_freischalten">Kurs freischalten</button>
-
+    <button type="submit" name="fb_auswaehlen">Auswählen</button>
   </form>
+  </div>
+
 
   <?php
+  if (isset($_POST['fb_auswaehlen'])) {
+    $fragebogen = $_POST['Fragebogen'];
+    $bereitsFreigeschalten = $befragerController->showBereitsFreigeschaltet($fragebogen);
+    echo "<p>Bereits freigeschaltene Kurse für den Fragebogen: " . $fragebogen . "</p>";
+    echo $bereitsFreigeschalten;
+    echo "<form method='post'></br>";
+    echo "<p> Bitte ankreuzen, welcher Kurs noch freigeschalten werden soll.</p></br>";
+    $kursfelder = $befragerController->createKursFelder();
+    echo $kursfelder;
+    //Im zweiten Formular wird noch kein Fragebogentitel oder FbNr mitgegeben, weshalb freischaltenKurs Funktion fehlschlägt. Entweder in der URL mitgeben oder über Post.
+
+    echo "<button type='submit' name='kurs_freischalten'>Kurs freischalten</button></form>";
+  }
+
   if (isset($_POST['kurs_freischalten'])) {
-    $result = $befragerController->freischaltenKurs($fbnr, $_POST);
+    $result = $befragerController->freischaltenKurs($fragebogen, $_POST);
     echo $result;
   }
   ?>
+
 
 </body>
 

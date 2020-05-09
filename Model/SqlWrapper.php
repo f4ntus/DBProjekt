@@ -190,6 +190,12 @@ class SqlWrapper
         }
     }
 
+    public function selectBereitsFreigeschaltet($fbnr){
+        $sql = "SELECT Name FROM tbl_freigeschaltet WHERE FbNr = '$fbnr'";
+        return $result = $this->db->query($sql);
+        
+    }
+
 
     public function __destruct()
     {

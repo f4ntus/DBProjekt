@@ -53,7 +53,7 @@ session_start();
         </form>
         </br>
         <form mehthod="post" action="FreischaltungKurs.php">
-                <button type="submit" name="freischalten">Kurs freischalten</button>
+                <button type="submit" name="fb_freischalten">Kurs freischalten</button>
         </form>
         </br>
         <form method="post" action="FragebogenKopieren.php">

@@ -75,8 +75,19 @@ class BefragerController extends GlobalFunctions
         }
     }
 
-    public function freischaltenKurs($fbnr, $post)
+    public function showBereitsFreigeschaltet($titel) {
+        $fbnr = $this->sqlWrapper->selectFbNrFragebogen($titel)->FbNr;
+        $sqlObject = $this->sqlWrapper->selectBereitsFreigeschaltet($fbnr);
+        $freigeschaltetString = '';
+        while ($row = $sqlObject->fetch_object()) {
+            $freigeschaltetString = $freigeschaltetString . $row->Name . "</br>";
+        } return $freigeschaltetString;
+
+    }
+
+    public function freischaltenKurs($fragebogen, $post)
     {
+        $fbnr = $this->sqlWrapper->selectFbNrFragebogen($fragebogen)->FbNr;
         $arrayKurs = array_slice($post, 0, count($post) - 1);
         foreach ($arrayKurs as $key => $kurs) {
             $sqlObject = $this->sqlWrapper->insertIntoFreigeschaltet($fbnr, $key);
