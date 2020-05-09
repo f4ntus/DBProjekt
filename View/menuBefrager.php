@@ -36,6 +36,9 @@ session_start();
                         case 'geloescht':
                                 echo '<p>Ihr Fragebogen wurde vollständig gelöscht.</p>';
                                 break;
+                        case 'fb_erstellt':
+                                echo '<p>Ihr Fragebogen wurde erfolgreich erstellt.</p>';
+                                break;
                 }
                 echo '</div>';
         }
@@ -49,7 +52,7 @@ session_start();
                 <button type="submit" name="fb_neu">+ Neuen Fragebogen erstellen</button>
         </form>
         </br>
-        <form mehthod="post" action="FreischaltungFragebogen.php">
+        <form mehthod="post" action="FreischaltungKurs.php">
                 <button type="submit" name="freischalten">Kurs freischalten</button>
         </form>
         </br>

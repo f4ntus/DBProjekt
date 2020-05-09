@@ -46,8 +46,7 @@ class BefragerController extends GlobalFunctions
                 exit;
             }
         }
-        $infoCode = '?fbnr=' . $fbnr . '&erstellt=true';
-        $this->handleInfo('fragebogenErstellt', $infoCode);
+        $this->handleInfo('fragebogenErstellt', 'fb_erstellt');
     }
 
     public function controllTitelFragebogen($titel, $benutzername, $anzFragen)
