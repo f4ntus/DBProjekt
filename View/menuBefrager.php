@@ -22,7 +22,7 @@ session_start();
                 switch ($_GET['info']) {
 
                         case 'freigeschalten':
-                                echo '<p>Ihr Fragebogen wurde für die ausgewählten Kurse erfolgreich freigeschalten.</p>';
+                                echo '<p>Ihr Fragebogen wurde für den ausgewählten Kurs erfolgreich freigeschalten.</p>';
                                 break;
 
                         case 'kopiert':

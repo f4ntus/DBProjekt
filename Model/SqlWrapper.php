@@ -97,8 +97,8 @@ class SqlWrapper
     {
         $sql = "SELECT * FROM tbl_kurs";
 
-        $result = $this->db->query($sql);
-        return $result->fetch_all();
+        return $result = $this->db->query($sql);
+        
     }
 
     public function insertIntoFreigeschaltet($fbnr, $kurs)
@@ -190,11 +190,6 @@ class SqlWrapper
         }
     }
 
-    public function selectBereitsFreigeschaltet($fbnr){
-        $sql = "SELECT Name FROM tbl_freigeschaltet WHERE FbNr = '$fbnr'";
-        return $result = $this->db->query($sql);
-        
-    }
 
 
     public function __destruct()
