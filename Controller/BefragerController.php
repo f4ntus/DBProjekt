@@ -84,6 +84,21 @@ class BefragerController extends GlobalFunctions
         } else $this->handleInfo('kurseFreischalten', 'freigeschalten');
     }
 
+    public function showBereitsFreigeschaltet($fragebogen)
+    {
+        $fbnr = $this->sqlWrapper->selectFbNrFragebogen($fragebogen)->FbNr;
+        $sqlObject = $this->sqlWrapper->selectBereitsFreigeschaltet($fbnr);
+        $freigeschaltetString = '';
+        while ($row = $sqlObject->fetch_object()) {
+            $freigeschaltetString = $freigeschaltetString . $row->Name . "</br>";
+        }
+        if ($freigeschaltetString == '') {
+            $freigeschaltetString = 'Es wurden noch keine Kurse freigeschalten.';
+        }
+        return "<br> <p>Liste der bereits freigegebenen Kurse für den Fragebogen " . $fragebogen . ":</p>" . $freigeschaltetString;
+    }
+
+
     public function createDropdownFragebogen($recentUser)
     {
 

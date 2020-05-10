@@ -59,7 +59,7 @@ class GlobalFunctions
                 break;
             case "kurseFreischalten":
                 $GETString = '?info=' . $infoCode;
-                $this->moveToPage('menuBefrager.php', $GETString);
+                $this->moveToPage('FreischaltungKurs.php', $GETString);
                 break;
             case "fragebogenKopieren":
                 $GETString = '?info=' . $infoCode;

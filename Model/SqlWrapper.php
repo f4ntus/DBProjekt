@@ -100,6 +100,11 @@ class SqlWrapper
         return $result = $this->db->query($sql);
         
     }
+    public function selectBereitsFreigeschaltet($fbnr){
+        $sql = "SELECT Name FROM tbl_freigeschaltet WHERE FbNr = '$fbnr'";
+        return $this->db->query($sql);
+
+    }
 
     public function insertIntoFreigeschaltet($fbnr, $kurs)
     {

@@ -21,10 +21,6 @@ session_start();
                 echo '<div class="infoKasten">';
                 switch ($_GET['info']) {
 
-                        case 'freigeschalten':
-                                echo '<p>Ihr Fragebogen wurde für den ausgewählten Kurs erfolgreich freigeschalten.</p>';
-                                break;
-
                         case 'kopiert':
                                 echo '<p>Ihr Fragebogen wurde erfolgreich kopiert.</p>';
                                 break;
