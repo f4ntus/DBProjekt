@@ -46,8 +46,7 @@ class BefragerController extends GlobalFunctions
                 exit;
             }
         }
-        $infoCode = '?fbnr=' . $fbnr . '&erstellt=true';
-        $this->handleInfo('fragebogenErstellt', $infoCode);
+        $this->handleInfo('fragebogenErstellt', 'fb_erstellt');
     }
 
     public function controllTitelFragebogen($titel, $benutzername, $anzFragen)
@@ -76,19 +75,29 @@ class BefragerController extends GlobalFunctions
         }
     }
 
-    public function freischaltenKurs($fbnr, $post)
+    public function freischaltenKurs($fragebogen, $kurs)
     {
-        $arrayKurs = array_slice($post, 0, count($post) - 1);
-        foreach ($arrayKurs as $key => $kurs) {
-            $sqlObject = $this->sqlWrapper->insertIntoFreigeschaltet($fbnr, $key);
-            if ($sqlObject != 'success') {
-                $suffixString = 'sqlError&fbnr=' . $fbnr;
-                $this->handleError('kurseFreischalten', $suffixString);
-                exit;
-            }
-        }
-        $this->handleInfo('kurseFreischalten', 'freigeschalten');
+        $fbnr = $this->sqlWrapper->selectFbNrFragebogen($fragebogen)->FbNr;
+        $sqlObject = $this->sqlWrapper->insertIntoFreigeschaltet($fbnr, $kurs);
+        if ($sqlObject != 'success') {
+            $this->handleError('kurseFreischalten', 'sqlError');
+        } else $this->handleInfo('kurseFreischalten', 'freigeschalten');
     }
+
+    public function showBereitsFreigeschaltet($fragebogen)
+    {
+        $fbnr = $this->sqlWrapper->selectFbNrFragebogen($fragebogen)->FbNr;
+        $sqlObject = $this->sqlWrapper->selectBereitsFreigeschaltet($fbnr);
+        $freigeschaltetString = '';
+        while ($row = $sqlObject->fetch_object()) {
+            $freigeschaltetString = $freigeschaltetString . $row->Name . "</br>";
+        }
+        if ($freigeschaltetString == '') {
+            $freigeschaltetString = 'Es wurden noch keine Kurse freigeschalten.';
+        }
+        return "<br> <p>Liste der bereits freigegebenen Kurse für den Fragebogen " . $fragebogen . ":</p>" . $freigeschaltetString;
+    }
+
 
     public function createDropdownFragebogen($recentUser)
     {
@@ -98,6 +107,18 @@ class BefragerController extends GlobalFunctions
 
         while ($row = $sqlObject->fetch_object()) {
             $dropdownString = $dropdownString . "<option>" . $row->Titel . "</option>";
+        }
+
+        return $dropdownString;
+    }
+
+    public function createDropdownKurs()
+    {
+        $sqlObject = $this->sqlWrapper->selectKurse();
+        $dropdownString = '';
+
+        while ($row = $sqlObject->fetch_object()) {
+            $dropdownString = $dropdownString . "<option>" . $row->Name . "</option>";
         }
 
         return $dropdownString;
@@ -125,34 +146,34 @@ class BefragerController extends GlobalFunctions
             $this->handleError('fragebogenKopieren', 'titleInUse');
         }
     }
-    public function controllNameKurs(){ 
-        
+    public function controllNameKurs()
+    {
+
         $name = $_POST["kursname"];
         $sqlObject = $this->sqlWrapper->selectAlleKurse($name);
         if (is_null($sqlObject)) {
             $neuerKurs = $this->sqlWrapper->insertIntoKurs($name);
             $this->handleInfo('neuerKurs', 'erstellt');
+        } else {
+            $this->handleError('neuerKurs', 'nameInUse');
+            //Message: Kurs erfolgreich erstellt
+            //Prüfung, ob Titel bereits vorhanden mit Funktion controllNameKurs
         }
-        else {
-                $this->handleError('neuerKurs', 'nameInUse');
-                //Message: Kurs erfolgreich erstellt
-                //Prüfung, ob Titel bereits vorhanden mit Funktion controllNameKurs
-            }   
-        }
+    }
 
-        public function fragebogenLoeschen($title) {
-            $fbnr = $this->sqlWrapper->selectFbNrFragebogen($title)->FbNr;
-            $sqlObject = $this->sqlWrapper->deleteFreigeschaltet($fbnr);
-            $sqlObject = $this->sqlWrapper->deleteKommentiert($fbnr);
-            $sqlObject = $this->sqlWrapper->deleteAbschliessen($fbnr);
-            $sqlObject = $this->sqlWrapper->deleteBeantwortet($fbnr);
-            $sqlObject =  $this->sqlWrapper->deleteFrage($fbnr);
-            $sqlObject = $this->sqlWrapper->deleteFragebogen($fbnr);
-            if($sqlObject != 'success'){
-                $this->handleError('fragebogenLoeschen', 'sqlError');
-            } else {
-                $this->handleInfo('fragebogenLoeschen', 'geloescht');
-            }
-            
+    public function fragebogenLoeschen($title)
+    {
+        $fbnr = $this->sqlWrapper->selectFbNrFragebogen($title)->FbNr;
+        $sqlObject = $this->sqlWrapper->deleteFreigeschaltet($fbnr);
+        $sqlObject = $this->sqlWrapper->deleteKommentiert($fbnr);
+        $sqlObject = $this->sqlWrapper->deleteAbschliessen($fbnr);
+        $sqlObject = $this->sqlWrapper->deleteBeantwortet($fbnr);
+        $sqlObject =  $this->sqlWrapper->deleteFrage($fbnr);
+        $sqlObject = $this->sqlWrapper->deleteFragebogen($fbnr);
+        if ($sqlObject != 'success') {
+            $this->handleError('fragebogenLoeschen', 'sqlError');
+        } else {
+            $this->handleInfo('fragebogenLoeschen', 'geloescht');
         }
+    }
 }

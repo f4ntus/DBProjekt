@@ -21,10 +21,6 @@ session_start();
                 echo '<div class="infoKasten">';
                 switch ($_GET['info']) {
 
-                        case 'freigeschalten':
-                                echo '<p>Ihr Fragebogen wurde für die ausgewählten Kurse erfolgreich freigeschalten.</p>';
-                                break;
-
                         case 'kopiert':
                                 echo '<p>Ihr Fragebogen wurde erfolgreich kopiert.</p>';
                                 break;
@@ -35,6 +31,9 @@ session_start();
 
                         case 'geloescht':
                                 echo '<p>Ihr Fragebogen wurde vollständig gelöscht.</p>';
+                                break;
+                        case 'fb_erstellt':
+                                echo '<p>Ihr Fragebogen wurde erfolgreich erstellt.</p>';
                                 break;
                 }
                 echo '</div>';
@@ -49,8 +48,8 @@ session_start();
                 <button type="submit" name="fb_neu">+ Neuen Fragebogen erstellen</button>
         </form>
         </br>
-        <form mehthod="post" action="FreischaltungFragebogen.php">
-                <button type="submit" name="freischalten">Kurs freischalten</button>
+        <form mehthod="post" action="FreischaltungKurs.php">
+                <button type="submit" name="fb_freischalten">Kurs freischalten</button>
         </form>
         </br>
         <form method="post" action="FragebogenKopieren.php">

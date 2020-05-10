@@ -54,12 +54,12 @@ class GlobalFunctions
     {
         switch ($moveTo) {
             case "fragebogenErstellt":
-                $GETString = $infoCode;
-                $this->moveToPage('FreischaltungKurs.php', $GETString);
+                $GETString = '?info=' . $infoCode;
+                $this->moveToPage('menuBefrager.php', $GETString);
                 break;
             case "kurseFreischalten":
                 $GETString = '?info=' . $infoCode;
-                $this->moveToPage('menuBefrager.php', $GETString);
+                $this->moveToPage('FreischaltungKurs.php', $GETString);
                 break;
             case "fragebogenKopieren":
                 $GETString = '?info=' . $infoCode;
