@@ -161,6 +161,43 @@ class SqlWrapper
 
     public function deleteKommentiert($fbnr) {
         $sql = "DELETE FROM tbl_kommentiert WHERE FbNr = '$fbnr'";
+    }
+
+
+
+    public function anzahlSeiten($fbnr)
+    {
+        // ToDo: sauberer SQL-Befehl, so werden alle Datensätze von der Datenbank geholt und dann gezählt. Mit Count lässt sich 
+        // von vornerein die Anzahl holen -> performanter 
+        $sql = "SELECT * FROM tbl_frage where FbNr = '$fbnr'";
+        $result = $this->db->query($sql);
+        return $result->num_rows;
+    }
+
+
+    public function SelectFragen($fbnr,$filter = '')
+    {
+        if ($filter == ''){
+            $sqlString = "SELECT * FROM tbl_frage where FbNr = '$fbnr'";
+        } else {
+            $sqlString = "SELECT * FROM tbl_frage where FbNr = '$fbnr' AND $filter";
+        } 
+        return $this->db->query($sqlString);  
+    }
+
+    public function SelectFragenText($fbnr, $fnr)
+    {
+        $result =  $this->db->query("SELECT Fragetext FROM tbl_frage where FbNr = '$fbnr' and fnr ='$fnr'");
+        return $result->fetch_object();
+    }
+
+    public function insertIntoBeantwortet($fbnr, $fnr, $matrikelnummer, $bewertung)
+    {
+        if (!is_numeric($bewertung)) return false;
+        $bewertung = (int) $bewertung;
+        if ($bewertung < 1 || $bewertung > 5) return false;
+        $sql = "INSERT INTO tbl_beantwortet (FNr, FbNr, Matrikelnummer, Bewertung) VALUES ('$fnr', '$fbnr', '$matrikelnummer', '$bewertung')";
+
         if ($this->db->query($sql)) {
             return 'success';
         } else {
@@ -196,6 +233,10 @@ class SqlWrapper
     }
 
 
+    public function SelectBeantwortet($fbnr, $matrikelnummer)
+    {
+        return $this->db->query("SELECT * FROM tbl_beantwortet where FbNr = '$fbnr' and matrikelnummer = '$matrikelnummer'");
+    }
 
     public function __destruct()
     {
