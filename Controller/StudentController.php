@@ -15,10 +15,30 @@ class StudentController extends GlobalFunctions
         $tableString = '';
         while ($row = $sqlObject->fetch_object()) {
             $tableString = $tableString . '<tr><td>' . $_SESSION['FbNr'] = $row->FbNr . '</td><td>' . $row->Titel . '</td><td> 
-             <input type="submit" name="Fragebogen" value="' . $row->FbNr . '" />';
+             <button type="submit" name="Fragebogen" value="' . $row->FbNr . '">Beantworten</button>';
         }
         return $tableString;
     }
+    
+    public function saveAndNavigateToNext($post,$fbnr,$fnr)
+    {
+        // ToDo: Muss geprüft werden ob der Student angemeldet ist
+        $this->sqlWrapper->insertIntoBeantwortet($fbnr, $fnr, $_SESSION['matrikelnummer'], $post['bewertung']);
+        var_dump($fnr);
+        $sqlObjectFragen = $this->sqlWrapper->SelectFragen($fbnr,'FNr>'. $fnr); // liefert ab der aktuellen Frage
+        $newFnr = $sqlObjectFragen->fetch_object()->FNr; // die nächste Fragennummer
+        if (is_null($newFnr)){
+            // Befragung ist fertig
+            $this->moveToPage('BeantwortenAbschliessen.php', '?Fragebogen='. $fbnr);
+        } else {
+            // es gibt noch unbeantwortete Fragen
+            $suffix = '?Fragebogen='. $fbnr . '&Frage='. $newFnr;
+            $this->moveToPage('Beantworten.php', $suffix); 
+        }
+        
+    }
+
+    
     public function navigateToFirstNotAnswerdQuestion($fbnr)
     {
         // ToDo: Muss geprüft werden ob Student angemeldet ist.
@@ -28,16 +48,16 @@ class StudentController extends GlobalFunctions
             //ToDo: Besseres Errorhandling;
         } else {
             $suffix = '?Fragebogen=' . $fbnr . '&Frage=' . $Fnr;
-            $this->moveToPage('Fragen.php', $suffix);
+           $this->moveToPage('Beantworten.php', $suffix);
         }
     }
 
     // Liefert die Erste Frage in einem Fragebogen, welche nicht beantwortet wurde
     // Sollten alle Fragen beantwortet sein, so wird False ausgegeben.
-    public function getFirstNotAnswerdQuestion($fragebogenNr, $matrikelnummer)
+    private function getFirstNotAnswerdQuestion($fbnr, $matrikelnummer)
     {
-        $sqlObjectBeantwortet = $this->sqlWrapper->SelectBeantwortet($fragebogenNr, $matrikelnummer);
-        $sqlObjectFrage = $this->sqlWrapper->SelectFragen($fragebogenNr);
+        $sqlObjectBeantwortet = $this->sqlWrapper->SelectBeantwortet($fbnr, $matrikelnummer);
+        $sqlObjectFrage = $this->sqlWrapper->SelectFragen($fbnr);
         if (is_null($sqlObjectFrage)) {
             //ToDo: Handle Error
             echo 'Frage ist leer';
@@ -49,18 +69,21 @@ class StudentController extends GlobalFunctions
         }
         while ($recordFrage = $sqlObjectFrage->fetch_object()) {
             $recordBeantwortet = $sqlObjectBeantwortet->fetch_object();
+            var_dump($recordBeantwortet);
+            var_dump($recordFrage);
             // funktioniert nur wenn Beantwortet und Frage beider nach der FNr sortiert sind. 
             // Davon kann ausgeganngen werden, da FNr ein Primärschlüssel ist.
-            if ($recordBeantwortet->FNR != $recordFrage->FNr) {
+            if ($recordBeantwortet->FNr != $recordFrage->FNr) {
                 return $recordFrage->FNr;
             }
         }
-        return false;
+        // Befragung ist fertig
+        $this->moveToPage('BeantwortenAbschliessen.php', '?Fragebogen='. $fbnr);
     }
 
-    public function anzahlSeitenProFB()
+    public function anzahlSeitenProFB($fbnr)
     {
-        $test = $this->sqlWrapper->anzahlSeiten($_SESSION['FbNr']);
+        $test = $this->sqlWrapper->anzahlSeiten($fbnr);
         return $test;
     }
 
@@ -74,9 +97,4 @@ class StudentController extends GlobalFunctions
         }
     }
 
-    public function FrageBewerten()
-    {
-        $test = $this->sqlWrapper->bewerten($_SESSION['FNr'], $_SESSION['FbNr'], $_SESSION['matrikelnummer'], $_GET['rating']);
-        return $test;
-    }
 }

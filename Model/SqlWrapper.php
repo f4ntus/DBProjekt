@@ -105,9 +105,14 @@ class SqlWrapper
     }
 
 
-    public function SelectFragen($fbnr)
+    public function SelectFragen($fbnr,$filter = '')
     {
-        return $this->db->query("SELECT * FROM tbl_frage where FbNr = '$fbnr'");  
+        if ($filter == ''){
+            $sqlString = "SELECT * FROM tbl_frage where FbNr = '$fbnr'";
+        } else {
+            $sqlString = "SELECT * FROM tbl_frage where FbNr = '$fbnr' AND $filter";
+        } 
+        return $this->db->query($sqlString);  
     }
 
     public function SelectFragenText($fbnr, $fnr)
@@ -116,9 +121,8 @@ class SqlWrapper
         return $result->fetch_object();
     }
 
-    public function bewerten($fnr, $fbnr, $matrikelnummer, $bewertung)
+    public function insertIntoBeantwortet($fbnr, $fnr, $matrikelnummer, $bewertung)
     {
-        // ToDo: Umbenennen, muss mit select oder insert anfangen
         if (!is_numeric($bewertung)) return false;
         $bewertung = (int) $bewertung;
         if ($bewertung < 1 || $bewertung > 5) return false;

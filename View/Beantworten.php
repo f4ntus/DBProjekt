@@ -3,7 +3,7 @@
 session_start();
 require '../Controller/StudentController.php';
 $studentController = new StudentController();
-$anzFragen = $studentController->anzahlSeitenProFB();
+$anzFragen = $studentController->anzahlSeitenProFB($_GET["Fragebogen"]);
 ?>
 <html>
 
@@ -41,17 +41,12 @@ $anzFragen = $studentController->anzahlSeitenProFB();
                 <input type="submit" name="bsubmit" value="Next">
                 
             </form>
-            <form action="" method="POST">
-                <name="bnext" value="Next" />
-            </form>
             
             <?php 
-            /* ich hab keine Ahnung was das soll 
-            require_once 'Auswertung.php';
-                    if(isset($_GET['rating'])) {
-                        $result = $studentController->FrageBewerten();
-                        echo $result;
-                    }*/
+            if (isset($_POST['bsubmit'])){
+                $studentController->SaveAndNavigateToNext($_POST,$_GET["Fragebogen"],$_GET["Frage"]);
+            }
+            
             ?>
         </div>
     </div>

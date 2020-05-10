@@ -9,7 +9,6 @@
 </head>
 
 <body>
-        height:
         <?php
         session_start();
         require '../Controller/StudentController.php';
