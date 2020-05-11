@@ -34,19 +34,26 @@ class GlobalFunctions
                 $GETString = '?error=' . $errorCode;
                 $this->moveToPage('FreischaltungKurs.php', $GETString);
                 break;
+            
             case 'fragebogenKopieren':
                 $GETString = '?error=' . $errorCode;
                 $this->moveToPage('FragebogenKopieren.php', $GETString);
+                break;
             
             case 'neuerKurs':
                 $GETString = '?error=' . $errorCode;
                 $this->moveToPage('neuerKurs.php', $GETString);
                 break;
-
+            
             case 'neueMatrikelnummer':
                     $GETString = '?error=' . $errorCode;
                     $this->moveToPage('neuerStudent.php', $GETString);
                     break;  
+            
+            case 'fragebogenLoeschen':
+                $GETString = '?error=' . $errorCode;
+                $this->moveToPage('FragebogenLoeschen.php', $GETString);
+                break;
         }
     }
 
@@ -54,24 +61,34 @@ class GlobalFunctions
     {
         switch ($moveTo) {
             case "fragebogenErstellt":
-                $GETString = $infoCode;
-                $this->moveToPage('FreischaltungKurs.php', $GETString);
-                break;
-            case "kurseFreischalten":
                 $GETString = '?info=' . $infoCode;
                 $this->moveToPage('menuBefrager.php', $GETString);
                 break;
+            
+            case "kurseFreischalten":
+                $GETString = '?info=' . $infoCode;
+                $this->moveToPage('FreischaltungKurs.php', $GETString);
+                break;
+            
             case "fragebogenKopieren":
                 $GETString = '?info=' . $infoCode;
                 $this->moveToPage('menuBefrager.php', $GETString);
+                break;
+            
             case "neuerKurs":
                 $GETString = '?info=' . $infoCode;
                 $this->moveToPage('menuBefrager.php', $GETString);
                 break;
+            
             case "neuerStudent":
-                    $GETString = '?info=' . $infoCode;
-                    $this->moveToPage('menuBefrager.php', $GETString);
-                    break;
+                 $GETString = '?info=' . $infoCode;
+                 $this->moveToPage('menuBefrager.php', $GETString);
+                 break;
+
+            case "fragebogenLoeschen":
+                $GETString = '?info=' . $infoCode;
+                $this->moveToPage('menuBefrager.php', $GETString);
+                break;
 
         }
     }

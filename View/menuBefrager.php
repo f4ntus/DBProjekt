@@ -17,22 +17,27 @@ session_start();
 <body>
 
         <?php
-
         if (isset($_GET['info'])) {
                 echo '<div class="infoKasten">';
-                if ($_GET['info'] == 'freigeschalten') {
-                        echo '<p>Ihr Fragebogen wurde für die ausgewählten Kurse erfolgreich freigeschalten.</p>';
-                }
-                if ($_GET['info'] == 'kopiert') {
-                        echo '<p>Ihr Fragebogen wurde erfolgreich kopiert.</p>';
-                }
-                echo '</div>';
-        }
+                switch ($_GET['info']) {
 
-        if (isset($_GET['info'])) {
-                echo '<div class="infoKasten">';
-                if ($_GET['info'] == 'kursErstellt') {
-                        echo '<p>Ihr Kurs wurde erfolgreich angelegt.</p>';
+                        case 'kopiert':
+                                echo '<p>Ihr Fragebogen wurde erfolgreich kopiert.</p>';
+                                break;
+
+                        case 'erstellt':
+                                echo '<p>Ihr Kurs wurde erfolgreich angelegt.</p>';
+                                break;
+
+                        case 'geloescht':
+                                echo '<p>Ihr Fragebogen wurde vollständig gelöscht.</p>';
+                                break;
+                        case 'fb_erstellt':
+                                echo '<p>Ihr Fragebogen wurde erfolgreich erstellt.</p>';
+                                break;
+                        case 'kursErstellt':
+                                echo '<p>Ihr Kurs wurde erfolgreich angelegt.</p>';
+                                break;
                 }
                 echo '</div>';
         }
@@ -54,21 +59,27 @@ session_start();
                 <button type="submit" name="fb_neu">+ Neuen Fragebogen erstellen</button>
         </form>
         </br>
-        <form mehthod ="post" action="FreischaltungFragebogen.php">
-                <button type="submit" name="freischalten">Kurs freischalten</button>
+        <form mehthod="post" action="FreischaltungKurs.php">
+                <button type="submit" name="fb_freischalten">Kurs freischalten</button>
         </form>
         </br>
         <form method="post" action="FragebogenKopieren.php">
                 <button type="submit" name="fb_kopieren">Fragebogen kopieren</button>
         </form>
         </br>
+        <form method="post" action="FragebogenLoeschen.php">
+                <button type="submit" name="fb_löschen">Fragebogen löschen</button>
+        </form>
+        </br>
         <form method="post" action="neuerKurs.php">
                 <button type="submit" name="kursanlegen">Neuen Kurs anlegen</button>
-        </form></br>
-
+        </form>
+        </br>
         <form method="post" action="neuerStudent.php">
                 <button type="submit" name="studentanlegen">Neuen Student anlegen</button>
         </form>
+
+
 
         <p>Übersicht Ihrer bereits erstellen Fragebögen:</p>
 
@@ -85,9 +96,6 @@ session_start();
         }
         ?>
 
-
-      
-        
 
 </body>
 

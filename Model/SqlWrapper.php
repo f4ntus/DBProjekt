@@ -97,8 +97,13 @@ class SqlWrapper
     {
         $sql = "SELECT * FROM tbl_kurs";
 
-        $result = $this->db->query($sql);
-        return $result->fetch_all();
+        return $result = $this->db->query($sql);
+        
+    }
+    public function selectBereitsFreigeschaltet($fbnr){
+        $sql = "SELECT Name FROM tbl_freigeschaltet WHERE FbNr = '$fbnr'";
+        return $this->db->query($sql);
+
     }
 
     public function insertIntoFreigeschaltet($fbnr, $kurs)
@@ -152,6 +157,15 @@ class SqlWrapper
     public function insertIntoStudent($matrikelnummer, $name)
     {
         $sql = "INSERT INTO tbl_student (Matrikelnummer, Name) VALUES ('$matrikelnummer', '$name')";
+              if ($this->db->query($sql)) {
+            return 'success';
+        } else {
+            return $this->db->error;
+        }
+    }
+
+    public function deleteFreigeschaltet($fbnr){
+        $sql = "DELETE FROM tbl_freigeschaltet WHERE FbNr = '$fbnr'";
         if ($this->db->query($sql)) {
             return 'success';
         } else {
@@ -159,6 +173,98 @@ class SqlWrapper
         }
     }
 
+    public function deleteAbschliessen($fbnr) {
+        $sql = "DELETE FROM tbl_abschliessen WHERE FbNr = '$fbnr'";
+        if ($this->db->query($sql)) {
+            return 'success';
+        } else {
+            return $this->db->error;
+        }
+    }
+
+    public function deleteKommentiert($fbnr) {
+        $sql = "DELETE FROM tbl_kommentiert WHERE FbNr = '$fbnr'";
+              if ($this->db->query($sql)) {
+            return 'success';
+        } else {
+            return $this->db->error;
+        }
+    }
+
+
+
+    public function anzahlSeiten($fbnr)
+    {
+        // ToDo: sauberer SQL-Befehl, so werden alle Datensätze von der Datenbank geholt und dann gezählt. Mit Count lässt sich 
+        // von vornerein die Anzahl holen -> performanter 
+        $sql = "SELECT * FROM tbl_frage where FbNr = '$fbnr'";
+        $result = $this->db->query($sql);
+        return $result->num_rows;
+    }
+
+
+    public function SelectFragen($fbnr,$filter = '')
+    {
+        if ($filter == ''){
+            $sqlString = "SELECT * FROM tbl_frage where FbNr = '$fbnr'";
+        } else {
+            $sqlString = "SELECT * FROM tbl_frage where FbNr = '$fbnr' AND $filter";
+        } 
+        return $this->db->query($sqlString);  
+    }
+
+    public function SelectFragenText($fbnr, $fnr)
+    {
+        $result =  $this->db->query("SELECT Fragetext FROM tbl_frage where FbNr = '$fbnr' and fnr ='$fnr'");
+        return $result->fetch_object();
+    }
+
+    public function insertIntoBeantwortet($fbnr, $fnr, $matrikelnummer, $bewertung)
+    {
+        if (!is_numeric($bewertung)) return false;
+        $bewertung = (int) $bewertung;
+        if ($bewertung < 1 || $bewertung > 5) return false;
+        $sql = "INSERT INTO tbl_beantwortet (FNr, FbNr, Matrikelnummer, Bewertung) VALUES ('$fnr', '$fbnr', '$matrikelnummer', '$bewertung')";
+        if ($this->db->query($sql)) {
+            return 'success';
+        } else {
+            return $this->db->error;
+        }
+    }
+
+
+    public function deleteBeantwortet($fbnr){
+        $sql = "DELETE FROM tbl_beantwortet WHERE FbNr = '$fbnr'";
+        if ($this->db->query($sql)) {
+            return 'success';
+        } else {
+            return $this->db->error;
+        }
+    }
+
+    public function deleteFrage($fbnr) {
+        $sql = "DELETE FROM tbl_frage WHERE FbNr = '$fbnr'";
+        if ($this->db->query($sql)) {
+            return 'success';
+        } else {
+            return $this->db->error;
+        }
+    }
+
+    public function deleteFragebogen($fbnr){
+        $sql = "DELETE FROM tbl_fragebogen WHERE FbNr = '$fbnr'";
+        if ($this->db->query($sql)) {
+            return 'success';
+        } else {
+            return $this->db->error;
+        }
+    }
+
+
+    public function SelectBeantwortet($fbnr, $matrikelnummer)
+    {
+        return $this->db->query("SELECT * FROM tbl_beantwortet where FbNr = '$fbnr' and matrikelnummer = '$matrikelnummer'");
+    }
 
     public function __destruct()
     {

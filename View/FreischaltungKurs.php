@@ -2,7 +2,7 @@
 session_start();
 require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();
-$fbnr = $_GET['fbnr'];
+$recentUser = $_SESSION['befrager'];
 ?>
 <!DOCTYPE html>
 
@@ -16,44 +16,69 @@ $fbnr = $_GET['fbnr'];
 </head>
 
 <body>
+  </br></br>
+  <form action="menuBefrager.php">
+    <button type="submit" name="menu">Zurück zum Hauptmenü</button>
+  </form>
 
   <!-- Platzhalter, hier werden potentzielle Fehler und Informationen angezeigt -->
   <?php
   if (isset($_GET['error'])) {
     echo '<div class="errorKasten">';
     if ($_GET['error'] == 'sqlError') {
-      echo '<p>Etwas ist schiefgelaufen, wurde ihr Fragebogen schon freigeschalten?</p>';
+      echo "<p>Ups, da ist etwas schiefgelaufen, wurde der Kurs schon freigeschalten?</p>";
     }
     echo '</div>';
   }
-  if (isset($_GET['erstellt'])) {
+
+  if (isset($_GET['info'])) {
     echo '<div class="infoKasten">';
-    if ($_GET['erstellt'] == 'true') {
-      echo '<p>Ihr Fragebogen wurde erfolgreich erstellt. Bitte wählen Sie den zu freischaltenen Kurs aus.</p>';
+    if ($_GET['info'] == 'freigeschalten') {
+      echo "<p>Ihr Fragebogen wurde für den ausgewählten Kurs erfolgreich freigeschalten.</p>";
     }
     echo '</div>';
   }
   ?>
+
 
   <h1>Kurs freischalten:</h1>
 
-  <form method="post" action="">
-    <!-- Checkboxen für die einzelnen Kurse über Controller aufrufen -->
+  <?php
+  if (!isset($_GET['fb_auswaehlen'])) {
+    echo "<div>";
+  } else {
+    echo "<div hidden>";
+  }
+  ?>
+  <form method="post">
     <?php
-    $kursfelder = $befragerController->createKursFelder();
-    echo $kursfelder;
+    $dropdownFragebogen = $befragerController->createDropdownFragebogen($recentUser);
+    echo "<label>Welchen Fragebogen möchten Sie freischalten?</br></br><select name='Fragebogen'>" . $dropdownFragebogen . "</select></label>";
+    echo "</br></br>";
+
+    $dropdownKurs = $befragerController->createDropdownKurs();
+    echo "<label>Welchen Kurs möchten Sie freischalten?</br></br><select name='Kurs'>" . $dropdownKurs . "</select></label>";
     ?>
 
-    <button type="submit" name="kurs_freischalten">Kurs freischalten</button>
-
+    </br></br>
+    <button type="submit" name="liste_bereits_freigeschaltet">Liste bereits freigeschaltet</button>
+    </br></br>
+    <button type="submit" name="freischalten">Kurs freischalten</button>
   </form>
+  </div>
 
   <?php
-  if (isset($_POST['kurs_freischalten'])) {
-    $result = $befragerController->freischaltenKurs($fbnr, $_POST);
+  if (isset($_POST['freischalten'])) {
+    $result = $befragerController->freischaltenKurs($_POST['Fragebogen'], $_POST['Kurs']);
+    echo $result;
+  }
+  if (isset($_POST['liste_bereits_freigeschaltet'])) {
+    $result = $befragerController->showBereitsFreigeschaltet($_POST['Fragebogen']);
     echo $result;
   }
   ?>
+
+
 
 </body>
 
