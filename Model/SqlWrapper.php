@@ -141,6 +141,29 @@ class SqlWrapper
         return $result->fetch_object();
     }
 
+    public function selectKurseDropdown()
+    {
+        $sql = "SELECT * FROM tbl_kurs";
+        return $this->db->query($sql);
+    }
+
+    public function selectMatrikelnummern($matrikelnummer)
+    {
+        $sql = "SELECT Matrikelnummer FROM tbl_student WHERE Matrikelnummer = '$matrikelnummer'";
+        $result = $this->db->query($sql);
+        return $result->fetch_object();
+    }
+
+    public function insertIntoStudent($matrikelnummer, $name)
+    {
+        $sql = "INSERT INTO tbl_student (Matrikelnummer, Name) VALUES ('$matrikelnummer', '$name')";
+              if ($this->db->query($sql)) {
+            return 'success';
+        } else {
+            return $this->db->error;
+        }
+    }
+
     public function deleteFreigeschaltet($fbnr){
         $sql = "DELETE FROM tbl_freigeschaltet WHERE FbNr = '$fbnr'";
         if ($this->db->query($sql)) {
@@ -161,6 +184,11 @@ class SqlWrapper
 
     public function deleteKommentiert($fbnr) {
         $sql = "DELETE FROM tbl_kommentiert WHERE FbNr = '$fbnr'";
+              if ($this->db->query($sql)) {
+            return 'success';
+        } else {
+            return $this->db->error;
+        }
     }
 
 
@@ -197,13 +225,13 @@ class SqlWrapper
         $bewertung = (int) $bewertung;
         if ($bewertung < 1 || $bewertung > 5) return false;
         $sql = "INSERT INTO tbl_beantwortet (FNr, FbNr, Matrikelnummer, Bewertung) VALUES ('$fnr', '$fbnr', '$matrikelnummer', '$bewertung')";
-
         if ($this->db->query($sql)) {
             return 'success';
         } else {
             return $this->db->error;
         }
     }
+
 
     public function deleteBeantwortet($fbnr){
         $sql = "DELETE FROM tbl_beantwortet WHERE FbNr = '$fbnr'";

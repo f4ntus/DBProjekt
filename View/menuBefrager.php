@@ -35,6 +35,17 @@ session_start();
                         case 'fb_erstellt':
                                 echo '<p>Ihr Fragebogen wurde erfolgreich erstellt.</p>';
                                 break;
+                        case 'kursErstellt':
+                                echo '<p>Ihr Kurs wurde erfolgreich angelegt.</p>';
+                                break;
+                }
+                echo '</div>';
+        }
+
+        if (isset($_GET['info'])) {
+                echo '<div class="infoKasten">';
+                if ($_GET['info'] == 'studentErstellt') {
+                        echo '<p>Student wurde erfolgreich angelegt.</p>';
                 }
                 echo '</div>';
         }
@@ -59,6 +70,15 @@ session_start();
         <form method="post" action="FragebogenLoeschen.php">
                 <button type="submit" name="fb_löschen">Fragebogen löschen</button>
         </form>
+        </br>
+        <form method="post" action="neuerKurs.php">
+                <button type="submit" name="kursanlegen">Neuen Kurs anlegen</button>
+        </form>
+        </br>
+        <form method="post" action="neuerStudent.php">
+                <button type="submit" name="studentanlegen">Neuen Student anlegen</button>
+        </form>
+
 
 
         <p>Übersicht Ihrer bereits erstellen Fragebögen:</p>
@@ -75,11 +95,6 @@ session_start();
                 echo "<table> <tr> <th>FbNr</th> <th>Titel</th> </tr>" . $response . "</table>";
         }
         ?>
-
-
-        <form method="post" action="neuerKurs.php">
-                <button type="submit" name="kursanlegen">Neuen Kurs anlegen</button>
-        </form>
 
 
 </body>
