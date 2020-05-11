@@ -173,19 +173,8 @@ class BefragerController extends GlobalFunctions
         } else {
             $this->handleInfo('fragebogenLoeschen', 'geloescht');
         }
-
-        public function createDropdownKurs()
-    {
-
-        $sqlObject = $this->sqlWrapper->selectKurseDropdown();
-        $dropdownString = '';
-        
-        while ($row = $sqlObject->fetch_object()) {
-            $dropdownString = $dropdownString . "<option>" . $row->Name . "</option>";
-        }
-
-       return $dropdownString;
     }
+        
 
     public function controllMatrikelnummer(){ 
         
