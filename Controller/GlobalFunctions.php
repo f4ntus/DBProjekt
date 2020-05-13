@@ -1,11 +1,15 @@
 <?php
 require '../Model/SqlWrapper.php';
+require '../Model/TblBefrager.php';
 class GlobalFunctions
 {
     protected $sqlWrapper;
+    protected $tblBefrager;
     public function __construct()
     {
         $this->sqlWrapper = new SqlWrapper();
+        $this->tblBefrager = new TblBefrager();
+
     }
     protected function handleError($moveTo, $errorCode)
     {

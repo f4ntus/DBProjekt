@@ -1,7 +1,8 @@
 <?php
+require 'AbstractSQLWrapper.php';
 class TblBefrager extends AbstractSQLWrapper {
     
-    function selectUniqueRecord($benutzername){
+    function selectUniqueRecord($benutzername = ''){
         $sql = "SELECT * FROM tbl_befrager WHERE Benutzername = '$benutzername'";
        return $this->globalSelectUniqueRecord($sql);
     }
