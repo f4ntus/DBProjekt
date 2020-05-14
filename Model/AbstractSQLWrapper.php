@@ -16,6 +16,7 @@ abstract class AbstractSQLWrapper {
         return $result->fetch_object(); 
     }
     protected function globalSelectRecords($sql){
+        return $this->db->query($sql);
 
     }
     protected function globalUpdateRecord($sql){

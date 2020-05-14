@@ -11,7 +11,7 @@ class BefragerController extends GlobalFunctions
     public function createInnerTableBefrager($recentUser)
     {
 
-        $sqlObject = $this->sqlWrapper->selectErstellteFrageboegen($recentUser);
+        $sqlObject = $this->tblFragebogen->selectRecords($recentUser);
         $tableString = '';
         while ($row = $sqlObject->fetch_object()) {
             $tableString = $tableString . '<tr> <td>' . $row->FbNr . '</td><td>' . $row->Titel . '</td></tr>';
@@ -40,7 +40,7 @@ class BefragerController extends GlobalFunctions
         for ($fnr = 1; $fnr <= $anzFragen; $fnr++) {
             $postArrayName = 'fragetext' . $fnr;
             $fragetext = $post[$postArrayName];
-            $sqlObject = $this->sqlWrapper->insertIntoFrage($fnr, $fbnr, $fragetext);
+            $sqlObject = $this->tblFrage->insertRecord($fbnr, $fnr, $fragetext);
             if ($sqlObject != 'success') {
                 $this->handleError('fragenErstellen', 'sqlError');
                 exit;
@@ -53,7 +53,7 @@ class BefragerController extends GlobalFunctions
     {
         $sqlObject = $this->sqlWrapper->selectAlleTitel($titel);
         if (is_null($sqlObject)) {
-            $sqlResult = $this->sqlWrapper->insertIntoFragebogen($titel, $benutzername);
+            $sqlResult = $this->tblFragebogen->insertRecord($titel, $benutzername);
             if ($sqlResult != 'error') {
                 $suffixString = '?AnzahlFragen=' . $anzFragen . '&Fbnr=' . $sqlResult . '&Titel=' . $titel;
                 $this->moveToPage('FragenErstellen.php', $suffixString);
@@ -77,7 +77,7 @@ class BefragerController extends GlobalFunctions
 
     public function freischaltenKurs($fragebogen, $kurs)
     {
-        $fbnr = $this->sqlWrapper->selectFbNrFragebogen($fragebogen)->FbNr;
+        $fbnr = $this->tblFragebogen->selectUniqueRecordByTitel($fragebogen)->FbNr;
         $sqlObject = $this->sqlWrapper->insertIntoFreigeschaltet($fbnr, $kurs);
         if ($sqlObject != 'success') {
             $this->handleError('kurseFreischalten', 'sqlError');
@@ -86,7 +86,7 @@ class BefragerController extends GlobalFunctions
 
     public function showBereitsFreigeschaltet($fragebogen)
     {
-        $fbnr = $this->sqlWrapper->selectFbNrFragebogen($fragebogen)->FbNr;
+        $fbnr = $this->tblFragebogen->selectUniqueRecordByTitel($fragebogen)->FbNr;
         $sqlObject = $this->sqlWrapper->selectBereitsFreigeschaltet($fbnr);
         $freigeschaltetString = '';
         while ($row = $sqlObject->fetch_object()) {
@@ -102,7 +102,7 @@ class BefragerController extends GlobalFunctions
     public function createDropdownFragebogen($recentUser)
     {
 
-        $sqlObject = $this->sqlWrapper->selectErstellteFrageboegen($recentUser);
+        $sqlObject = $this->tblFragebogen->selectRecords($recentUser);
         $dropdownString = '';
 
         while ($row = $sqlObject->fetch_object()) {
@@ -126,15 +126,15 @@ class BefragerController extends GlobalFunctions
 
     public function fragebogenKopieren($recentUser, $oldTitle, $copyTitle)
     {
-        $oldFbNr = $this->sqlWrapper->selectFbNrFragebogen($oldTitle)->FbNr;
+        $oldFbNr = $this->tblFragebogen->selectUniqueRecordByTitel($oldTitle)->FbNr;
         $checkTitle = $this->sqlWrapper->selectAlleTitel($copyTitle);
         if (is_null($checkTitle)) {
-            $newFbNr = $this->sqlWrapper->insertIntoFragebogen($copyTitle, $recentUser);
+            $newFbNr = $this->tblFragebogen->insertRecord($copyTitle, $recentUser);
             $sqlObject1 = $this->sqlWrapper->selectFragetextFromFragen($oldFbNr);
             $fnr = 1;
             while ($frage = $sqlObject1->fetch_object()) {
                 $fragetext = $frage->Fragetext;
-                $sqlObject = $this->sqlWrapper->insertIntoFrage($fnr, $newFbNr, $fragetext);
+                $sqlObject = $this->tblFragebogen->insertRecord($copyTitle, $recentUser);
                 if ($sqlObject != 'success') {
                     $this->handleError('fragenKopieren', 'sqlError');
                     exit;
@@ -161,7 +161,7 @@ class BefragerController extends GlobalFunctions
 
     public function fragebogenLoeschen($title)
     {
-        $fbnr = $this->sqlWrapper->selectFbNrFragebogen($title)->FbNr;
+        $fbnr = $this->tblFragebogen->selectUniqueRecordByTitel($title)->FbNr;
         $sqlObject = $this->sqlWrapper->deleteFreigeschaltet($fbnr);
         $sqlObject = $this->sqlWrapper->deleteKommentiert($fbnr);
         $sqlObject = $this->sqlWrapper->deleteAbschliessen($fbnr);

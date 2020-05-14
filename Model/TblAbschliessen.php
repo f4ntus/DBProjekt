@@ -1,6 +1,6 @@
 <?php
 
-require 'AbstractSQLWrapper.php';
+require_once 'AbstractSQLWrapper.php';
 class TblAbschliessen extends AbstractSQLWrapper
 {
     function selectUniqueRecord()

@@ -1,5 +1,5 @@
 <?php
-require 'AbstractSQLWrapper.php';
+require_once 'AbstractSQLWrapper.php';
 class TblBefrager extends AbstractSQLWrapper {
     
     function selectUniqueRecord($benutzername = ''){

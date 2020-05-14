@@ -1,6 +1,6 @@
 <?php
 
-require 'AbstractSQLWrapper.php';
+require_once 'AbstractSQLWrapper.php';
 class TblFrage extends AbstractSQLWrapper
 {
     function selectUniqueRecord()
@@ -18,9 +18,9 @@ class TblFrage extends AbstractSQLWrapper
         $sql = '';
         return $this->globalUpdateRecord($sql);
     }
-    function insertRecord()
+    function insertRecord($fbnr, $fnr, $fragetext)
     {
-        $sql = '';
+        $sql = "INSERT INTO tbl_frage (FNr, FbNr, Fragetext) VALUES ('$fnr', '$fbnr', '$fragetext')";
         return $this->globalInsertRecord($sql);
     }
     function deleteRecord()

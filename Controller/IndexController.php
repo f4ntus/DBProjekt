@@ -11,7 +11,7 @@ class IndexController extends GlobalFunctions
         if (isset($post["matrikelnummer"])) {
             // Code für Studentenanmeldung
             $matrikelnummer = $post["matrikelnummer"];
-            $student = $this->sqlWrapper->selectFromStudent($matrikelnummer);
+            $student = $this->tblStudent->selectUniqueRecord($matrikelnummer);
             if (is_null($student)) {
                 // weiterleitung zu index.php - Studentenanmeldung mit Fehlercode
                 $this->handleError('anmeldungStudent', 'studentNotFound');

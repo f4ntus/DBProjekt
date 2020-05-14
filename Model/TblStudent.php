@@ -1,11 +1,11 @@
 <?php
 
-require 'AbstractSQLWrapper.php';
+require_once 'AbstractSQLWrapper.php';
 class TblStudent extends AbstractSQLWrapper
 {
-    function selectUniqueRecord()
+    function selectUniqueRecord($matrikelnummer)
     {
-        $sql = '';
+        $sql = "SELECT * FROM tbl_student WHERE Matrikelnummer = '$matrikelnummer'";
         return $this->globalSelectUniqueRecord($sql);
     }
     function selectRecords()

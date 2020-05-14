@@ -1,16 +1,21 @@
 <?php
 
-require 'AbstractSQLWrapper.php';
+require_once 'AbstractSQLWrapper.php';
 class TblFragebogen extends AbstractSQLWrapper
 {
-    function selectUniqueRecord()
+    function selectUniqueRecordByTitel($titel) 
     {
-        $sql = '';
+        $sql = "SELECT FbNr FROM tbl_fragebogen WHERE Titel ='$titel'";
         return $this->globalSelectUniqueRecord($sql);
     }
-    function selectRecords()
+    function selectUniqueRecordByNr($fnr) 
     {
-        $sql = '';
+        $sql = "SELECT FbNr FROM tbl_fragebogen WHERE FNr ='$fnr'";
+        return $this->globalSelectUniqueRecord($sql);
+    }
+    function selectRecords($recentUser ='')
+    {
+        $sql ="SELECT * FROM tbl_fragebogen WHERE Benutzername = '$recentUser'";;
         return $this->globalSelectRecords($sql);
     }
     function updateRecord()
@@ -18,9 +23,9 @@ class TblFragebogen extends AbstractSQLWrapper
         $sql = '';
         return $this->globalUpdateRecord($sql);
     }
-    function insertRecord()
+    function insertRecord($titel,$benutzername)
     {
-        $sql = '';
+        $sql = "INSERT INTO tbl_fragebogen (Titel, Benutzername) VALUES ('$titel', '$benutzername')";
         return $this->globalInsertRecord($sql);
     }
     function deleteRecord()
