@@ -30,6 +30,11 @@ abstract class AbstractSQLWrapper {
         }
     }
     protected function globalDeleteRecord($sql){
+        if ($this->db->query($sql)) {
+            return 'success';
+        } else {
+            return $this->db->error;
+        }
         
     }
 

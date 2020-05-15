@@ -28,9 +28,9 @@ class TblFragebogen extends AbstractSQLWrapper
         $sql = "INSERT INTO tbl_fragebogen (Titel, Benutzername) VALUES ('$titel', '$benutzername')";
         return $this->globalInsertRecord($sql);
     }
-    function deleteRecord()
+    function deleteRecord($fbnr)
     {
-        $sql = '';
+        $sql = "DELETE FROM tbl_fragebogen WHERE FbNr = '$fbnr'";
         return $this->globalDeleteRecord($sql);
     }
 }

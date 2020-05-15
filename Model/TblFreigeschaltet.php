@@ -5,13 +5,13 @@ class TblFreigeschaltet extends AbstractSQLWrapper
 {
     function selectUniqueRecord($kurs)
     {
-        $sql ="SELECT tbl_fragebogen.FbNr, tbl_fragebogen.Titel FROM tbl_fragebogen, tbl_freigeschaltet 
-        where tbl_fragebogen.FbNr = tbl_freigeschaltet.FbNr and tbl_freigeschaltet.Name = '$kurs'";
+        $sql ='';
         return $this->globalSelectUniqueRecord($sql);
     }
-    function selectRecords()
+    function selectRecords($kurs)
     {
-        $sql = '';
+        $sql ="SELECT tbl_fragebogen.FbNr, tbl_fragebogen.Titel FROM tbl_fragebogen, tbl_freigeschaltet 
+        where tbl_fragebogen.FbNr = tbl_freigeschaltet.FbNr and tbl_freigeschaltet.Name = '$kurs'";
         return $this->globalSelectRecords($sql);
     }
     function updateRecord()
@@ -19,14 +19,14 @@ class TblFreigeschaltet extends AbstractSQLWrapper
         $sql = '';
         return $this->globalUpdateRecord($sql);
     }
-    function insertRecord()
+    function insertRecord($fbnr,$kurs)
     {
-        $sql = '';
+        $sql = "INSERT INTO tbl_freigeschaltet (FbNr, Name) VALUES ('$fbnr', '$kurs')";
         return $this->globalInsertRecord($sql);
     }
-    function deleteRecord()
+    function deleteRecord($fbnr)
     {
-        $sql = '';
+        $sql = "DELETE FROM tbl_freigeschaltet WHERE FbNr = '$fbnr'";
         return $this->globalDeleteRecord($sql);
     }
 }

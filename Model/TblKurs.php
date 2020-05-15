@@ -3,14 +3,14 @@
 require_once 'AbstractSQLWrapper.php';
 class TblKurs extends AbstractSQLWrapper
 {
-    function selectUniqueRecord()
+    function selectUniqueRecord($name)
     {
-        $sql = '';
+        $sql = "SELECT Name FROM tbl_kurs WHERE Name = '$name'";
         return $this->globalSelectUniqueRecord($sql);
     }
     function selectRecords()
     {
-        $sql = '';
+        $sql = "SELECT * FROM tbl_kurs";
         return $this->globalSelectRecords($sql);
     }
     function updateRecord()
@@ -18,9 +18,9 @@ class TblKurs extends AbstractSQLWrapper
         $sql = '';
         return $this->globalUpdateRecord($sql);
     }
-    function insertRecord()
+    function insertRecord($name)
     {
-        $sql = '';
+        $sql = "INSERT INTO tbl_kurs (Name) VALUES ('$name')";
         return $this->globalInsertRecord($sql);
     }
     function deleteRecord()

@@ -3,14 +3,18 @@
 require_once 'AbstractSQLWrapper.php';
 class TblFrage extends AbstractSQLWrapper
 {
-    function selectUniqueRecord()
+    function selectUniqueRecord($fbnr, $fnr)
     {
-        $sql = '';
+        $sql = "SELECT * FROM tbl_frage where FbNr = '$fbnr' and fnr ='$fnr'";
         return $this->globalSelectUniqueRecord($sql);
     }
-    function selectRecords()
+    function selectRecords($fbnr,$filter='')
     {
-        $sql = '';
+        if ($filter == ''){
+            $sql = "SELECT * FROM tbl_frage where FbNr = '$fbnr'";
+        } else {
+            $sql = "SELECT * FROM tbl_frage where FbNr = '$fbnr' AND $filter";
+        } 
         return $this->globalSelectRecords($sql);
     }
     function updateRecord()
@@ -23,9 +27,9 @@ class TblFrage extends AbstractSQLWrapper
         $sql = "INSERT INTO tbl_frage (FNr, FbNr, Fragetext) VALUES ('$fnr', '$fbnr', '$fragetext')";
         return $this->globalInsertRecord($sql);
     }
-    function deleteRecord()
+    function deleteRecord($fbnr)
     {
-        $sql = '';
+        $sql = "DELETE FROM tbl_frage WHERE FbNr = '$fbnr'";
         return $this->globalDeleteRecord($sql);
     }
 }

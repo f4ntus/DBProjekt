@@ -8,9 +8,9 @@ class TblBeantwortet extends AbstractSQLWrapper
         $sql = '';
         return $this->globalSelectUniqueRecord($sql);
     }
-    function selectRecords()
+    function selectRecords($fbnr, $matrikelnummer)
     {
-        $sql = '';
+        $sql = "SELECT * FROM tbl_beantwortet where FbNr = '$fbnr' and matrikelnummer = '$matrikelnummer'";
         return $this->globalSelectRecords($sql);
     }
     function updateRecord()
@@ -18,14 +18,17 @@ class TblBeantwortet extends AbstractSQLWrapper
         $sql = '';
         return $this->globalUpdateRecord($sql);
     }
-    function insertRecord()
+    function insertRecord($fbnr, $fnr, $matrikelnummer, $bewertung)
     {
-        $sql = '';
+        if (!is_numeric($bewertung)) return false;
+        $bewertung = (int) $bewertung;
+        if ($bewertung < 1 || $bewertung > 5) return false;
+        $sql = "INSERT INTO tbl_beantwortet (FNr, FbNr, Matrikelnummer, Bewertung) VALUES ('$fnr', '$fbnr', '$matrikelnummer', '$bewertung')";
         return $this->globalInsertRecord($sql);
     }
-    function deleteRecord()
+    function deleteRecord($fbnr)
     {
-        $sql = '';
+        $sql = "DELETE FROM tbl_beantwortet WHERE FbNr = '$fbnr'";
         return $this->globalDeleteRecord($sql);
     }
 }

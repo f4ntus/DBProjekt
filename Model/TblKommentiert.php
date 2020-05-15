@@ -23,9 +23,9 @@ class TblKommentiert extends AbstractSQLWrapper
         $sql = '';
         return $this->globalInsertRecord($sql);
     }
-    function deleteRecord()
+    function deleteRecord($fbnr)
     {
-        $sql = '';
+        $sql = "DELETE FROM tbl_kommentiert WHERE FbNr = '$fbnr'";
         return $this->globalDeleteRecord($sql);
     }
 }

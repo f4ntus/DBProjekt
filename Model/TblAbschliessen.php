@@ -23,9 +23,9 @@ class TblAbschliessen extends AbstractSQLWrapper
         $sql = '';
         return $this->globalInsertRecord($sql);
     }
-    function deleteRecord()
+    function deleteRecord($fbnr)
     {
-        $sql = '';
+        $sql = "DELETE FROM tbl_abschliessen WHERE FbNr = '$fbnr'";
         return $this->globalDeleteRecord($sql);
     }
 }

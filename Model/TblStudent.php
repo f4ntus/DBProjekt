@@ -18,9 +18,9 @@ class TblStudent extends AbstractSQLWrapper
         $sql = '';
         return $this->globalUpdateRecord($sql);
     }
-    function insertRecord()
+    function insertRecord($matrikelnummer,$name)
     {
-        $sql = '';
+        $sql = "INSERT INTO tbl_student (Matrikelnummer, Name) VALUES ('$matrikelnummer', '$name')";
         return $this->globalInsertRecord($sql);
     }
     function deleteRecord()
