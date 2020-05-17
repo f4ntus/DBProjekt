@@ -135,7 +135,7 @@ class BefragerController extends GlobalFunctions
             $fnr = 1;
             while ($frage = $sqlObject1->fetch_object()) {
                 $fragetext = $frage->Fragetext;
-                $sqlObject = $this->tblFragebogen->insertRecord($copyTitle, $recentUser);
+                $sqlObject = $this->tblFrage->insertRecord($newFbNr, $fnr, $fragetext);
                 if ($sqlObject != 'success') {
                     $this->handleError('fragenKopieren', 'sqlError');
                     exit;
