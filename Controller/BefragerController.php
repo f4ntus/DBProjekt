@@ -11,7 +11,7 @@ class BefragerController extends GlobalFunctions
     public function createInnerTableBefrager($recentUser)
     {
 
-        $sqlObject = $this->sqlWrapper->selectErstellteFrageboegen($recentUser);
+        $sqlObject = $this->tblFragebogen->selectRecords($recentUser);
         $tableString = '';
         while ($row = $sqlObject->fetch_object()) {
             $tableString = $tableString . '<tr> <td>' . $row->FbNr . '</td><td>' . $row->Titel . '</td></tr>';
@@ -40,9 +40,10 @@ class BefragerController extends GlobalFunctions
         for ($fnr = 1; $fnr <= $anzFragen; $fnr++) {
             $postArrayName = 'fragetext' . $fnr;
             $fragetext = $post[$postArrayName];
-            $sqlObject = $this->sqlWrapper->insertIntoFrage($fnr, $fbnr, $fragetext);
+            $sqlObject = $this->tblFrage->insertRecord($fbnr, $fnr, $fragetext);
             if ($sqlObject != 'success') {
-                $this->handleError('fragenErstellen', 'sqlError');
+                //$this->handleError('fragenErstellen', 'sqlError');
+                echo $sqlObject;
                 exit;
             }
         }
@@ -51,9 +52,9 @@ class BefragerController extends GlobalFunctions
 
     public function controllTitelFragebogen($titel, $benutzername, $anzFragen)
     {
-        $sqlObject = $this->sqlWrapper->selectAlleTitel($titel);
+        $sqlObject = $this->tblFragebogen->selectUniqueRecordByTitel($titel);
         if (is_null($sqlObject)) {
-            $sqlResult = $this->sqlWrapper->insertIntoFragebogen($titel, $benutzername);
+            $sqlResult = $this->tblFragebogen->insertRecord($titel, $benutzername);
             if ($sqlResult != 'error') {
                 $suffixString = '?AnzahlFragen=' . $anzFragen . '&Fbnr=' . $sqlResult . '&Titel=' . $titel;
                 $this->moveToPage('FragenErstellen.php', $suffixString);
@@ -68,17 +69,17 @@ class BefragerController extends GlobalFunctions
     public function createKursFelder()
     {
 
-        $arrayKurse = $this->sqlWrapper->selectKurse();
-        foreach ($arrayKurse as $kurs) {
-            echo "<input type='checkbox' name='" . $kurs[0] . "'><label for='" . $kurs[0] . "'>" . $kurs[0] . "</label></br>";
+        $kurse = $this->tblKurs->selectRecords();
+        while ($kurs = $kurse->fetch_object()) {
+            echo "<input type='checkbox' name='" . $kurs->Name . "'><label for='" . $kurs->Name . "'>" . $kurs->Name . "</label></br>";
             echo "</br>";
         }
     }
 
     public function freischaltenKurs($fragebogen, $kurs)
     {
-        $fbnr = $this->sqlWrapper->selectFbNrFragebogen($fragebogen)->FbNr;
-        $sqlObject = $this->sqlWrapper->insertIntoFreigeschaltet($fbnr, $kurs);
+        $fbnr = $this->tblFragebogen->selectUniqueRecordByTitel($fragebogen)->FbNr;
+        $sqlObject = $this->tblFreigeschaltet->insertRecord($fbnr, $kurs);
         if ($sqlObject != 'success') {
             $this->handleError('kurseFreischalten', 'sqlError');
         } else $this->handleInfo('kurseFreischalten', 'freigeschalten');
@@ -86,7 +87,7 @@ class BefragerController extends GlobalFunctions
 
     public function showBereitsFreigeschaltet($fragebogen)
     {
-        $fbnr = $this->sqlWrapper->selectFbNrFragebogen($fragebogen)->FbNr;
+        $fbnr = $this->tblFragebogen->selectUniqueRecordByTitel($fragebogen)->FbNr;
         $sqlObject = $this->sqlWrapper->selectBereitsFreigeschaltet($fbnr);
         $freigeschaltetString = '';
         while ($row = $sqlObject->fetch_object()) {
@@ -102,7 +103,7 @@ class BefragerController extends GlobalFunctions
     public function createDropdownFragebogen($recentUser)
     {
 
-        $sqlObject = $this->sqlWrapper->selectErstellteFrageboegen($recentUser);
+        $sqlObject = $this->tblFragebogen->selectRecords($recentUser);
         $dropdownString = '';
 
         while ($row = $sqlObject->fetch_object()) {
@@ -114,7 +115,7 @@ class BefragerController extends GlobalFunctions
 
     public function createDropdownKurs()
     {
-        $sqlObject = $this->sqlWrapper->selectKurse();
+        $sqlObject = $this->tblKurs->selectRecords();
         $dropdownString = '';
 
         while ($row = $sqlObject->fetch_object()) {
@@ -126,15 +127,15 @@ class BefragerController extends GlobalFunctions
 
     public function fragebogenKopieren($recentUser, $oldTitle, $copyTitle)
     {
-        $oldFbNr = $this->sqlWrapper->selectFbNrFragebogen($oldTitle)->FbNr;
-        $checkTitle = $this->sqlWrapper->selectAlleTitel($copyTitle);
+        $oldFbNr = $this->tblFragebogen->selectUniqueRecordByTitel($oldTitle)->FbNr;
+        $checkTitle = $this->tblFragebogen->selectUniqueRecordByTitel($copyTitle);
         if (is_null($checkTitle)) {
-            $newFbNr = $this->sqlWrapper->insertIntoFragebogen($copyTitle, $recentUser);
-            $sqlObject1 = $this->sqlWrapper->selectFragetextFromFragen($oldFbNr);
+            $newFbNr = $this->tblFragebogen->insertRecord($copyTitle, $recentUser);
+            $sqlObject1 = $this->tblFrage->selectRecords($oldFbNr);
             $fnr = 1;
             while ($frage = $sqlObject1->fetch_object()) {
                 $fragetext = $frage->Fragetext;
-                $sqlObject = $this->sqlWrapper->insertIntoFrage($fnr, $newFbNr, $fragetext);
+                $sqlObject = $this->tblFrage->insertRecord($newFbNr, $fnr, $fragetext);
                 if ($sqlObject != 'success') {
                     $this->handleError('fragenKopieren', 'sqlError');
                     exit;
@@ -150,9 +151,10 @@ class BefragerController extends GlobalFunctions
     {
 
         $name = $_POST["kursname"];
-        $sqlObject = $this->sqlWrapper->selectAlleKurse($name);
+        $sqlObject = $this->tblKurs->selectUniqueRecord($name);
         if (is_null($sqlObject)) {
-            $neuerKurs = $this->sqlWrapper->insertIntoKurs($name);
+            $neuerKurs = $this->tblKurs->insertRecord($name);
+            // ToDo: mit $neuerKurs wird nichts gemacht, Fehlerbehandlung ?
             $this->handleInfo('neuerKurs', 'kursErstellt');
         } else {
             $this->handleError('neuerKurs', 'nameInUse');
@@ -161,32 +163,32 @@ class BefragerController extends GlobalFunctions
 
     public function fragebogenLoeschen($title)
     {
-        $fbnr = $this->sqlWrapper->selectFbNrFragebogen($title)->FbNr;
-        $sqlObject = $this->sqlWrapper->deleteFreigeschaltet($fbnr);
-        $sqlObject = $this->sqlWrapper->deleteKommentiert($fbnr);
-        $sqlObject = $this->sqlWrapper->deleteAbschliessen($fbnr);
-        $sqlObject = $this->sqlWrapper->deleteBeantwortet($fbnr);
-        $sqlObject =  $this->sqlWrapper->deleteFrage($fbnr);
-        $sqlObject = $this->sqlWrapper->deleteFragebogen($fbnr);
+        $fbnr = $this->tblFragebogen->selectUniqueRecordByTitel($title)->FbNr;
+        $sqlObject = $this->tblFreigeschaltet->deleteRecord($fbnr);
+        $sqlObject = $this->tblKommentiert->deleteRecord($fbnr);
+        $sqlObject = $this->tblAbschliessen->deleteRecord($fbnr);
+        $sqlObject = $this->tblBeantwortet->deleteRecord($fbnr);
+        $sqlObject =  $this->tblFrage->deleteRecord($fbnr);
+        $sqlObject = $this->tblFragebogen->deleteRecord($fbnr);
         if ($sqlObject != 'success') {
-            $this->handleError('fragebogenLoeschen', 'sqlError');
+          //  $this->handleError('fragebogenLoeschen', 'sqlError');
         } else {
-            $this->handleInfo('fragebogenLoeschen', 'geloescht');
+           // $this->handleInfo('fragebogenLoeschen', 'geloescht');
         }
     }
-        
 
-    public function controllMatrikelnummer(){ 
-        
+
+    public function controllMatrikelnummer()
+    {
+
         $matrikelnummer = $_POST["matrikelnummer"];
-        $sqlObject = $this->sqlWrapper->selectMatrikelnummern($matrikelnummer);
+        $sqlObject = $this->tblStudent->selectUniqueRecord($matrikelnummer);
         if (is_null($sqlObject)) {
             $name = $_POST["Kurs"];
-            $neuerStudent = $this->sqlWrapper->insertIntoStudent($matrikelnummer, $name);
+            $neuerStudent = $this->tblStudent->insertRecord($matrikelnummer, $name);
             $this->handleInfo('neuerStudent', 'studentErstellt');
+        } else {
+            $this->handleError('neueMatrikelnummer', 'matrikelnummerInUse');
         }
-        else {
-                $this->handleError('neueMatrikelnummer', 'matrikelnummerInUse');   
-            }   
-        }
+    }
 }

@@ -1,11 +1,39 @@
 <?php
 require '../Model/SqlWrapper.php';
+require '../Model/TblAbschliessen.php';
+require '../Model/TblBeantwortet.php';
+require '../Model/TblBefrager.php';
+require '../Model/TblFrage.php';
+require '../Model/TblFragebogen.php';
+require '../Model/TblKommentiert.php';
+require '../Model/TblKurs.php';
+require '../Model/TblStudent.php';
+require '../Model/TblFreigeschaltet.php';
 class GlobalFunctions
 {
     protected $sqlWrapper;
+    protected $tblAbschliessen;
+    protected $tblBeantwortet;
+    protected $tblBefrager;
+    protected $tblFrage;
+    protected $tblFragebogen;
+    protected $tblKommentiert;
+    protected $tblKurs;
+    protected $tblStudent;
+    protected $tblFreigeschaltet;
     public function __construct()
     {
         $this->sqlWrapper = new SqlWrapper();
+        $this->tblAbschliessen = new TblAbschliessen();
+        $this->tblBeantwortet = new TblBeantwortet();
+        $this->tblBefrager = new TblBefrager();
+        $this->tblFrage = new TblFrage();
+        $this->tblFragebogen = new TblFragebogen();
+        $this->tblKommentiert = new TblKommentiert();
+        $this->tblKurs = new TblKurs();
+        $this->tblStudent = new TblStudent();
+        $this->tblFreigeschaltet = new TblFreigeschaltet();
+
     }
     protected function handleError($moveTo, $errorCode)
     {

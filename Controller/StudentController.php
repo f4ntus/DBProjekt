@@ -11,7 +11,7 @@ class StudentController extends GlobalFunctions
 
     public function createInnerTable()
     {
-        $sqlObject = $this->sqlWrapper->selectFreigeschaltet($_SESSION['kurs']);
+        $sqlObject = $this->tblFreigeschaltet->selectRecords($_SESSION['kurs']);
         $tableString = '';
         while ($row = $sqlObject->fetch_object()) {
             $tableString = $tableString . '<tr><td>' . $_SESSION['FbNr'] = $row->FbNr . '</td><td>' . $row->Titel . '</td><td> 
@@ -23,9 +23,9 @@ class StudentController extends GlobalFunctions
     public function saveAndNavigateToNext($post,$fbnr,$fnr)
     {
         // ToDo: Muss geprüft werden ob der Student angemeldet ist
-        $this->sqlWrapper->insertIntoBeantwortet($fbnr, $fnr, $_SESSION['matrikelnummer'], $post['bewertung']);
+        $this->tblBeantwortet->insertRecord($fbnr, $fnr, $_SESSION['matrikelnummer'], $post['bewertung']);
         var_dump($fnr);
-        $sqlObjectFragen = $this->sqlWrapper->SelectFragen($fbnr,'FNr>'. $fnr); // liefert ab der aktuellen Frage
+        $sqlObjectFragen = $this->tblFrage->selectRecords($fbnr,'FNr>'. $fnr); // liefert ab der aktuellen Frage
         $newFnr = $sqlObjectFragen->fetch_object()->FNr; // die nächste Fragennummer
         if (is_null($newFnr)){
             // Befragung ist fertig
@@ -56,8 +56,8 @@ class StudentController extends GlobalFunctions
     // Sollten alle Fragen beantwortet sein, so wird False ausgegeben.
     private function getFirstNotAnswerdQuestion($fbnr, $matrikelnummer)
     {
-        $sqlObjectBeantwortet = $this->sqlWrapper->SelectBeantwortet($fbnr, $matrikelnummer);
-        $sqlObjectFrage = $this->sqlWrapper->SelectFragen($fbnr);
+        $sqlObjectBeantwortet = $this->tblBeantwortet->selectRecords($fbnr, $matrikelnummer);
+        $sqlObjectFrage = $this->tblFrage->selectRecords($fbnr);
         if (is_null($sqlObjectFrage)) {
             //ToDo: Handle Error
             echo 'Frage ist leer';
@@ -89,7 +89,7 @@ class StudentController extends GlobalFunctions
 
     public function showFrage($fbnr, $fnr)
     {
-        $frage = $this->sqlWrapper->SelectFragenText($fbnr, $fnr);
+        $frage = $this->tblFrage->selectUniqueRecord($fbnr, $fnr);
         if (is_null($frage)) {
             //ToDo: Handle Error -> Frage not Found
         } else {

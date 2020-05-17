@@ -11,7 +11,7 @@ class IndexController extends GlobalFunctions
         if (isset($post["matrikelnummer"])) {
             // Code für Studentenanmeldung
             $matrikelnummer = $post["matrikelnummer"];
-            $student = $this->sqlWrapper->selectFromStudent($matrikelnummer);
+            $student = $this->tblStudent->selectUniqueRecord($matrikelnummer);
             if (is_null($student)) {
                 // weiterleitung zu index.php - Studentenanmeldung mit Fehlercode
                 $this->handleError('anmeldungStudent', 'studentNotFound');
@@ -25,7 +25,7 @@ class IndexController extends GlobalFunctions
             // Code für Befrageranmeldung
             $benutzername = $post["benutzername"];
             $kennwort = $post["password"];
-            $befrager = $this->sqlWrapper->selectFromBefrager($benutzername);
+            $befrager = $this->tblBefrager->selectUniqueRecord($benutzername);
             // Wenn Benutzername nicht gefunden wird
             if (is_null($befrager)) {
                 // weiterleitung zu index.php - Befrageranmeldung mit Fehlercode
@@ -55,7 +55,9 @@ class IndexController extends GlobalFunctions
             exit;
         }
         $kennwort_hash = password_hash($kennwort, PASSWORD_DEFAULT);
-        $response = $this->sqlWrapper->insertIntoBefrager($benutzername, $kennwort_hash);
+        
+        $response = $this->tblBefrager->insertRecord($benutzername, $kennwort_hash);
+        //$response = $this->sqlWrapper->insertIntoBefrager($benutzername, $kennwort_hash);
         if ($response == 'success') {
             // weiterleitung zur Anmeldung
             $this->moveToPage('index.php', '?befrager=Befrager&registriert=success');
