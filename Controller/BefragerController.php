@@ -70,7 +70,7 @@ class BefragerController extends GlobalFunctions
     {
 
         $kurse = $this->tblKurs->selectRecords();
-        while ($kurs = $kurse->fetch_object() ) {
+        while ($kurs = $kurse->fetch_object()) {
             echo "<input type='checkbox' name='" . $kurs->Name . "'><label for='" . $kurs->Name . "'>" . $kurs->Name . "</label></br>";
             echo "</br>";
         }
@@ -128,29 +128,23 @@ class BefragerController extends GlobalFunctions
     public function fragebogenKopieren($recentUser, $oldTitle, $copyTitle)
     {
         $oldFbNr = $this->tblFragebogen->selectUniqueRecordByTitel($oldTitle)->FbNr;
-        var_dump($oldFbNr);
         $checkTitle = $this->tblFragebogen->selectUniqueRecordByTitel($copyTitle);
-        var_dump($checkTitle);
         if (is_null($checkTitle)) {
             $newFbNr = $this->tblFragebogen->insertRecord($copyTitle, $recentUser);
-            var_dump($newFbNr);
             $sqlObject1 = $this->tblFrage->selectRecords($oldFbNr);
-            var_dump($sqlObject1);
             $fnr = 1;
             while ($frage = $sqlObject1->fetch_object()) {
-                var_dump($frage);
                 $fragetext = $frage->Fragetext;
                 $sqlObject = $this->tblFrage->insertRecord($newFbNr, $fnr, $fragetext);
-                var_dump($sqlObject);
                 if ($sqlObject != 'success') {
-            //        $this->handleError('fragenKopieren', 'sqlError');
+                    $this->handleError('fragenKopieren', 'sqlError');
                     exit;
                 }
                 $fnr++;
             }
-          //  $this->handleInfo('fragebogenKopieren', 'kopiert');
+            $this->handleInfo('fragebogenKopieren', 'kopiert');
         } else {
-          //  $this->handleError('fragebogenKopieren', 'titleInUse');
+            $this->handleError('fragebogenKopieren', 'titleInUse');
         }
     }
     public function controllNameKurs()
@@ -182,19 +176,19 @@ class BefragerController extends GlobalFunctions
             $this->handleInfo('fragebogenLoeschen', 'geloescht');
         }
     }
-        
 
-    public function controllMatrikelnummer(){ 
-        
+
+    public function controllMatrikelnummer()
+    {
+
         $matrikelnummer = $_POST["matrikelnummer"];
         $sqlObject = $this->tblStudent->selectUniqueRecord($matrikelnummer);
         if (is_null($sqlObject)) {
             $name = $_POST["Kurs"];
             $neuerStudent = $this->tblStudent->insertRecord($matrikelnummer, $name);
             $this->handleInfo('neuerStudent', 'studentErstellt');
+        } else {
+            $this->handleError('neueMatrikelnummer', 'matrikelnummerInUse');
         }
-        else {
-                $this->handleError('neueMatrikelnummer', 'matrikelnummerInUse');   
-            }   
-        }
+    }
 }

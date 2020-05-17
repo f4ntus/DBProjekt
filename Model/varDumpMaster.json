@@ -1,0 +1,21 @@
+string(2) "10" NULL int(23) object(mysqli_result)#6 (5) {
+    [
+        "current_field"
+    ]=> int(0) [
+        "field_count"
+    ]=> int(1) [
+        "lengths"
+    ]=> NULL [
+        "num_rows"
+    ]=> int(2) [
+        "type"
+    ]=> int(0)
+} object(stdClass)#4 (1) {
+    [
+        "Fragetext"
+    ]=> string(11) "des goht id"
+} string(7) "success" object(stdClass)#5 (1) {
+    [
+        "Fragetext"
+    ]=> string(8) "verdammt"
+} string(7) "success"
