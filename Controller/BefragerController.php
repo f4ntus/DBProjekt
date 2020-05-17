@@ -171,9 +171,9 @@ class BefragerController extends GlobalFunctions
         $sqlObject =  $this->tblFrage->deleteRecord($fbnr);
         $sqlObject = $this->tblFragebogen->deleteRecord($fbnr);
         if ($sqlObject != 'success') {
-            $this->handleError('fragebogenLoeschen', 'sqlError');
+          //  $this->handleError('fragebogenLoeschen', 'sqlError');
         } else {
-            $this->handleInfo('fragebogenLoeschen', 'geloescht');
+           // $this->handleInfo('fragebogenLoeschen', 'geloescht');
         }
     }
 

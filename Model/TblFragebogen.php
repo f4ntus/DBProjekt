@@ -34,6 +34,7 @@ class TblFragebogen extends AbstractSQLWrapper
     }
     function deleteRecord($fbnr)
     {
+        //ToDo Chris: Alle abhängigkeiten löschen
         $sql = "DELETE FROM tbl_fragebogen WHERE FbNr = '$fbnr'";
         return $this->globalDeleteRecord($sql);
     }
