@@ -164,18 +164,13 @@ class BefragerController extends GlobalFunctions
     public function fragebogenLoeschen($title)
     {
         $fbnr = $this->tblFragebogen->selectUniqueRecordByTitel($title)->FbNr;
-        $sqlObject = $this->tblFreigeschaltet->deleteRecord($fbnr);
-        $sqlObject = $this->tblKommentiert->deleteRecord($fbnr);
-        $sqlObject = $this->tblAbschliessen->deleteRecord($fbnr);
-        $sqlObject = $this->tblBeantwortet->deleteRecord($fbnr);
-        $sqlObject =  $this->tblFrage->deleteRecord($fbnr);
         $sqlObject = $this->tblFragebogen->deleteRecord($fbnr);
         if ($sqlObject != 'success') {
-          //  $this->handleError('fragebogenLoeschen', 'sqlError');
+          $this->handleError('fragebogenLoeschen', 'sqlError');
         } else {
-           // $this->handleInfo('fragebogenLoeschen', 'geloescht');
+          $this->handleInfo('fragebogenLoeschen', 'geloescht');
         }
-    }
+    }     
 
 
     public function controllMatrikelnummer()
