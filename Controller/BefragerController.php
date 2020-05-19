@@ -161,16 +161,52 @@ class BefragerController extends GlobalFunctions
         }
     }
 
-    public function fragebogenLoeschen($title)
+    public function fragebogenLoeschen($titel)
     {
-        $fbnr = $this->tblFragebogen->selectUniqueRecordByTitel($title)->FbNr;
+        $fbnr = $this->tblFragebogen->selectUniqueRecordByTitel($titel)->FbNr;
         $sqlObject = $this->tblFragebogen->deleteRecord($fbnr);
         if ($sqlObject != 'success') {
-          $this->handleError('fragebogenLoeschen', 'sqlError');
+            $this->handleError('fragebogenLoeschen', 'sqlError');
         } else {
-          $this->handleInfo('fragebogenLoeschen', 'geloescht');
+            $this->handleInfo('fragebogenLoeschen', 'geloescht');
         }
-    }     
+    }
+
+    public function fragebogenBearbeiten($titel)
+    {
+        $fbnr = $this->tblFragebogen->selectUniqueRecordByTitel($titel)->FbNr;
+        $suffixString = '?fbnr=' . $fbnr;
+        $this->moveToPage('FragebogenBearbeiten.php', $suffixString);
+    }
+
+    public function fragenAnzeigenBearbeiten($fbnr)
+    {
+        $sqlObject = $this->tblFrage->selectRecords($fbnr);
+        $checkboxString = '';
+        $fnr = 1;
+
+        while ($row = $sqlObject->fetch_object()) {
+            $checkboxString = $checkboxString . "<b> Frage " . $fnr . " </b><input type ='checkbox' name='frage" . $fnr . "' value='" . $row->Fragetext . "><label for='frage" . $fnr . "'>" . $row->Fragetext . "</label></br>";
+            $fnr++;
+        }
+
+        return $checkboxString;
+    }
+
+    public function einzelneFragenLoeschen($post)
+    {
+        for ($fnr = 1; $fnr < count($post); $fnr++) {
+            $postArrayName = 'frage' . $fnr;
+            $fragetext = $post[$postArrayName];
+            $sqlObject = $this->tblFrage->deleteRecord($fragetext);
+            if ($sqlObject != 'success') {
+                $this->handleError('einzelneFragenLoeschen', 'sqlError');
+                echo $sqlObject;
+                exit;
+            } 
+    } $this->handleInfo('einzelneFragenLoeschen', 'erfolgreich');
+}
+
 
 
     public function controllMatrikelnummer()

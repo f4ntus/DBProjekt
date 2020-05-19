@@ -27,9 +27,9 @@ class TblFrage extends AbstractSQLWrapper
         $sql = "INSERT INTO tbl_frage (FNr, FbNr, Fragetext) VALUES ('$fnr', '$fbnr', '$fragetext')";
         return $this->globalInsertRecord($sql);
     }
-    function deleteRecord($fbnr)
+    function deleteRecord($fragetext)
     {
-        $sql = "DELETE FROM tbl_frage WHERE FbNr = '$fbnr'";
+        $sql = "DELETE FROM tbl_frage WHERE Fragetext = '$fragetext'";
         return $this->globalDeleteRecord($sql);
     }
 }

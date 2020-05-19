@@ -63,6 +63,10 @@ session_start();
                 <button type="submit" name="fb_freischalten">Kurs freischalten</button>
         </form>
         </br>
+        <form method="post" action="FragebogenBearbeiten.php">
+                <button type="submit" name="fb_bearbeiten">Fragebogen bearbeiten</button>
+        </form>
+        </br>
         <form method="post" action="FragebogenKopieren.php">
                 <button type="submit" name="fb_kopieren">Fragebogen kopieren</button>
         </form>
