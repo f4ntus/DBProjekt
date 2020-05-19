@@ -84,9 +84,9 @@ session_start();
 
         <label for="password">Passwort</label> </br>
         <input type="password" name="password" id="password"> </br>
-        <input type="submit" name="registrieren" value="Registrieren" />
-        </div>
         <input type="submit" name="anmelden" value="Anmelden" />
+        </div>
+        <input type="submit" name="registrieren" value="Registrieren" />
     </form>
     </div>
     <?php
