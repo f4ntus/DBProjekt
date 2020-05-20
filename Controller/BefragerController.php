@@ -41,7 +41,7 @@ class BefragerController extends GlobalFunctions
             $postArrayName = 'fragetext' . $fnr;
             $fragetext = $post[$postArrayName];
 
-            for ($fnr1 = 1; $fnr1 <= $anzFragen; $fnr1++) {
+            for ($fnr1 = 1; $fnr1 < $anzFragen; $fnr1++) {
 
                 if ($fnr == $fnr1) {
                     $fnr1++;
@@ -63,8 +63,8 @@ class BefragerController extends GlobalFunctions
             $sqlObject = $this->tblFrage->insertRecord($fbnr, $fnr, $fragetext);
             if ($sqlObject != 'success') {
                 echo $sqlObject; //$this->handleError('fragenErstellen', '?error=sqlError');
-                exit;
-            }
+                exit; 
+            } 
         }
 
         $this->handleInfo('fragebogenErstellt', 'fb_erstellt');
