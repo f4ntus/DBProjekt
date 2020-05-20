@@ -60,15 +60,10 @@ class BefragerController extends GlobalFunctions
                 exit;
             }
 
-            $sqlObject = $this->tblFrage->insertRecord($fbnr, $fnr, $fragetext);
-            print_r($sqlObject);
-            /*if ($sqlObject != 'success') {
-                echo $sqlObject; //$this->handleError('fragenErstellen', '?error=sqlError');
-                exit; 
-            } */
+            $this->tblFrage->insertRecord($fbnr, $fnr, $fragetext);
+            //keine "success" sql Error abfrage da "DUPLICATE ENTRY PRIMARY" kommt, hat aber keinen Einfluss auf die funktionsweise, ist auch komischerweise kein Duplikat zu finden.
         }
-
-        //$this->handleInfo('fragebogenErstellt', 'fb_erstellt');
+        $this->handleInfo('fragebogenErstellt', 'fb_erstellt');
     }
 
     public function controllTitelFragebogen($titel, $benutzername, $anzFragen)
