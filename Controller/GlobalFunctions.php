@@ -54,7 +54,7 @@ class GlobalFunctions
                 break;
 
             case 'fragenErstellen':
-                $GETString = '?error=' . $errorCode;
+                $GETString = $errorCode;
                 $this->moveToPage('FragenErstellen.php', $GETString);
                 break;
 
