@@ -22,6 +22,13 @@ $title = $_GET['Titel']
 
   <!-- Platzhalter, hier werden potentzielle Fehler angezeigt -->
   <?php
+  if (isset($_GET['error'])) {
+    echo '<div class="errorKasten">';
+    if ($_GET['error'] == 'leereFrage') {
+      echo '<p>Sie können keine leere Frage speichern, bitte füllen Sie die Felder aus.</p>';
+    }
+    echo '</div>';
+  }
 
   ?>
 
@@ -29,7 +36,7 @@ $title = $_GET['Titel']
 
   <?php
   echo "<h2>Fragebogentitel:" . $title . "</h2>";
-?>
+  ?>
 
   <form method="post" action="">
     </br>
@@ -43,8 +50,7 @@ $title = $_GET['Titel']
   </form>
   <?php
   if (isset($_POST['fragenspeichern'])) {
-    echo $befragerController->createFragen($fbnr, $anzFragen, $_POST);
-    // movetofreiben mit nummer und erfolgsmeldung
+    echo $befragerController->createFragen($fbnr, $anzFragen, $_POST, $_GET['Titel']);
   }
   ?>
 

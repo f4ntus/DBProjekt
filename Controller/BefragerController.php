@@ -34,18 +34,23 @@ class BefragerController extends GlobalFunctions
 
     // noch in Bearbeitung --> @JOSC
     // Fragen müssen noch geprüft werden --> @JOSC
-    public function createFragen($fbnr, $anzFragen, $post)
+    public function createFragen($fbnr, $anzFragen, $post, $titel)
     {
 
         for ($fnr = 1; $fnr <= $anzFragen; $fnr++) {
             $postArrayName = 'fragetext' . $fnr;
             $fragetext = $post[$postArrayName];
+            if ($fragetext == '') {
+                $suffixString = '?AnzahlFragen=' . $anzFragen . '&Fbnr=' . $fbnr . '&Titel=' . $titel . '&error=leereFrage'; 
+            $this->handleError('fragenErstellen', $suffixString);
+            exit;
+            } else {
             $sqlObject = $this->tblFrage->insertRecord($fbnr, $fnr, $fragetext);
             if ($sqlObject != 'success') {
-                //$this->handleError('fragenErstellen', 'sqlError');
-                echo $sqlObject;
+                $this->handleError('fragenErstellen', '?error=sqlError');
                 exit;
             }
+        }
         }
         $this->handleInfo('fragebogenErstellt', 'fb_erstellt');
     }
@@ -55,13 +60,17 @@ class BefragerController extends GlobalFunctions
         $sqlObject = $this->tblFragebogen->selectUniqueRecordByTitel($titel);
         if (is_null($sqlObject)) {
             $sqlResult = $this->tblFragebogen->insertRecord($titel, $benutzername);
+            if ($anzFragen <= 0){
+                $this->handleError('neuerFragebogen', 'keineFragen');
+            } else {
             if ($sqlResult != 'error') {
                 $suffixString = '?AnzahlFragen=' . $anzFragen . '&Fbnr=' . $sqlResult . '&Titel=' . $titel;
                 $this->moveToPage('FragenErstellen.php', $suffixString);
             } else {
                 $this->handleError('neuerFragebogen', 'sqlError');
             }
-        } else {
+        }
+     } else {
             $this->handleError('neuerFragebogen', 'titleInUse');
         }
     }
