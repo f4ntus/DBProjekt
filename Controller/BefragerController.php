@@ -61,23 +61,24 @@ class BefragerController extends GlobalFunctions
             }
 
             $sqlObject = $this->tblFrage->insertRecord($fbnr, $fnr, $fragetext);
-            if ($sqlObject != 'success') {
+            print_r($sqlObject);
+            /*if ($sqlObject != 'success') {
                 echo $sqlObject; //$this->handleError('fragenErstellen', '?error=sqlError');
                 exit; 
-            } 
+            } */
         }
 
-        $this->handleInfo('fragebogenErstellt', 'fb_erstellt');
+        //$this->handleInfo('fragebogenErstellt', 'fb_erstellt');
     }
 
     public function controllTitelFragebogen($titel, $benutzername, $anzFragen)
     {
         $sqlObject = $this->tblFragebogen->selectUniqueRecordByTitel($titel);
         if (is_null($sqlObject)) {
-            $sqlResult = $this->tblFragebogen->insertRecord($titel, $benutzername);
             if ($anzFragen <= 0) {
                 $this->handleError('neuerFragebogen', 'keineFragen');
             } else {
+                $sqlResult = $this->tblFragebogen->insertRecord($titel, $benutzername);
                 if ($sqlResult != 'error') {
                     $suffixString = '?AnzahlFragen=' . $anzFragen . '&Fbnr=' . $sqlResult . '&Titel=' . $titel;
                     $this->moveToPage('FragenErstellen.php', $suffixString);
