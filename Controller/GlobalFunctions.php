@@ -81,8 +81,12 @@ class GlobalFunctions
                 $GETString = '?error=' . $errorCode;
                 $this->moveToPage('FragebogenLoeschen.php', $GETString);
                 break;
-            case 'einzelneFragenLoeschen':
-                $GETString = '?error=' . $errorCode;
+            case 'einzelneFrageLoeschen':
+                $GETString = $errorCode;
+                $this->moveToPage('FragebogenBearbeiten.php', $GETString);
+                break;
+            case 'einzelneFrageHinzufügen':
+                $GETString = $errorCode;
                 $this->moveToPage('FragebogenBearbeiten.php', $GETString);
                 break;
         }
@@ -120,8 +124,12 @@ class GlobalFunctions
                 $GETString = '?info=' . $infoCode;
                 $this->moveToPage('menuBefrager.php', $GETString);
                 break;
-            case "einzelneFragenLoeschen":
-                $GETString = '?info=' . $infoCode;
+            case "einzelneFrageLoeschen":
+                $GETString = $infoCode;
+                $this->moveToPage('FragebogenBearbeiten.php', $GETString);
+                break;
+            case 'einzelneFrageHinzufügen':
+                $GETString = $infoCode;
                 $this->moveToPage('FragebogenBearbeiten.php', $GETString);
                 break;
         }

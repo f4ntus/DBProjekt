@@ -1,5 +1,8 @@
 <?php
 session_start();
+
+require '../Controller/BefragerController.php';
+$befragerController = new BefragerController();
 ?>
 
 <!DOCTYPE html>
@@ -88,11 +91,7 @@ session_start();
         <p>Übersicht Ihrer bereits erstellen Fragebögen:</p>
 
         <?php
-
-        require '../Controller/BefragerController.php';
-        $befragerController = new BefragerController();
         $response = $befragerController->createInnerTableBefrager($recentUser);
-
         if ($response == '') {
                 echo '<p>Sie haben noch keinen Fragebogen erstellt.</p>';
         } else {

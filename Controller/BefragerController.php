@@ -201,21 +201,24 @@ class BefragerController extends GlobalFunctions
 
     public function fragenAnzeigenBearbeiten($fbnr)
     {
+
         $sqlObject = $this->tblFrage->selectRecords($fbnr);
-        $checkboxString = '';
-        $fnr = 1;
-
+        $tableString = '';
         while ($row = $sqlObject->fetch_object()) {
-            $checkboxString = $checkboxString . "<b> Frage " . $fnr . " </b><input type ='checkbox' name='frage" . $fnr . "' value='" . $row->Fragetext . "><label for='frage" . $fnr . "'>" . $row->Fragetext . "</label></br>";
-            $fnr++;
+            $tableString = $tableString . "<tr> 
+            <td>" . $_SESSION['FNr'] = $row->FNr . "</td>
+            <td>" . $row->Fragetext . "</td>
+            <td> <button type='submit' name='frage_loeschen'>Löschen</button></td>
+            </tr>";
         }
-
-        return $checkboxString;
+        return $tableString;
     }
 
-    public function einzelneFragenLoeschen($post)
+    public function einzelneFrageLoeschen($post)
     {
-        for ($fnr = 1; $fnr < count($post); $fnr++) {
+         return print_r($post);
+
+        /*for ($fnr = 1; $fnr < count($post); $fnr++) {
             $postArrayName = 'frage' . $fnr;
             $fragetext = $post[$postArrayName];
             $sqlObject = $this->tblFrage->deleteRecord($fragetext);
@@ -224,7 +227,20 @@ class BefragerController extends GlobalFunctions
                 echo $sqlObject;
                 exit;
             } 
-    } $this->handleInfo('einzelneFragenLoeschen', 'erfolgreich');
+    } $this->handleInfo('einzelneFragenLoeschen', 'erfolgreich');*/
+}
+
+public function einzelneFrageHinzufügen($fbnr, $fragetext){
+    $maxFnr = $this->tblFrage->maxRecord($fbnr);
+    echo $maxFnr;
+    /*$sqlObject = $this->tblFrage->insertRecord($fbnr, $neueFnr, $fragetext);
+    if($sqlObject == "success") {
+        $suffixString = '?fbnr=' . $fbnr . '?info=frage_hinzugefügt'; 
+        $this->handleInfo('einzelneFrageHinzufügen', $suffixString);
+    } else {
+        $suffixString = '?fbnr=' . $fbnr . '?error=sqlError'; 
+        $this->handleError('einzelneFrageHinzufügen', $suffixString);
+    }*/
 }
 
 

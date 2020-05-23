@@ -32,5 +32,11 @@ class TblFrage extends AbstractSQLWrapper
         $sql = "DELETE FROM tbl_frage WHERE Fragetext = '$fragetext'";
         return $this->globalDeleteRecord($sql);
     }
+
+    function maxRecord($fbnr)
+    {
+        $sql = "SELECT max(FNr) FROM tbl_frage WHERE FbNr = '$fbnr'";
+        return $this->globalSelectUniqueRecord($sql);
+    }
 }
 ?>

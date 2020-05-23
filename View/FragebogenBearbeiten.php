@@ -30,8 +30,11 @@ $recentUser = $_SESSION['befrager'];
 
     if (isset($_GET['info'])) {
         echo '<div class="infoKasten">';
-        if ($_GET['info'] == 'erfolgreich') {
-            echo '<p>Die ausgewählten Fragen wurden erfolgreich gelöscht</p>';
+        if ($_GET['info'] == 'frage_geloescht') {
+            echo '<p>Die ausgewählte Frage wurde erfolgreich gelöscht</p>';
+        }
+        if ($_GET['info'] == 'frage_hinzugefügt') {
+            echo '<p>Die Frage wurde erfolgreich hinzugefügt</p>';
         }
 
         echo '</div>';
@@ -58,25 +61,48 @@ $recentUser = $_SESSION['befrager'];
     </form>
     </div>
 
-    <form method="post">
+
     <?php
     if (isset($_GET['fbnr'])) {
         echo "<div>";
-        $fragen = $befragerController->fragenAnzeigenBearbeiten($_GET['fbnr']);
-        echo $fragen;
+    ?>
+
+        <form method="post">
+            <p>Übersicht Ihrer Fragen:</p>
+            <table>
+                <tr>
+                    <th>Frage</th>
+                    <th>Fragetext</th>
+                </tr>
+                <?php
+                $table = $befragerController->fragenAnzeigenBearbeiten($_GET['fbnr']);
+                echo $table;
+                ?>
+            </table>
+        </form>
+    </br>
+
+        <form method="post">
+            <label for='neue_frage'>Frage hinzufügen:</label></br>
+            <input type="text" name="neue_frage">
+            <button type="submit" name="frage_hinzufügen">Frage hinzufügen</button>
+        </form>
+    <?php
     } else echo "<div hidden>";
     ?>
-    <button type="submit" name="fragen_loeschen">Fragen löschen</button>
-    </form>
-</div>
+
+    </div>
 
 
     <?php
     if (isset($_POST['bearbeiten'])) {
         $befragerController->fragebogenBearbeiten($_POST['Fragebogen']);
     }
-    if (isset($_POST['fragen_loeschen'])) {
-        $befragerController->einzelneFragenLoeschen($_POST);
+    if (isset($_POST['frage_loeschen'])) {
+        $befragerController->einzelneFrageLoeschen($_POST['frage_loeschen']);
+    }
+    if (isset($_POST['frage_hinzufügen'])){
+        $befragerController->einzelneFrageHinzufügen($_GET['fbnr'], $_POST['neue_frage']);
     }
     ?>
 
