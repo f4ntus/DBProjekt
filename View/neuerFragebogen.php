@@ -26,6 +26,9 @@ $befragerController = new BefragerController();
     if ($_GET['error'] == 'sqlError') {
       echo '<p>Ups da ist etwas schief gelaufen versuchen sie es nochmal oder wenden Sie sich an ihren Systemadmistrator</p>';
     }
+    if ($_GET['error'] == 'keineFragen') {
+      echo '<p>Ihr Fragebogen muss mindestens eine Frage beinhalten. Bitte versuchen Sie es erneut.</p>';
+    }
 
     echo '</div>';
   }
@@ -34,14 +37,14 @@ $befragerController = new BefragerController();
 
   <form method="post" action="neuerFragebogen.php">
 
-    <p>Titel des Fragebogens</p>
+    <label for='titel'>Titel des Fragebogens</label></br>
     <input type="text" name="titel">
 
     </br>
     </br>
 
 
-    <p>Anzahl Fragen</p>
+    <label for='anzahlFragen'>Anzahl Fragen</label></br>
     <input type="number" name="anzahlFragen">
 
     </br>

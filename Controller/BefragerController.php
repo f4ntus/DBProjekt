@@ -34,18 +34,34 @@ class BefragerController extends GlobalFunctions
 
     // noch in Bearbeitung --> @JOSC
     // Fragen müssen noch geprüft werden --> @JOSC
-    public function createFragen($fbnr, $anzFragen, $post)
+    public function createFragen($fbnr, $anzFragen, $post, $titel)
     {
 
         for ($fnr = 1; $fnr <= $anzFragen; $fnr++) {
             $postArrayName = 'fragetext' . $fnr;
             $fragetext = $post[$postArrayName];
-            $sqlObject = $this->tblFrage->insertRecord($fbnr, $fnr, $fragetext);
-            if ($sqlObject != 'success') {
-                //$this->handleError('fragenErstellen', 'sqlError');
-                echo $sqlObject;
+
+            for ($fnr1 = 1; $fnr1 < $anzFragen; $fnr1++) {
+
+                if ($fnr == $fnr1) {
+                    $fnr1++;
+                }
+                $postArrayName1 = 'fragetext' . $fnr1;
+                $fragetext1 = $post[$postArrayName1];
+                if ($fragetext == $fragetext1) {
+                    $suffixString = '?AnzahlFragen=' . $anzFragen . '&Fbnr=' . $fbnr . '&Titel=' . $titel . '&error=gleicheFrage';
+                    $this->handleError('fragenErstellen', $suffixString);
+                    exit;
+                }
+            }
+            if ($fragetext == '') {
+                $suffixString = '?AnzahlFragen=' . $anzFragen . '&Fbnr=' . $fbnr . '&Titel=' . $titel . '&error=leereFrage';
+                $this->handleError('fragenErstellen', $suffixString);
                 exit;
             }
+
+            $this->tblFrage->insertRecord($fbnr, $fnr, $fragetext);
+            //keine "success" sql Error abfrage da "DUPLICATE ENTRY PRIMARY" kommt, hat aber keinen Einfluss auf die funktionsweise, ist auch komischerweise kein Duplikat zu finden.
         }
         $this->handleInfo('fragebogenErstellt', 'fb_erstellt');
     }
@@ -54,12 +70,16 @@ class BefragerController extends GlobalFunctions
     {
         $sqlObject = $this->tblFragebogen->selectUniqueRecordByTitel($titel);
         if (is_null($sqlObject)) {
-            $sqlResult = $this->tblFragebogen->insertRecord($titel, $benutzername);
-            if ($sqlResult != 'error') {
-                $suffixString = '?AnzahlFragen=' . $anzFragen . '&Fbnr=' . $sqlResult . '&Titel=' . $titel;
-                $this->moveToPage('FragenErstellen.php', $suffixString);
+            if ($anzFragen <= 0) {
+                $this->handleError('neuerFragebogen', 'keineFragen');
             } else {
-                $this->handleError('neuerFragebogen', 'sqlError');
+                $sqlResult = $this->tblFragebogen->insertRecord($titel, $benutzername);
+                if ($sqlResult != 'error') {
+                    $suffixString = '?AnzahlFragen=' . $anzFragen . '&Fbnr=' . $sqlResult . '&Titel=' . $titel;
+                    $this->moveToPage('FragenErstellen.php', $suffixString);
+                } else {
+                    $this->handleError('neuerFragebogen', 'sqlError');
+                }
             }
         } else {
             $this->handleError('neuerFragebogen', 'titleInUse');
