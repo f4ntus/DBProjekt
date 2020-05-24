@@ -99,7 +99,7 @@ $recentUser = $_SESSION['befrager'];
         $befragerController->fragebogenBearbeiten($_POST['Fragebogen']);
     }
     if (isset($_POST['frage_loeschen'])) {
-        $befragerController->einzelneFrageLoeschen($_POST['frage_loeschen']);
+        $befragerController->einzelneFrageLoeschen($_POST['frage_loeschen'], $_GET['fbnr']);
     }
     if (isset($_POST['frage_hinzufügen'])){
         $befragerController->einzelneFrageHinzufügen($_GET['fbnr'], $_POST['neue_frage']);

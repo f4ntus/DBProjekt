@@ -27,15 +27,15 @@ class TblFrage extends AbstractSQLWrapper
         $sql = "INSERT INTO tbl_frage (FNr, FbNr, Fragetext) VALUES ('$fnr', '$fbnr', '$fragetext')";
         return $this->globalInsertRecord($sql);
     }
-    function deleteRecord($fragetext)
+    function deleteRecord($fnr, $fbnr)
     {
-        $sql = "DELETE FROM tbl_frage WHERE Fragetext = '$fragetext'";
+        $sql = "DELETE FROM tbl_frage WHERE FbNr = '$fbnr' AND FNr = '$fnr'";
         return $this->globalDeleteRecord($sql);
     }
 
     function maxRecord($fbnr)
     {
-        $sql = "SELECT max(FNr) FROM tbl_frage WHERE FbNr = '$fbnr'";
+        $sql = "SELECT max(FNr) AS maxFnr FROM tbl_frage WHERE FbNr = '$fbnr'";
         return $this->globalSelectUniqueRecord($sql);
     }
 }

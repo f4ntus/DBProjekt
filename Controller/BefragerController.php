@@ -206,41 +206,38 @@ class BefragerController extends GlobalFunctions
         $tableString = '';
         while ($row = $sqlObject->fetch_object()) {
             $tableString = $tableString . "<tr> 
-            <td>" . $_SESSION['FNr'] = $row->FNr . "</td>
+            <td>" . $row->FNr . "</td>
             <td>" . $row->Fragetext . "</td>
-            <td> <button type='submit' name='frage_loeschen'>Löschen</button></td>
+            <td> <button type='submit' name='frage_loeschen' value='" . $row->FNr . "'>Löschen</button></td>
             </tr>";
         }
         return $tableString;
     }
 
-    public function einzelneFrageLoeschen($post)
-    {
-         return print_r($post);
+    public function einzelneFrageLoeschen($fnr, $fbnr){
+        $sqlObject = $this->tblFrage->deleteRecord($fnr, $fbnr);
+        if($sqlObject == "success") {
+            $suffixString = '?fbnr=' . $fbnr . '?info=frage_geloescht'; 
+            $this->handleInfo('einzelneFrageLoeschen', $suffixString);
+        } else {
+            $suffixString = '?fbnr=' . $fbnr . '?error=sqlError'; 
+            $this->handleError('einzelneFragenLoeschen', $suffixString);
+        }
 
-        /*for ($fnr = 1; $fnr < count($post); $fnr++) {
-            $postArrayName = 'frage' . $fnr;
-            $fragetext = $post[$postArrayName];
-            $sqlObject = $this->tblFrage->deleteRecord($fragetext);
-            if ($sqlObject != 'success') {
-                $this->handleError('einzelneFragenLoeschen', 'sqlError');
-                echo $sqlObject;
-                exit;
-            } 
-    } $this->handleInfo('einzelneFragenLoeschen', 'erfolgreich');*/
-}
+
+    }
 
 public function einzelneFrageHinzufügen($fbnr, $fragetext){
-    $maxFnr = $this->tblFrage->maxRecord($fbnr);
-    echo $maxFnr;
-    /*$sqlObject = $this->tblFrage->insertRecord($fbnr, $neueFnr, $fragetext);
+    $maxFnr = $this->tblFrage->maxRecord($fbnr)->maxFnr;
+    $neueFnr = $maxFnr + 1;
+    $sqlObject = $this->tblFrage->insertRecord($fbnr, $neueFnr, $fragetext);
     if($sqlObject == "success") {
         $suffixString = '?fbnr=' . $fbnr . '?info=frage_hinzugefügt'; 
         $this->handleInfo('einzelneFrageHinzufügen', $suffixString);
     } else {
         $suffixString = '?fbnr=' . $fbnr . '?error=sqlError'; 
         $this->handleError('einzelneFrageHinzufügen', $suffixString);
-    }*/
+    }
 }
 
 
