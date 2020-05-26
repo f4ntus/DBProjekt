@@ -24,6 +24,11 @@ $recentUser = $_SESSION['befrager'];
         if ($_GET['error'] == 'sqlError') {
             echo '<p>Ups da ist etwas schief gelaufen versuchen sie es nochmal oder wenden Sie sich an ihren Systemadmistrator</p>';
         }
+        if ($_GET['error'] == 'gleicheFrage') {
+            echo '<p>Die eingegebene Frage ist bereits im Fragebogen vorhanden</p>';
+        }if ($_GET['error'] == 'leereFrage') {
+            echo '<p>Eine Frage darf nicht leer sein, bitte füllen sie das Feld nochmals aus</p>';
+        }
 
         echo '</div>';
     }

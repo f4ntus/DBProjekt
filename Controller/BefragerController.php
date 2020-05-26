@@ -221,7 +221,7 @@ class BefragerController extends GlobalFunctions
             $this->handleInfo('einzelneFrageLoeschen', $suffixString);
         } else {
             $suffixString = '?fbnr=' . $fbnr . '?error=sqlError'; 
-            $this->handleError('einzelneFragenLoeschen', $suffixString);
+            $this->handleError('einzelneFrageLoeschen', $suffixString);
         }
 
 
@@ -230,12 +230,25 @@ class BefragerController extends GlobalFunctions
 public function einzelneFrageHinzufügen($fbnr, $fragetext){
     $maxFnr = $this->tblFrage->maxRecord($fbnr)->maxFnr;
     $neueFnr = $maxFnr + 1;
+    for ($fnr1 = 1; $fnr1 <= $maxFnr; $fnr1++) {
+        $fragetext1 = $this->tblFrage->selectUniqueRecord($fbnr, $fnr1)->Fragetext;
+        if ($fragetext == $fragetext1) {
+            $suffixString = $suffixString = '?fbnr=' . $fbnr . '&error=gleicheFrage';
+            $this->handleError('einzelneFrageHinzufügen', $suffixString);
+            exit;
+        }
+    }
+    if ($fragetext == '') {
+        $suffixString = $suffixString = $suffixString = '?fbnr=' . $fbnr . '&error=leereFrage';
+        $this->handleError('einzelneFrageHinzufügen', $suffixString);
+        exit;
+    }
     $sqlObject = $this->tblFrage->insertRecord($fbnr, $neueFnr, $fragetext);
     if($sqlObject == "success") {
-        $suffixString = '?fbnr=' . $fbnr . '?info=frage_hinzugefügt'; 
+        $suffixString = '?fbnr=' . $fbnr . '&info=frage_hinzugefügt'; 
         $this->handleInfo('einzelneFrageHinzufügen', $suffixString);
     } else {
-        $suffixString = '?fbnr=' . $fbnr . '?error=sqlError'; 
+        $suffixString = '?fbnr=' . $fbnr . '&error=sqlError'; 
         $this->handleError('einzelneFrageHinzufügen', $suffixString);
     }
 }
