@@ -17,9 +17,9 @@ class TblFrage extends AbstractSQLWrapper
         } 
         return $this->globalSelectRecords($sql);
     }
-    function updateRecord()
+    function updateRecord($fbnr, $fnr, $fragetext)
     {
-        $sql = '';
+        $sql = "UPDATE tbl_frage SET FNr = '$fnr' WHERE FbNr = '$fbnr' AND Fragetext = '$fragetext'";
         return $this->globalUpdateRecord($sql);
     }
     function insertRecord($fbnr, $fnr, $fragetext)
