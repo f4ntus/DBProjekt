@@ -3,6 +3,7 @@ session_start();
 require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();
 $recentUser = $_SESSION['befrager'];
+include "navbar.php";
 ?>
 <!DOCTYPE html>
 
@@ -16,10 +17,6 @@ $recentUser = $_SESSION['befrager'];
 </head>
 
 <body>
-  </br></br>
-  <form action="menuBefrager.php">
-    <button type="submit" name="menu">Zurück zum Hauptmenü</button>
-  </form>
 
   <!-- Platzhalter, hier werden potentzielle Fehler und Informationen angezeigt -->
   <?php
