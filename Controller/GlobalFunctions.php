@@ -33,7 +33,6 @@ class GlobalFunctions
         $this->tblKurs = new TblKurs();
         $this->tblStudent = new TblStudent();
         $this->tblFreigeschaltet = new TblFreigeschaltet();
-
     }
     protected function handleError($moveTo, $errorCode)
     {
@@ -62,25 +61,33 @@ class GlobalFunctions
                 $GETString = '?error=' . $errorCode;
                 $this->moveToPage('FreischaltungKurs.php', $GETString);
                 break;
-            
+
             case 'fragebogenKopieren':
                 $GETString = '?error=' . $errorCode;
                 $this->moveToPage('FragebogenKopieren.php', $GETString);
                 break;
-            
+
             case 'neuerKurs':
                 $GETString = '?error=' . $errorCode;
                 $this->moveToPage('neuerKurs.php', $GETString);
                 break;
-            
+
             case 'neueMatrikelnummer':
-                    $GETString = '?error=' . $errorCode;
-                    $this->moveToPage('neuerStudent.php', $GETString);
-                    break;  
-            
+                $GETString = '?error=' . $errorCode;
+                $this->moveToPage('neuerStudent.php', $GETString);
+                break;
+
             case 'fragebogenLoeschen':
                 $GETString = '?error=' . $errorCode;
                 $this->moveToPage('FragebogenLoeschen.php', $GETString);
+                break;
+            case 'einzelneFrageLoeschen':
+                $GETString = $errorCode;
+                $this->moveToPage('FragebogenBearbeiten.php', $GETString);
+                break;
+            case 'einzelneFrageHinzufügen':
+                $GETString = $errorCode;
+                $this->moveToPage('FragebogenBearbeiten.php', $GETString);
                 break;
         }
     }
@@ -92,32 +99,39 @@ class GlobalFunctions
                 $GETString = '?info=' . $infoCode;
                 $this->moveToPage('menuBefrager.php', $GETString);
                 break;
-            
+
             case "kurseFreischalten":
                 $GETString = '?info=' . $infoCode;
                 $this->moveToPage('FreischaltungKurs.php', $GETString);
                 break;
-            
+
             case "fragebogenKopieren":
                 $GETString = '?info=' . $infoCode;
                 $this->moveToPage('menuBefrager.php', $GETString);
                 break;
-            
+
             case "neuerKurs":
                 $GETString = '?info=' . $infoCode;
                 $this->moveToPage('menuBefrager.php', $GETString);
                 break;
-            
+
             case "neuerStudent":
-                 $GETString = '?info=' . $infoCode;
-                 $this->moveToPage('menuBefrager.php', $GETString);
-                 break;
+                $GETString = '?info=' . $infoCode;
+                $this->moveToPage('menuBefrager.php', $GETString);
+                break;
 
             case "fragebogenLoeschen":
                 $GETString = '?info=' . $infoCode;
                 $this->moveToPage('menuBefrager.php', $GETString);
                 break;
-
+            case "einzelneFrageLoeschen":
+                $GETString = $infoCode;
+                $this->moveToPage('FragebogenBearbeiten.php', $GETString);
+                break;
+            case 'einzelneFrageHinzufügen':
+                $GETString = $infoCode;
+                $this->moveToPage('FragebogenBearbeiten.php', $GETString);
+                break;
         }
     }
     protected function moveToPage($pageName, $suffix = '')

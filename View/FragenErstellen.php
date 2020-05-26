@@ -42,7 +42,7 @@ $title = $_GET['Titel']
 
   <?php
   echo "<h2>Fragebogentitel: " . $title . "</h2>";
-  ?>
+?>
 
   <form method="post">
     </br>

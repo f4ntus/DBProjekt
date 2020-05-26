@@ -1,5 +1,8 @@
 <?php
 session_start();
+
+require '../Controller/BefragerController.php';
+$befragerController = new BefragerController();
 ?>
 
 <!DOCTYPE html>
@@ -63,6 +66,10 @@ session_start();
                 <button type="submit" name="fb_freischalten">Kurs freischalten</button>
         </form>
         </br>
+        <form method="post" action="FragebogenBearbeiten.php">
+                <button type="submit" name="fb_bearbeiten">Fragebogen bearbeiten</button>
+        </form>
+        </br>
         <form method="post" action="FragebogenKopieren.php">
                 <button type="submit" name="fb_kopieren">Fragebogen kopieren</button>
         </form>
@@ -84,11 +91,7 @@ session_start();
         <p>Übersicht Ihrer bereits erstellen Fragebögen:</p>
 
         <?php
-
-        require '../Controller/BefragerController.php';
-        $befragerController = new BefragerController();
         $response = $befragerController->createInnerTableBefrager($recentUser);
-
         if ($response == '') {
                 echo '<p>Sie haben noch keinen Fragebogen erstellt.</p>';
         } else {

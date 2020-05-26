@@ -20,7 +20,11 @@ abstract class AbstractSQLWrapper {
 
     }
     protected function globalUpdateRecord($sql){
-
+        if ($this->db->query($sql)) {
+            return 'success';
+        } else {
+            return $this->db->error;
+        }
     }
     protected function globalInsertRecord($sql){
         if ($this->db->query($sql)) {

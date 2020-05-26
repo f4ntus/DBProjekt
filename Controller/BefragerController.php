@@ -181,9 +181,9 @@ class BefragerController extends GlobalFunctions
         }
     }
 
-    public function fragebogenLoeschen($title)
+    public function fragebogenLoeschen($titel)
     {
-        $fbnr = $this->tblFragebogen->selectUniqueRecordByTitel($title)->FbNr;
+        $fbnr = $this->tblFragebogen->selectUniqueRecordByTitel($titel)->FbNr;
         $sqlObject = $this->tblFragebogen->deleteRecord($fbnr);
         if ($sqlObject != 'success') {
             $this->handleError('fragebogenLoeschen', 'sqlError');
@@ -191,6 +191,87 @@ class BefragerController extends GlobalFunctions
             $this->handleInfo('fragebogenLoeschen', 'geloescht');
         }
     }
+
+    public function fragebogenBearbeiten($titel)
+    {
+        $fbnr = $this->tblFragebogen->selectUniqueRecordByTitel($titel)->FbNr;
+        $suffixString = '?fbnr=' . $fbnr;
+        $this->moveToPage('FragebogenBearbeiten.php', $suffixString);
+    }
+
+    public function fragenAnzeigenBearbeiten($fbnr)
+    {
+
+        $sqlObject = $this->tblFrage->selectRecords($fbnr);
+        $tableString = '';
+        while ($row = $sqlObject->fetch_object()) {
+            $tableString = $tableString . "<tr> 
+            <td>" . $row->FNr . "</td>
+            <td>" . $row->Fragetext . "</td>
+            <td> <button type='submit' name='frage_loeschen' value='" . $row->FNr . "'>Löschen</button></td>
+            </tr>";
+        }
+        return $tableString;
+    }
+
+    public function einzelneFrageLoeschen($fnr, $fbnr)
+    {
+        $sqlObject = $this->tblFrage->deleteRecord($fnr, $fbnr);
+        if ($sqlObject == "success") {
+            $this->sortFragen($fbnr, $fnr);
+            //$suffixString = '?fbnr=' . $fbnr . '&info=frage_geloescht'; 
+            //$this->handleInfo('einzelneFrageLoeschen', $suffixString);
+        } else {
+            $suffixString = '?fbnr=' . $fbnr . '&error=sqlError';
+            $this->handleError('einzelneFrageLoeschen', $suffixString);
+        }
+    }
+
+    public function sortFragen($fbnr, $fnr)
+    {
+        $sqlObject = $this->tblFrage->selectRecords($fbnr, "FNr > '$fnr'");
+        while ($row = $sqlObject->fetch_object()) {
+            $fragetext = $row->Fragetext;
+            $update = $this->tblFrage->updateRecord($fbnr, $fnr, $fragetext);
+            if ($update !== "success") {
+                $suffixString = '?fbnr=' . $fbnr . '&error=sqlError';
+                $this->handleError('einzelneFrageLoeschen', $suffixString);
+                exit;
+            } else {
+                $suffixString = '?fbnr=' . $fbnr . '&info=frage_geloescht';
+                $this->handleInfo('einzelneFrageLoeschen', $suffixString);
+            }
+            $fnr++;
+        }
+    }
+
+    public function einzelneFrageHinzufügen($fbnr, $fragetext)
+    {
+        $maxFnr = $this->tblFrage->maxRecord($fbnr)->maxFnr;
+        $neueFnr = $maxFnr + 1;
+        for ($fnr1 = 1; $fnr1 <= $maxFnr; $fnr1++) {
+            $fragetext1 = $this->tblFrage->selectUniqueRecord($fbnr, $fnr1)->Fragetext;
+            if ($fragetext == $fragetext1) {
+                $suffixString = $suffixString = '?fbnr=' . $fbnr . '&error=gleicheFrage';
+                $this->handleError('einzelneFrageHinzufügen', $suffixString);
+                exit;
+            }
+        }
+        if ($fragetext == '') {
+            $suffixString = $suffixString = $suffixString = '?fbnr=' . $fbnr . '&error=leereFrage';
+            $this->handleError('einzelneFrageHinzufügen', $suffixString);
+            exit;
+        }
+        $sqlObject = $this->tblFrage->insertRecord($fbnr, $neueFnr, $fragetext);
+        if ($sqlObject == "success") {
+            $suffixString = '?fbnr=' . $fbnr . '&info=frage_hinzugefügt';
+            $this->handleInfo('einzelneFrageHinzufügen', $suffixString);
+        } else {
+            $suffixString = '?fbnr=' . $fbnr . '&error=sqlError';
+            $this->handleError('einzelneFrageHinzufügen', $suffixString);
+        }
+    }
+
 
 
     public function controllMatrikelnummer()
