@@ -2,6 +2,7 @@
 session_start();
 require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();
+include "navbar.php";
 ?>
 <!DOCTYPE html>
 

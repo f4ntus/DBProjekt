@@ -4,7 +4,8 @@ require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();
 $fbnr = $_GET['Fbnr'];
 $anzFragen = $_GET['AnzahlFragen'];
-$title = $_GET['Titel']
+$title = $_GET['Titel'];
+include "navbar.php";
 ?>
 
 <!DOCTYPE html>

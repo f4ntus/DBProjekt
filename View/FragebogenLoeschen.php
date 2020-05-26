@@ -3,6 +3,7 @@ require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();
 session_start();
 $recentUser = $_SESSION['befrager'];
+include "navbar.php";
 ?>
 
 <!DOCTYPE html>
