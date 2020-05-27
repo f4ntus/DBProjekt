@@ -1,5 +1,10 @@
 <?php
 session_start();
+if (isset($_SESSION['befrager']) == false)
+{
+    header ('Location: http://localhost/DBProjekt/view/index.php');
+    exit;
+}
 require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();
 include "navbar.php";

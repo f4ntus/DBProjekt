@@ -15,7 +15,7 @@
         <nav>
             <ul>
                 <li><a href="menuBefrager.php">Home</a></li>
-                <li><a href="index.php">Logout</a></li>
+                <li><a href="logout.php">Logout</a></li>
                 <a class="text">Befragungstool der DHBW Ravensburg</a>
             </ul>
         </nav>
