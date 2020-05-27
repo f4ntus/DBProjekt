@@ -36,6 +36,14 @@ session_start();
 
         echo '</div>';
     }
+
+    if (isset($_GET['info'])) {
+        echo '<div class="infoKasten">';
+        if ($_GET['info'] == 'abgemeldet') {
+            echo '<p>Sie wurden erfolgreich abgemeldet</p>';
+        }
+        echo '</div>';
+    }
     ?>
 
     <h1> Herzlich willkommen im Befragungstool der DHBW </h1>
