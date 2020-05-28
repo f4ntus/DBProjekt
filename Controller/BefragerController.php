@@ -287,4 +287,42 @@ class BefragerController extends GlobalFunctions
             $this->handleError('neueMatrikelnummer', 'matrikelnummerInUse');
         }
     }
+
+    public function createDropdownFreigeschaltet($recentUser) {
+        
+        $sqlObject = $this->tblFreigeschaltet->selectRecordsFreigeschaltet($recentUser);
+        $dropdownString = '';
+        while ($row = $sqlObject->fetch_object()) {
+            $dropdownString = $dropdownString . "<option>" . $row->Titel . "</option>";
+        }
+        return $dropdownString;
+    }
+
+    public function selectKurseZuFragebogen($fbnr) {
+        
+    $sqlObject = $this->tblFreigeschaltet->selectRecordsByFragebogenNr($fbnr);
+    
+    
+    $dropdownString = "";
+    while ($row = $sqlObject->fetch_object()) {
+        $dropdownString = $dropdownString . "<option>" . $row->Name . "</option>";
+    }
+    return $dropdownString;
+
+    }
+
+    public function fragebogenAuswählen($titel)
+    {
+        $fbnr = $this->tblFragebogen->selectUniqueRecordByTitel($titel)->FbNr;
+        $suffixString = '?fbnr=' . $fbnr;
+        $this->moveToPage('Auswertung.php', $suffixString);
+    }
+
+    public function fragebogenAuswerten($fbnr, $name)
+    {
+        $suffixString = '?fbnr=' . $fbnr . '&?kurs=' . $name;
+        $this->moveToPage('Auswertung.php', $suffixString); 
+    }
+
+    
 }
