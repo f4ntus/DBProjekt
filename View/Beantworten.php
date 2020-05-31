@@ -34,7 +34,7 @@ $anzFragen = $studentController->anzahlSeitenProFB($_GET["Fragebogen"]);
            <form action="" method="POST">
                     
                <?php $studentController->showRadioButtons($_GET["Fragebogen"],$_GET["Frage"],$_SESSION['matrikelnummer'])?>
-                
+               <input type="submit" name="bsubmit" value="Next">
             </form>
             
             <?php 
