@@ -25,7 +25,13 @@ class StudentController extends GlobalFunctions
         // ToDo: Muss geprüft werden ob der Student angemeldet ist
         // prüfen ob Frage schon beantwortet wurde 
         $recordBeantwortet = $this->tblBeantwortet->selectUniqueRecord($fbnr,$fnr,$_SESSION['matrikelnummer']);
-        $this->tblBeantwortet->insertRecord($fbnr, $fnr, $_SESSION['matrikelnummer'], $post['bewertung']);
+        if (isset($recordBeantwortet)){
+            //Updaten wenn sie schonmal beantwortet wurde
+            $this->tblBeantwortet->updateRecord($fbnr, $fnr, $_SESSION['matrikelnummer'], $post['bewertung']);
+        }else{
+            // Neuer Datensatz, wenn sie noch nicht beantwortet wurde
+            $this->tblBeantwortet->insertRecord($fbnr, $fnr, $_SESSION['matrikelnummer'], $post['bewertung']);
+        }
         var_dump($fnr);
         $sqlObjectFragen = $this->tblFrage->selectRecords($fbnr,'FNr>'. $fnr); // liefert ab der aktuellen Frage
         $newFnr = $sqlObjectFragen->fetch_object()->FNr; // die nächste Fragennummer

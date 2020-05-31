@@ -13,9 +13,9 @@ class TblBeantwortet extends AbstractSQLWrapper
         $sql = "SELECT * FROM tbl_beantwortet where FbNr = '$fbnr' and matrikelnummer = '$matrikelnummer'";
         return $this->globalSelectRecords($sql);
     }
-    function updateRecord()
+    function updateRecord($fbnr, $fnr, $matrikelnummer, $bewertung)
     {
-        $sql = '';
+        $sql = "UPDATE tbl_beantwortet SET Bewertung = '$bewertung' where FbNr = '$fbnr' and FNr = '$fnr' and Matrikelnummer = '$matrikelnummer' ";
         return $this->globalUpdateRecord($sql);
     }
     function insertRecord($fbnr, $fnr, $matrikelnummer, $bewertung)
