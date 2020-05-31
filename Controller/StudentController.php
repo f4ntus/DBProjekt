@@ -22,7 +22,12 @@ class StudentController extends GlobalFunctions
     
     public function saveAndNavigateToNext($post,$fbnr,$fnr)
     {
-        // ToDo: Muss geprüft werden ob der Student angemeldet ist
+        // prüfen ob student angegemeldet ist
+        if ( ! $this->isAngemeldet()){
+            $this->handleError('anmeldungStudent','notLoggedIn');
+            return;
+        }
+
         // prüfen ob Frage schon beantwortet wurde 
         $recordBeantwortet = $this->tblBeantwortet->selectUniqueRecord($fbnr,$fnr,$_SESSION['matrikelnummer']);
         if (isset($recordBeantwortet)){
@@ -49,7 +54,12 @@ class StudentController extends GlobalFunctions
     
     public function navigateToFirstNotAnswerdQuestion($fbnr)
     {
-        // ToDo: Muss geprüft werden ob Student angemeldet ist.
+        // prüfen ob student angegemeldet ist
+        if ( ! $this->isAngemeldet()){
+            $this->handleError('anmeldungStudent','notLoggedIn');
+            return;
+        }
+
         $Fnr = $this->getFirstNotAnswerdQuestion($fbnr, $_SESSION["matrikelnummer"]);
         if ($Fnr == false) {
             echo '<p> Ups es ist etwas schiefgelaufen</p>';
@@ -104,8 +114,14 @@ class StudentController extends GlobalFunctions
             return $frage->Fragetext;
         }
     }
-    public function showRadioButtons($fbnr, $fnr, $matrikelnummer){
-        $recordBeantwortet = $this->tblBeantwortet->selectUniqueRecord($fbnr,$fnr,$matrikelnummer);
+    public function showRadioButtons($fbnr, $fnr){
+        // prüfen ob student angegemeldet ist
+        if ( ! $this->isAngemeldet()){
+            $this->handleError('anmeldungStudent','notLoggedIn');
+            return;
+        }
+
+        $recordBeantwortet = $this->tblBeantwortet->selectUniqueRecord($fbnr,$fnr,$_SESSION["matrikelnummer"]);
         if (isset($recordBeantwortet)) {
 
             switch($recordBeantwortet->Bewertung){
@@ -157,4 +173,12 @@ class StudentController extends GlobalFunctions
        
     }
 
+    private function isAngemeldet(){
+        $recordStudent = $this->tblStudent->selectUniqueRecord($_SESSION["matrikelnummer"]);
+        if(isset($recordStudent)){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
