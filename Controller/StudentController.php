@@ -23,6 +23,8 @@ class StudentController extends GlobalFunctions
     public function saveAndNavigateToNext($post,$fbnr,$fnr)
     {
         // ToDo: Muss geprüft werden ob der Student angemeldet ist
+        // prüfen ob Frage schon beantwortet wurde 
+        $recordBeantwortet = $this->tblBeantwortet->selectUniqueRecord($fbnr,$fnr,$_SESSION['matrikelnummer']);
         $this->tblBeantwortet->insertRecord($fbnr, $fnr, $_SESSION['matrikelnummer'], $post['bewertung']);
         var_dump($fnr);
         $sqlObjectFragen = $this->tblFrage->selectRecords($fbnr,'FNr>'. $fnr); // liefert ab der aktuellen Frage
