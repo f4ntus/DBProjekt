@@ -96,5 +96,54 @@ class StudentController extends GlobalFunctions
             return $frage->Fragetext;
         }
     }
+    public function showRadioButtons($fbnr, $fnr, $matrikelnummer){
+        $recordBeantwortet = $this->tblBeantwortet->selectUniqueRecord($fbnr,$fnr,$matrikelnummer);
+        switch($recordBeantwortet->Bewertung){
+            case 1:
+               echo' <input type="radio" name="bewertung" value="1" checked> 1
+                <input type="radio" name="bewertung" value="2"> 2
+                <input type="radio" name="bewertung" value="3"> 3
+                <input type="radio" name="bewertung" value="4"> 4 
+                <input type="radio" name="bewertung" value="5"> 5 ';
+            break;
+            case 2:
+                echo' <input type="radio" name="bewertung" value="1"> 1
+                <input type="radio" name="bewertung" value="2" checked> 2
+                <input type="radio" name="bewertung" value="3"> 3
+                <input type="radio" name="bewertung" value="4"> 4 
+                <input type="radio" name="bewertung" value="5"> 5 ';
+            break;
+            case 3:
+                echo' <input type="radio" name="bewertung" value="1"> 1
+                <input type="radio" name="bewertung" value="2"> 2
+                <input type="radio" name="bewertung" value="3" checked> 3
+                <input type="radio" name="bewertung" value="4"> 4 
+                <input type="radio" name="bewertung" value="5"> 5 ';
+            break;    
+            case 4:
+                echo' <input type="radio" name="bewertung" value="1"> 1
+                <input type="radio" name="bewertung" value="2"> 2
+                <input type="radio" name="bewertung" value="3"> 3
+                <input type="radio" name="bewertung" value="4" checked> 4 
+                <input type="radio" name="bewertung" value="5"> 5 ';
+            break;    
+            case 5:
+                echo' <input type="radio" name="bewertung" value="1"> 1
+                <input type="radio" name="bewertung" value="2"> 2
+                <input type="radio" name="bewertung" value="3"> 3
+                <input type="radio" name="bewertung" value="4"> 4 
+                <input type="radio" name="bewertung" value="5" checked> 5 ';
+            break;
+            default:
+                echo' <input type="radio" name="bewertung" value="1"> 1
+                <input type="radio" name="bewertung" value="2"> 2
+                <input type="radio" name="bewertung" value="3"> 3
+                <input type="radio" name="bewertung" value="4"> 4 
+                <input type="radio" name="bewertung" value="5"> 5 ';
+            break;    
+        }
+        
+       
+    }
 
 }

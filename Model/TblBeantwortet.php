@@ -3,9 +3,9 @@
 require_once 'AbstractSQLWrapper.php';
 class TblBeantwortet extends AbstractSQLWrapper
 {
-    function selectUniqueRecord()
+    function selectUniqueRecord($fbnr,$fnr,$matrikelnummer)
     {
-        $sql = '';
+        $sql = "SELECT * FROM tbl_beantwortet where FbNr = '$fbnr' and FNr = '$fnr' and Matrikelnummer = '$matrikelnummer'";
         return $this->globalSelectUniqueRecord($sql);
     }
     function selectRecords($fbnr, $matrikelnummer)

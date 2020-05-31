@@ -37,7 +37,7 @@ $anzFragen = $studentController->anzahlSeitenProFB($_GET["Fragebogen"]);
                 <input type="radio" name="bewertung" value="2"> 2
                 <input type="radio" name="bewertung" value="3"> 3
                 <input type="radio" name="bewertung" value="4"> 4 
-                <input type="radio" name="bewertung" value="5"> 5 
+                <input type="radio" name="bewertung" value="5" checked> 5 
                 <input type="submit" name="bsubmit" value="Next">
                 
             </form>
