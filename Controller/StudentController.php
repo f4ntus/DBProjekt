@@ -104,6 +104,20 @@ class StudentController extends GlobalFunctions
             return $frage->Fragetext;
         }
     }
+    public function goBack($fbnr, $fnr){
+        $recordsFrage = $this->tblFrage->selectRecords($fbnr);
+        $recordFrage = $recordsFrage->fetch_object(); // erste Frage
+        if ($fnr <= $recordFrage->FNr){
+            // wenn erste Frage -> zurück zum Hauptmenü
+            $this->moveToPage('MenuStudent.php');
+        } else {
+            // ansonsten zur letzten Frage
+            $fnr = $fnr - 1;
+            $suffix = '?Fragebogen=' . $fbnr .'&Frage=' .$fnr;
+            $this->moveToPage('Beantworten.php',$suffix);
+        }
+    }
+
     public function showRadioButtons($fbnr, $fnr, $matrikelnummer){
         $recordBeantwortet = $this->tblBeantwortet->selectUniqueRecord($fbnr,$fnr,$matrikelnummer);
         if (isset($recordBeantwortet)) {
