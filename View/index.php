@@ -81,6 +81,7 @@ session_start();
         if (isset($_GET['student'])) {
             echo '<label for="matirkelnummer">Matrikelnummer</label></br>
                 <input type="text" name="matrikelnummer" id="matirkelnummer"> </br>';
+            echo '<input type="submit" name="anmelden" value="Anmelden" />';
             echo '<div hidden>';
         } else {
             echo '<div>';
@@ -93,8 +94,9 @@ session_start();
         <label for="password">Passwort</label> </br>
         <input type="password" name="password" id="password"> </br>
         <input type="submit" name="anmelden" value="Anmelden" />
-        </div>
         <input type="submit" name="registrieren" value="Registrieren" />
+    </div>
+        
     </form>
     </div>
     <?php
