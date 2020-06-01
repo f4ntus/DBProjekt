@@ -14,8 +14,15 @@ $studentController = new StudentController();
 </head>
 
 <body>
-    <!-- Hier macht Lukas weiter -->
-
+    <h1>Vielen Dank für das beantworten der Fragen</h1>
+    <p> Wenn Sie möchten, können Sie noch einen Kommentar darlassen</p>
+    <form methode="post" action="">
+        <textarea id="text" name="text" cols="35" rows="4"></textarea>
+        </br>
+        <button type="submit" name="action" value="speichern">Fragebogen kommentieren</button>
+        <button type="submit" name="action" value="abschliessen">Kommentar speichern und Fragebogen abschließen</button>
+    </form>
+    
 </body>
 
 </html>
