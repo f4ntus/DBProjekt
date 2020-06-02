@@ -66,6 +66,14 @@ if (isset($_GET['name']))  {
         </table>
     </form>
 </br>
+
+    <form method="post">
+        <p><b>Kommentare:</b></p>
+            <?php
+            $string = $befragerController->kommentareAnzeigen($_GET['fbnr'], $_GET['name']);
+            echo $string;
+            ?>
+    </form>
 <?php
     } else echo "<div hidden>";
     ?>

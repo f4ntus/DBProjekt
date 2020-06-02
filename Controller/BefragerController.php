@@ -341,7 +341,7 @@ class BefragerController extends GlobalFunctions
 
     public function auswertungAnzeigen($fbnr, $kurs)
     {
-        $sqlObject = $this->tblAuswertung->selectUniqueRecordAVG($fbnr, $kurs);
+        $sqlObject = $this->tblAuswertung->selectRecordsAuswertung($fbnr, $kurs);
         
         $tableString = '';
         while ($row = $sqlObject->fetch_object()) {
@@ -355,6 +355,18 @@ class BefragerController extends GlobalFunctions
         }
         return $tableString;
     }
+
+    public function kommentareAnzeigen($fbnr, $kurs)
+    {
+        $sqlObject = $this->tblAuswertung->selectRecordsKommentare($fbnr, $kurs);
+        
+        $tableString = '';
+        while ($row = $sqlObject->fetch_object()) {
+            $tableString = $tableString . $row->Kommentar . "</br></br>";   
+        }
+        return $tableString;
+    }
+
 
     
 }
