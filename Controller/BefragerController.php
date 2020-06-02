@@ -310,7 +310,7 @@ class BefragerController extends GlobalFunctions
     return $dropdownString;
 
     }
-
+    
     public function fragebogenAuswählen($titel)
     {
         $fbnr = $this->tblFragebogen->selectUniqueRecordByTitel($titel)->FbNr;
@@ -318,10 +318,42 @@ class BefragerController extends GlobalFunctions
         $this->moveToPage('Auswertung.php', $suffixString);
     }
 
-    public function fragebogenAuswerten($fbnr, $name)
+    public function fragebogenAuswerten($fbnr, $kurs)
     {
-        $suffixString = '?fbnr=' . $fbnr . '&?kurs=' . $name;
+        $name = $this->tblFreigeschaltet->selectUniqueRecord($kurs)->Name;
+        $suffixString = '?fbnr=' . $fbnr . '&name=' . $name;   
         $this->moveToPage('Auswertung.php', $suffixString); 
+    }
+
+    /*public function auswertungAnzeigen($fbnr, $name)
+    {
+        $sqlObject = $this->tblFrage->selectRecords($fbnr);
+        $tableString = '';
+        while ($row = $sqlObject->fetch_object()) {
+            $tableString = $tableString . "<tr> 
+            <td>" . $row->FNr . "</td>
+            <td>" . $row->Fragetext . "</td>
+            </tr>";
+        }
+        return $tableString;
+    }
+    */
+
+    public function auswertungAnzeigen($fbnr, $kurs)
+    {
+        $sqlObject = $this->tblAuswertung->selectUniqueRecordAVG($fbnr, $kurs);
+        
+        $tableString = '';
+        while ($row = $sqlObject->fetch_object()) {
+            $tableString = $tableString . "<tr> 
+            <td>" . $row->FNr . "</td>
+            <td>" . $row->Fragetext . "</td>
+            <td>" . $row->Durchschnitt . "</td>
+            <td>" . $row->Maximal . "</td>
+            <td>" . $row->Minimal . "</td>
+            </tr>";
+        }
+        return $tableString;
     }
 
     

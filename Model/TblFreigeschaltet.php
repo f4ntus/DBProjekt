@@ -5,7 +5,8 @@ class TblFreigeschaltet extends AbstractSQLWrapper
 {
     function selectUniqueRecord($kurs)
     {
-        $sql ='';
+        $sql ="SELECT tbl_freigeschaltet.Name FROM tbl_freigeschaltet 
+        where tbl_freigeschaltet.Name = '$kurs'";
         return $this->globalSelectUniqueRecord($sql);
     }
     function selectRecords($kurs)

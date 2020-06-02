@@ -8,7 +8,7 @@ class TblFrage extends AbstractSQLWrapper
         $sql = "SELECT * FROM tbl_frage where FbNr = '$fbnr' and fnr ='$fnr'";
         return $this->globalSelectUniqueRecord($sql);
     }
-    function selectRecords($fbnr,$filter='')
+    function selectRecords($fbnr, $filter='')
     {
         if ($filter == ''){
             $sql = "SELECT * FROM tbl_frage where FbNr = '$fbnr'";

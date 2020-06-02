@@ -70,7 +70,7 @@ include "navbar.php";
         <button type="submit" name="bearbeiten">bearbeiten</button>
 
     </form>
-    </div>
+    </div>  
 
 
     <?php
