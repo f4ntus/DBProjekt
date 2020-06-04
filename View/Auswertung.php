@@ -41,7 +41,8 @@ if (isset($_GET['fbnr'])) {
     echo "<label>Über welchen Kurs möchten Sie auswerten?</br></br><select name='Kurs'>" . $dropdown . "</select></label>";
     echo "<button type='submit' name='auswerten'>auswerten</button>";
    ?>
-    </form> 
+    </form>
+    </br>
 <?php
 }
 
@@ -51,7 +52,7 @@ if (isset($_GET['name']))  {
 
     <form method="post">
         <p>Auswertung:</p>
-        <table>
+        <table cellpadding="6">
             <tr>
                 <th>Frage</th>
                 <th>Fragetext</th>
@@ -65,6 +66,18 @@ if (isset($_GET['name']))  {
             ?>
         </table>
     </form>
+
+    <form method="post">    
+        <table cellpadding="6">
+            <tr>
+                <th>Standardabweichung</th>
+            </tr>
+            <?php
+            $table = $befragerController->arrayBewertung($_GET['fbnr'], $_GET['name']);
+            echo $table;
+            ?>
+        </table>
+    </form>
 </br>
 
     <form method="post">
@@ -74,6 +87,7 @@ if (isset($_GET['name']))  {
             echo $string;
             ?>
     </form>
+
 <?php
     } else echo "<div hidden>";
     ?>

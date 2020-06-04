@@ -325,20 +325,6 @@ class BefragerController extends GlobalFunctions
         $this->moveToPage('Auswertung.php', $suffixString); 
     }
 
-    /*public function auswertungAnzeigen($fbnr, $name)
-    {
-        $sqlObject = $this->tblFrage->selectRecords($fbnr);
-        $tableString = '';
-        while ($row = $sqlObject->fetch_object()) {
-            $tableString = $tableString . "<tr> 
-            <td>" . $row->FNr . "</td>
-            <td>" . $row->Fragetext . "</td>
-            </tr>";
-        }
-        return $tableString;
-    }
-    */
-
     public function auswertungAnzeigen($fbnr, $kurs)
     {
         $sqlObject = $this->tblAuswertung->selectRecordsAuswertung($fbnr, $kurs);
@@ -367,6 +353,49 @@ class BefragerController extends GlobalFunctions
         return $tableString;
     }
 
+    public function arrayBewertung($fbnr, $kurs)
+    {
+        
+        $fragen = $this->tblFrage->selectRecords($fbnr);
+        $tableString='';
+        while ($row = $fragen->fetch_object()) {
+            $frage = $row->FNr;
+
+            $values = array();
+            $sqlObject = $this->tblAuswertung->SW($fbnr, $kurs, $frage);
+            while ($row = $sqlObject->fetch_object()) {
+
+                array_push($values, $row->BewertungSW);
+            }
+            if (!empty($values)) {
+            $tableString = $tableString. "<tr> 
+            <td>" . $this->standardabweichung($values) . "</td>
+            </tr>";
+            } 
+            else {
+                echo "Keine Werte vorhanden";
+            }
+        }
+        return $tableString;
+    }   
+
+    
+
+    function standardabweichung($values)
+    {
+        $mean = array_sum($values) / count($values);
+    
+        $sum = 0;
+        foreach ($values as $value) {
+            $sum += pow($value - $mean, 2);
+        }
+    
+        $stddev = sqrt($sum / count($values));
+    
+        return $stddev;     
+    }
+
+    
 
     
 }
