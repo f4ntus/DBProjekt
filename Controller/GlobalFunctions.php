@@ -89,6 +89,10 @@ class GlobalFunctions
                 $GETString = $errorCode;
                 $this->moveToPage('FragebogenBearbeiten.php', $GETString);
                 break;
+            case 'abschliessen':
+                $GETString = $errorCode;
+                $this->moveToPage('BeantwortenAbschliessen.php', $GETString);
+                break;
         }
     }
 
@@ -131,6 +135,10 @@ class GlobalFunctions
             case 'einzelneFrageHinzufügen':
                 $GETString = $infoCode;
                 $this->moveToPage('FragebogenBearbeiten.php', $GETString);
+                break;
+            case 'abschliessen':
+                $GETString = $infoCode;
+                $this->moveToPage('BeantwortenAbschliessen.php', $GETString);
                 break;
         }
     }

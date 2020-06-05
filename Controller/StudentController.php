@@ -119,18 +119,19 @@ class StudentController extends GlobalFunctions
     }
     public function fragebogenKommentieren($fbnr, $kommentar){
         // to Do: check student
-
         $recordKommentare = $this->tblKommentiert->selectUniqueRecord($fbnr,$_SESSION["matrikelnummer"]);
         if(isset($recordKommentare)){
-            // Kommentare updaten
+            $this->tblKommentiert->updateRecord($fbnr,$_SESSION["matrikelnummer"],$kommentar);
         } else {
             if(isset($kommentar)){
-                $this->tblKommentiert->insertRecord($fbnr,$_SESSION["matrikelnummer"],$kommentar);
+               echo $this->tblKommentiert->insertRecord($fbnr,$_SESSION["matrikelnummer"],$kommentar);
             } else {
                 // Fehler: kein Kommentar
+                $this->handleError('abschliessen','noKommentar');
             }
         }
         // Handle Info Kommentar gespeichert
+        //$this->handleInfo('abschliessen','?Fragebogen=' . $fbnr . '&info=gespeichert');
     }
 
     public function showRadioButtons($fbnr, $fnr, $matrikelnummer){
