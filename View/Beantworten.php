@@ -31,17 +31,22 @@ $anzFragen = $studentController->anzahlSeitenProFB($_GET["Fragebogen"]);
             <h2><?php echo $studentController->showFrage($_GET["Fragebogen"],$_GET["Frage"]); ?></h2> 
            </br></br>    
            
-           <form action="" method="POST">
+            <form action="" method="POST">
                     
                <?php $studentController->showRadioButtons($_GET["Fragebogen"],$_GET["Frage"],$_SESSION['matrikelnummer'])?>
-               <input type="submit" name="bsubmit" value="Next">
+            </br>
+                <input type="submit" name="back" value="Zurück">
+                <input type="submit" name="bsubmit" value="Next">
             </form>
-            
+
             <?php 
             if (isset($_POST['bsubmit'])){
                 $studentController->SaveAndNavigateToNext($_POST,$_GET["Fragebogen"],$_GET["Frage"]);
             }
-            
+            if (isset($_POST['back'])){
+                $studentController->goBack($_GET["Fragebogen"],$_GET["Frage"]);
+            }
+             
             ?>
         </div>
     </div>

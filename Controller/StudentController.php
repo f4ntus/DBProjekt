@@ -19,44 +19,43 @@ class StudentController extends GlobalFunctions
         }
         return $tableString;
     }
-    
-    public function saveAndNavigateToNext($post,$fbnr,$fnr)
+
+    public function saveAndNavigateToNext($post, $fbnr, $fnr)
     {
         // prüfen ob student angegemeldet ist
-        if ( ! $this->isAngemeldet()){
-            $this->handleError('anmeldungStudent','notLoggedIn');
+        if (!$this->isAngemeldet()) {
+            $this->handleError('anmeldungStudent', 'notLoggedIn');
             return;
         }
 
         // prüfen ob Frage schon beantwortet wurde 
-        $recordBeantwortet = $this->tblBeantwortet->selectUniqueRecord($fbnr,$fnr,$_SESSION['matrikelnummer']);
-        if (isset($recordBeantwortet)){
+        $recordBeantwortet = $this->tblBeantwortet->selectUniqueRecord($fbnr, $fnr, $_SESSION['matrikelnummer']);
+        if (isset($recordBeantwortet)) {
             //Updaten wenn sie schonmal beantwortet wurde
             $this->tblBeantwortet->updateRecord($fbnr, $fnr, $_SESSION['matrikelnummer'], $post['bewertung']);
-        }else{
+        } else {
             // Neuer Datensatz, wenn sie noch nicht beantwortet wurde
             $this->tblBeantwortet->insertRecord($fbnr, $fnr, $_SESSION['matrikelnummer'], $post['bewertung']);
         }
         var_dump($fnr);
-        $sqlObjectFragen = $this->tblFrage->selectRecords($fbnr,'FNr>'. $fnr); // liefert ab der aktuellen Frage
+        $sqlObjectFragen = $this->tblFrage->selectRecords($fbnr, 'FNr>' . $fnr); // liefert ab der aktuellen Frage
         $newFnr = $sqlObjectFragen->fetch_object()->FNr; // die nächste Fragennummer
-        if (is_null($newFnr)){
+        if (is_null($newFnr)) {
             // Befragung ist fertig
-            $this->moveToPage('BeantwortenAbschliessen.php', '?Fragebogen='. $fbnr);
+            $this->moveToPage('BeantwortenAbschliessen.php', '?Fragebogen=' . $fbnr);
         } else {
             // es gibt noch unbeantwortete Fragen
-            $suffix = '?Fragebogen='. $fbnr . '&Frage='. $newFnr;
-            $this->moveToPage('Beantworten.php', $suffix); 
+            $suffix = '?Fragebogen=' . $fbnr . '&Frage=' . $newFnr;
+            $this->moveToPage('Beantworten.php', $suffix);
         }
-        
     }
 
-    
+
     public function navigateToFirstNotAnswerdQuestion($fbnr)
     {
         // prüfen ob student angegemeldet ist
-        if ( ! $this->isAngemeldet()){
-            $this->handleError('anmeldungStudent','notLoggedIn');
+        if (!$this->isAngemeldet()) {
+            $this->handleError('anmeldungStudent', 'notLoggedIn');
             return;
         }
 
@@ -66,7 +65,7 @@ class StudentController extends GlobalFunctions
             //ToDo: Besseres Errorhandling;
         } else {
             $suffix = '?Fragebogen=' . $fbnr . '&Frage=' . $Fnr;
-           $this->moveToPage('Beantworten.php', $suffix);
+            $this->moveToPage('Beantworten.php', $suffix);
         }
     }
 
@@ -81,7 +80,7 @@ class StudentController extends GlobalFunctions
             echo 'Frage ist leer';
             return false;
         }
-        if(is_null($sqlObjectBeantwortet)){
+        if (is_null($sqlObjectBeantwortet)) {
             // das heißt es wurde keine Frage beantwortet -> erste Fragennummer zurückgeben
             return $sqlObjectFrage->fetch_object()->FNr;
         }
@@ -96,7 +95,7 @@ class StudentController extends GlobalFunctions
             }
         }
         // Befragung ist fertig
-        $this->moveToPage('BeantwortenAbschliessen.php', '?Fragebogen='. $fbnr);
+        $this->moveToPage('BeantwortenAbschliessen.php', '?Fragebogen=' . $fbnr);
     }
 
     public function anzahlSeitenProFB($fbnr)
@@ -114,68 +113,81 @@ class StudentController extends GlobalFunctions
             return $frage->Fragetext;
         }
     }
-    public function showRadioButtons($fbnr, $fnr){
+    public function goBack($fbnr, $fnr)
+    {
+        $recordsFrage = $this->tblFrage->selectRecords($fbnr);
+        $recordFrage = $recordsFrage->fetch_object(); // erste Frage
+        if ($fnr <= $recordFrage->FNr) {
+            // wenn erste Frage -> zurück zum Hauptmenü
+            $this->moveToPage('MenuStudent.php');
+        } else {
+            // ansonsten zur letzten Frage
+            $fnr = $fnr - 1;
+            $suffix = '?Fragebogen=' . $fbnr . '&Frage=' . $fnr;
+            $this->moveToPage('Beantworten.php', $suffix);
+        }
+    }
+
+    public function showRadioButtons($fbnr, $fnr, $matrikelnummer)
+    {
         // prüfen ob student angegemeldet ist
-        if ( ! $this->isAngemeldet()){
-            $this->handleError('anmeldungStudent','notLoggedIn');
+        if (!$this->isAngemeldet()) {
+            $this->handleError('anmeldungStudent', 'notLoggedIn');
             return;
         }
-
-        $recordBeantwortet = $this->tblBeantwortet->selectUniqueRecord($fbnr,$fnr,$_SESSION["matrikelnummer"]);
+        $recordBeantwortet = $this->tblBeantwortet->selectUniqueRecord($fbnr, $fnr, $matrikelnummer);
         if (isset($recordBeantwortet)) {
 
-            switch($recordBeantwortet->Bewertung){
+            switch ($recordBeantwortet->Bewertung) {
                 case 1:
-                    echo' <input type="radio" name="bewertung" value="1" checked> 1
+                    echo ' <input type="radio" name="bewertung" value="1" checked> 1
                     <input type="radio" name="bewertung" value="2"> 2
                     <input type="radio" name="bewertung" value="3"> 3
                     <input type="radio" name="bewertung" value="4"> 4 
                     <input type="radio" name="bewertung" value="5"> 5 ';
-                break;
+                    break;
                 case 2:
-                    echo' <input type="radio" name="bewertung" value="1"> 1
+                    echo ' <input type="radio" name="bewertung" value="1"> 1
                     <input type="radio" name="bewertung" value="2" checked> 2
                     <input type="radio" name="bewertung" value="3"> 3
                     <input type="radio" name="bewertung" value="4"> 4 
                     <input type="radio" name="bewertung" value="5"> 5 ';
-                break;
+                    break;
                 case 3:
-                    echo' <input type="radio" name="bewertung" value="1"> 1
+                    echo ' <input type="radio" name="bewertung" value="1"> 1
                     <input type="radio" name="bewertung" value="2"> 2
                     <input type="radio" name="bewertung" value="3" checked> 3
                     <input type="radio" name="bewertung" value="4"> 4 
                     <input type="radio" name="bewertung" value="5"> 5 ';
-                break;    
+                    break;
                 case 4:
-                    echo' <input type="radio" name="bewertung" value="1"> 1
+                    echo ' <input type="radio" name="bewertung" value="1"> 1
                     <input type="radio" name="bewertung" value="2"> 2
                     <input type="radio" name="bewertung" value="3"> 3
                     <input type="radio" name="bewertung" value="4" checked> 4 
                     <input type="radio" name="bewertung" value="5"> 5 ';
-                break;    
+                    break;
                 case 5:
-                    echo' <input type="radio" name="bewertung" value="1"> 1
+                    echo ' <input type="radio" name="bewertung" value="1"> 1
                     <input type="radio" name="bewertung" value="2"> 2
                     <input type="radio" name="bewertung" value="3"> 3
                     <input type="radio" name="bewertung" value="4"> 4 
                     <input type="radio" name="bewertung" value="5" checked> 5 ';
-                break;    
+                    break;
             }
-        } 
-        else {
-            echo' <input type="radio" name="bewertung" value="1"> 1
+        } else {
+            echo ' <input type="radio" name="bewertung" value="1"> 1
                 <input type="radio" name="bewertung" value="2"> 2
                 <input type="radio" name="bewertung" value="3"> 3
                 <input type="radio" name="bewertung" value="4"> 4 
                 <input type="radio" name="bewertung" value="5"> 5 ';
         }
-        
-       
     }
 
-    private function isAngemeldet(){
+    private function isAngemeldet()
+    {
         $recordStudent = $this->tblStudent->selectUniqueRecord($_SESSION["matrikelnummer"]);
-        if(isset($recordStudent)){
+        if (isset($recordStudent)) {
             return true;
         } else {
             return false;
