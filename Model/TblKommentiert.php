@@ -3,9 +3,9 @@
 require_once 'AbstractSQLWrapper.php';
 class TblKommentiert extends AbstractSQLWrapper
 {
-    function selectUniqueRecord()
+    function selectUniqueRecord($fbnr,$matrikelnummer)
     {
-        $sql = '';
+        $sql = "SELECT * FROM tbl_kommentiert where FbNr='$fbnr' and Matrikelnummer='$matrikelnummer'";
         return $this->globalSelectUniqueRecord($sql);
     }
     function selectRecords()
@@ -13,14 +13,14 @@ class TblKommentiert extends AbstractSQLWrapper
         $sql = '';
         return $this->globalSelectRecords($sql);
     }
-    function updateRecord()
+    function updateRecord($fbnr,$matrikelnummer,$kommentar)
     {
-        $sql = '';
+        $sql = "UPDATE tbl_kommentiert SET Kommentar = '$kommentar' WHERE FbNr = '$fbnr' AND Matrikelnummer = '$matrikelnummer'";
         return $this->globalUpdateRecord($sql);
     }
-    function insertRecord()
+    function insertRecord($fbnr,$matrikelnummer,$kommentar)
     {
-        $sql = '';
+        $sql = "INSERT INTO tbl_kommentiert(FbNr, Matrikelnummer, Kommentar) VALUES ('$fbnr','$matrikelnummer','$kommentar')";
         return $this->globalInsertRecord($sql);
     }
     function deleteRecord($fbnr)

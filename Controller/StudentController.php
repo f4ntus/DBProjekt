@@ -117,6 +117,22 @@ class StudentController extends GlobalFunctions
             $this->moveToPage('Beantworten.php',$suffix);
         }
     }
+    public function fragebogenKommentieren($fbnr, $kommentar){
+        // to Do: check student
+        $recordKommentare = $this->tblKommentiert->selectUniqueRecord($fbnr,$_SESSION["matrikelnummer"]);
+        if(isset($recordKommentare)){
+            $this->tblKommentiert->updateRecord($fbnr,$_SESSION["matrikelnummer"],$kommentar);
+        } else {
+            if(isset($kommentar)){
+               echo $this->tblKommentiert->insertRecord($fbnr,$_SESSION["matrikelnummer"],$kommentar);
+            } else {
+                // Fehler: kein Kommentar
+                $this->handleError('abschliessen','noKommentar');
+            }
+        }
+        // Handle Info Kommentar gespeichert
+        //$this->handleInfo('abschliessen','?Fragebogen=' . $fbnr . '&info=gespeichert');
+    }
 
     public function showRadioButtons($fbnr, $fnr, $matrikelnummer){
         $recordBeantwortet = $this->tblBeantwortet->selectUniqueRecord($fbnr,$fnr,$matrikelnummer);
