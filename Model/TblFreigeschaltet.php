@@ -3,9 +3,9 @@
 require_once 'AbstractSQLWrapper.php';
 class TblFreigeschaltet extends AbstractSQLWrapper
 {
-    function selectUniqueRecord($kurs)
+    function selectUniqueRecord($kurs, $fbnr)
     {
-        $sql ='';
+        $sql ="SELECT * FROM tbl_freigeschaltet where Name='$kurs' and FbNr='$fbnr' ";
         return $this->globalSelectUniqueRecord($sql);
     }
     function selectRecords($kurs)

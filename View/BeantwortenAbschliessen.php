@@ -47,6 +47,16 @@ $studentController = new StudentController();
             $studentController->fragebogenKommentieren($_GET['Fragebogen'],$_POST['text']);
         }
     }
+    if (isset($_POST['action'])){
+        if ($_POST['action'] == 'abschliessen'){
+            $studentController->fragebogenAbschliessen($_GET['Fragebogen']);
+        }
+    }
+    if (isset($_POST['action'])){
+        if ($_POST['action'] == 'back'){
+            $studentController->goToLastQuestion($_GET['Fragebogen']);
+        }
+    }
 ?>
 
 </body>
