@@ -17,14 +17,21 @@
 	    <?php
         if (isset($_GET['error'])) {
             echo '<div class="errorKasten">';
-           
             if ($_GET['error'] == 'notFreigegeben') {
                 echo '<p>Der Fragebogen ist nicht für Sie freigegeben, bitte wenden Sie sich an den Systemadminstrator</p>';
             }
-
-
             echo '</div>';
-        } ?>
+        } 
+        
+        if (isset($_GET['info'])) {
+            echo '<div class="infoKasten">';
+            if ($_GET['info'] == 'abgeschlossen') {
+                echo '<p>Vielen Dank! Sie haben die Befragung abgeschlossen, Sie können diesen Fragebogen nun nicht mehr ausfüllen oder verändern </p>';
+            }
+            echo '</div>';
+        }
+        
+        ?>
 
 	    <h1><?php echo "Hallo" . " " . $_SESSION['matrikelnummer']; ?></h1>
 
@@ -49,3 +56,4 @@
 	</body>
 
 	</html>
+    

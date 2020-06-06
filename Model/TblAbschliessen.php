@@ -18,9 +18,9 @@ class TblAbschliessen extends AbstractSQLWrapper
         $sql = '';
         return $this->globalUpdateRecord($sql);
     }
-    function insertRecord()
+    function insertRecord($matrikelnummer,$fbnr)
     {
-        $sql = '';
+        $sql = "INSERT INTO tbl_abschliessen (Matrikelnummer,FbNr) VALUES ('$matrikelnummer','$fbnr')";
         return $this->globalInsertRecord($sql);
     }
     function deleteRecord($fbnr)

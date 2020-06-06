@@ -145,7 +145,15 @@ class StudentController extends GlobalFunctions
         //$this->handleInfo('abschliessen','?Fragebogen=' . $fbnr . '&info=gespeichert');
     }
     public function fragebogenAbschliessen($fbnr){
+        // prüfen ob student angegemeldet ist
+        if (!$this->isFreigeschalten($fbnr)) {
+            return;
+        }
+        // neuer Datensatz eintragen
+       echo  $this->tblAbschliessen->insertRecord($_SESSION["matrikelnummer"], $fbnr);
 
+        // zurück zum Hauptmenue
+        $this->handleInfo('MenuStudent', 'abgeschlossen');
     }
     public function showRadioButtons($fbnr, $fnr, $matrikelnummer)
     {

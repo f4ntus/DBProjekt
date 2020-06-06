@@ -145,6 +145,10 @@ class GlobalFunctions
                 $GETString = $infoCode;
                 $this->moveToPage('BeantwortenAbschliessen.php', $GETString);
                 break;
+            case "MenuStudent":
+                $GETString = '?info=' . $infoCode;
+                $this->moveToPage('MenuStudent.php', $GETString);
+                break;
         }
     }
     protected function moveToPage($pageName, $suffix = '')
