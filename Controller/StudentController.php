@@ -213,6 +213,13 @@ class StudentController extends GlobalFunctions
                 <input type="radio" name="bewertung" value="5"> 5 ';
         }
     }
+    public function goToLastQuestion($fbnr){
+        if (!$this->StudentUndFragebogenPruefen($fbnr)) {
+            return;
+        }
+        $recordFrage =$this->tblFrage->maxRecord($fbnr);
+        $this->moveToPage('Beantworten.php','?Fragebogen='. $fbnr . '&Frage=' . $recordFrage->maxFnr);
+    }
 
     private function StudentUndFragebogenPruefen($fbnr)
     {
