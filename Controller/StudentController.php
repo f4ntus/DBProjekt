@@ -138,14 +138,14 @@ class StudentController extends GlobalFunctions
             $this->tblKommentiert->updateRecord($fbnr, $_SESSION["matrikelnummer"], $kommentar);
         } else {
             if (isset($kommentar)) {
-                echo $this->tblKommentiert->insertRecord($fbnr, $_SESSION["matrikelnummer"], $kommentar);
+                $this->tblKommentiert->insertRecord($fbnr, $_SESSION["matrikelnummer"], $kommentar);
             } else {
                 // Fehler: kein Kommentar
                 $this->handleError('abschliessen', 'noKommentar');
             }
         }
         // Handle Info Kommentar gespeichert
-        //$this->handleInfo('abschliessen','?Fragebogen=' . $fbnr . '&info=gespeichert');
+        $this->handleInfo('abschliessen','?Fragebogen=' . $fbnr . '&info=gespeichert');
     }
     public function fragebogenAbschliessen($fbnr)
     {
