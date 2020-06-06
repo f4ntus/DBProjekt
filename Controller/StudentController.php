@@ -7,15 +7,17 @@ class StudentController extends GlobalFunctions
         parent::__construct();
     }
 
-
-
     public function createInnerTable()
     {
-        $sqlObject = $this->tblFreigeschaltet->selectRecords($_SESSION['kurs']);
+        $recordFreigeschaltet = $this->tblFreigeschaltet->selectRecords($_SESSION['kurs']);
         $tableString = '';
-        while ($row = $sqlObject->fetch_object()) {
-            $tableString = $tableString . '<tr><td>' . $_SESSION['FbNr'] = $row->FbNr . '</td><td>' . $row->Titel . '</td><td> 
-             <button type="submit" name="Fragebogen" value="' . $row->FbNr . '">Beantworten</button>';
+        while ($row = $recordFreigeschaltet->fetch_object()) {
+            $recordAbgeschlossen = $this->tblAbschliessen->selectUniqueRecord($_SESSION['matrikelnummer'],$row->FbNr);
+            // nur Fragebogen anzeigen, welche nicht Abgeschlossen sind
+            if(!isset($recordAbgeschlossen)){
+                $tableString = $tableString . '<tr><td>' . $_SESSION['FbNr'] = $row->FbNr . '</td><td>' . $row->Titel . '</td><td> 
+                 <button type="submit" name="Fragebogen" value="' . $row->FbNr . '">Beantworten</button>';
+            }
         }
         return $tableString;
     }
