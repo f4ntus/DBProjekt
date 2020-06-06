@@ -36,6 +36,7 @@ session_start();
         if ($_GET['error'] == 'notLoggedIn' ){
             echo '<p>Sie sind nicht angemeldet, bitte melden Sie sich an.</p>';
         }
+        
 
         echo '</div>';
     }

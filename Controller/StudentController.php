@@ -23,8 +23,7 @@ class StudentController extends GlobalFunctions
     public function saveAndNavigateToNext($post, $fbnr, $fnr)
     {
         // prüfen ob student angegemeldet ist
-        if (!$this->isAngemeldet()) {
-            $this->handleError('anmeldungStudent', 'notLoggedIn');
+        if (!$this->isFreigeschalten($fbnr)) {
             return;
         }
 
@@ -54,8 +53,7 @@ class StudentController extends GlobalFunctions
     public function navigateToFirstNotAnswerdQuestion($fbnr)
     {
         // prüfen ob student angegemeldet ist
-        if (!$this->isAngemeldet()) {
-            $this->handleError('anmeldungStudent', 'notLoggedIn');
+        if (!$this->isFreigeschalten($fbnr)) {
             return;
         }
 
@@ -129,6 +127,9 @@ class StudentController extends GlobalFunctions
     }
     public function fragebogenKommentieren($fbnr, $kommentar){
         // to Do: check student
+        if (!$this->isFreigeschalten($fbnr)) {
+            return;
+        }
         $recordKommentare = $this->tblKommentiert->selectUniqueRecord($fbnr,$_SESSION["matrikelnummer"]);
         if(isset($recordKommentare)){
             $this->tblKommentiert->updateRecord($fbnr,$_SESSION["matrikelnummer"],$kommentar);
@@ -143,12 +144,13 @@ class StudentController extends GlobalFunctions
         // Handle Info Kommentar gespeichert
         //$this->handleInfo('abschliessen','?Fragebogen=' . $fbnr . '&info=gespeichert');
     }
+    public function fragebogenAbschliessen($fbnr){
 
+    }
     public function showRadioButtons($fbnr, $fnr, $matrikelnummer)
     {
         // prüfen ob student angegemeldet ist
-        if (!$this->isAngemeldet()) {
-            $this->handleError('anmeldungStudent', 'notLoggedIn');
+        if (!$this->isFreigeschalten($fbnr)) {
             return;
         }
         $recordBeantwortet = $this->tblBeantwortet->selectUniqueRecord($fbnr, $fnr, $matrikelnummer);
@@ -200,12 +202,21 @@ class StudentController extends GlobalFunctions
         }
     }
 
-    private function isAngemeldet()
+    private function isFreigeschalten($fbnr)
     {
+        // prüfen ob angemeldet
         $recordStudent = $this->tblStudent->selectUniqueRecord($_SESSION["matrikelnummer"]);
         if (isset($recordStudent)) {
-            return true;
+            // wenn angemeldet, prüfen ob freigeschaltet
+            $recordFreigeschaltet = $this->tblFreigeschaltet->selectUniqueRecord($recordStudent->Name,$fbnr);
+            if (isset($recordFreigeschaltet)){
+                return true;
+            } else {
+                $this->handleError('menueStudent', 'notFreigegeben');
+                return false;
+            } 
         } else {
+            $this->handleError('anmeldungStudent', 'notLoggedIn');
             return false;
         }
     }

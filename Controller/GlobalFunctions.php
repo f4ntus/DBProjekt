@@ -93,6 +93,11 @@ class GlobalFunctions
                 $GETString = $errorCode;
                 $this->moveToPage('BeantwortenAbschliessen.php', $GETString);
                 break;
+            case 'menueStudent':
+                $GETString = '?error=' . $errorCode;
+                $this->moveToPage('MenuStudent.php', $GETString);
+                break;
+
         }
     }
 
