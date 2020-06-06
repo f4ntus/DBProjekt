@@ -12,9 +12,9 @@ class StudentController extends GlobalFunctions
         $recordFreigeschaltet = $this->tblFreigeschaltet->selectRecords($_SESSION['kurs']);
         $tableString = '';
         while ($row = $recordFreigeschaltet->fetch_object()) {
-            $recordAbgeschlossen = $this->tblAbschliessen->selectUniqueRecord($_SESSION['matrikelnummer'],$row->FbNr);
+            $recordAbgeschlossen = $this->tblAbschliessen->selectUniqueRecord($_SESSION['matrikelnummer'], $row->FbNr);
             // nur Fragebogen anzeigen, welche nicht Abgeschlossen sind
-            if(!isset($recordAbgeschlossen)){
+            if (!isset($recordAbgeschlossen)) {
                 $tableString = $tableString . '<tr><td>' . $_SESSION['FbNr'] = $row->FbNr . '</td><td>' . $row->Titel . '</td><td> 
                  <button type="submit" name="Fragebogen" value="' . $row->FbNr . '">Beantworten</button>';
             }
@@ -25,7 +25,7 @@ class StudentController extends GlobalFunctions
     public function saveAndNavigateToNext($post, $fbnr, $fnr)
     {
         // prüfen ob student angegemeldet ist
-        if (!$this->isFreigeschalten($fbnr)) {
+        if (!$this->StudentUndFragebogenPruefen($fbnr)) {
             return;
         }
 
@@ -55,7 +55,7 @@ class StudentController extends GlobalFunctions
     public function navigateToFirstNotAnswerdQuestion($fbnr)
     {
         // prüfen ob student angegemeldet ist
-        if (!$this->isFreigeschalten($fbnr)) {
+        if (!$this->StudentUndFragebogenPruefen($fbnr)) {
             return;
         }
 
@@ -127,32 +127,34 @@ class StudentController extends GlobalFunctions
             $this->moveToPage('Beantworten.php', $suffix);
         }
     }
-    public function fragebogenKommentieren($fbnr, $kommentar){
+    public function fragebogenKommentieren($fbnr, $kommentar)
+    {
         // to Do: check student
-        if (!$this->isFreigeschalten($fbnr)) {
+        if (!$this->StudentUndFragebogenPruefen($fbnr)) {
             return;
         }
-        $recordKommentare = $this->tblKommentiert->selectUniqueRecord($fbnr,$_SESSION["matrikelnummer"]);
-        if(isset($recordKommentare)){
-            $this->tblKommentiert->updateRecord($fbnr,$_SESSION["matrikelnummer"],$kommentar);
+        $recordKommentare = $this->tblKommentiert->selectUniqueRecord($fbnr, $_SESSION["matrikelnummer"]);
+        if (isset($recordKommentare)) {
+            $this->tblKommentiert->updateRecord($fbnr, $_SESSION["matrikelnummer"], $kommentar);
         } else {
-            if(isset($kommentar)){
-               echo $this->tblKommentiert->insertRecord($fbnr,$_SESSION["matrikelnummer"],$kommentar);
+            if (isset($kommentar)) {
+                echo $this->tblKommentiert->insertRecord($fbnr, $_SESSION["matrikelnummer"], $kommentar);
             } else {
                 // Fehler: kein Kommentar
-                $this->handleError('abschliessen','noKommentar');
+                $this->handleError('abschliessen', 'noKommentar');
             }
         }
         // Handle Info Kommentar gespeichert
         //$this->handleInfo('abschliessen','?Fragebogen=' . $fbnr . '&info=gespeichert');
     }
-    public function fragebogenAbschliessen($fbnr){
+    public function fragebogenAbschliessen($fbnr)
+    {
         // prüfen ob student angegemeldet ist
-        if (!$this->isFreigeschalten($fbnr)) {
+        if (!$this->StudentUndFragebogenPruefen($fbnr)) {
             return;
         }
         // neuer Datensatz eintragen
-       echo  $this->tblAbschliessen->insertRecord($_SESSION["matrikelnummer"], $fbnr);
+        echo  $this->tblAbschliessen->insertRecord($_SESSION["matrikelnummer"], $fbnr);
 
         // zurück zum Hauptmenue
         $this->handleInfo('MenuStudent', 'abgeschlossen');
@@ -160,7 +162,7 @@ class StudentController extends GlobalFunctions
     public function showRadioButtons($fbnr, $fnr, $matrikelnummer)
     {
         // prüfen ob student angegemeldet ist
-        if (!$this->isFreigeschalten($fbnr)) {
+        if (!$this->StudentUndFragebogenPruefen($fbnr)) {
             return;
         }
         $recordBeantwortet = $this->tblBeantwortet->selectUniqueRecord($fbnr, $fnr, $matrikelnummer);
@@ -212,22 +214,29 @@ class StudentController extends GlobalFunctions
         }
     }
 
-    private function isFreigeschalten($fbnr)
+    private function StudentUndFragebogenPruefen($fbnr)
     {
         // prüfen ob angemeldet
         $recordStudent = $this->tblStudent->selectUniqueRecord($_SESSION["matrikelnummer"]);
-        if (isset($recordStudent)) {
-            // wenn angemeldet, prüfen ob freigeschaltet
-            $recordFreigeschaltet = $this->tblFreigeschaltet->selectUniqueRecord($recordStudent->Name,$fbnr);
-            if (isset($recordFreigeschaltet)){
-                return true;
-            } else {
-                $this->handleError('menueStudent', 'notFreigegeben');
-                return false;
-            } 
-        } else {
+        if (!isset($recordStudent)) {
             $this->handleError('anmeldungStudent', 'notLoggedIn');
             return false;
         }
+
+        // prüfen ob freigeschaltet
+        $recordFreigeschaltet = $this->tblFreigeschaltet->selectUniqueRecord($recordStudent->Name, $fbnr);
+        if (!isset($recordFreigeschaltet)) {
+            $this->handleError('menueStudent', 'notFreigegeben');
+            return false;
+        }
+
+        // prüfen ob nicht abgeschlossen
+        $recordAbgeschlossen = $this->tblAbschliessen->selectUniqueRecord($_SESSION["matrikelnummer"], $fbnr);
+        if (isset($recordAbgeschlossen)) {
+            $this->handleError('menueStudent', 'abgeschlossen');
+            return false;
+        }
+
+        return true;
     }
 }

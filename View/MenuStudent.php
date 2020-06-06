@@ -20,6 +20,9 @@
             if ($_GET['error'] == 'notFreigegeben') {
                 echo '<p>Der Fragebogen ist nicht für Sie freigegeben, bitte wenden Sie sich an den Systemadminstrator</p>';
             }
+            if ($_GET['error'] == 'abgeschlossen') {
+                echo '<p>Sie haben die Befragung des Fragebogens abgeschlossen und können sie nicht nochmal durchführen</p>';
+            }
             echo '</div>';
         } 
         
