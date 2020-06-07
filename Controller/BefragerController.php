@@ -361,27 +361,21 @@ class BefragerController extends GlobalFunctions
         return $tableString;
     }
 
-    public function auswertungStandardabweichung($fbnr, $kurs)
+    public function auswertungStandardabweichung($fbnr, $kurs, $fnr)
     {
-        
-        $fragen = $this->tblFrage->selectRecords($fbnr);
-        $tableString='';
-        while ($row = $fragen->fetch_object()) {
-            $frage = $row->FNr;
-
             $values = array();
-            $sqlObject = $this->tblAuswertung->SW($fbnr, $kurs, $frage);
+            $sqlObject = $this->tblAuswertung->SW($fbnr, $kurs, $fnr);
             while ($row = $sqlObject->fetch_object()) {
 
                 array_push($values, $row->BewertungSW);
             }
             if (!empty($values)) {
-            $tableString = $tableString. "<tr> 
-            <td>" . $this->standardabweichung($values) . "</td>
-            </tr>";
+           
+                return $this->standardabweichung($values) 
+           
             } 
             else {
-               echo '';
+               return '';
             }
         }
         return $tableString;
