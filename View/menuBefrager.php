@@ -90,7 +90,10 @@ include "navbar.php";
         <form method="post" action="neuerStudent.php">
                 <button type="submit" name="studentanlegen">Neuen Student anlegen</button>
         </form>
-
+        </br>
+        <form method="post" action="Auswertung.php">
+                <button type="submit" name="studentanlegen">Auswertung</button>
+        </form>
 
 
         <p>Übersicht Ihrer bereits erstellen Fragebögen:</p>

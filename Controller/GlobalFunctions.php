@@ -9,6 +9,7 @@ require '../Model/TblKommentiert.php';
 require '../Model/TblKurs.php';
 require '../Model/TblStudent.php';
 require '../Model/TblFreigeschaltet.php';
+require '../Model/TblAuswertung.php';
 class GlobalFunctions
 {
     protected $sqlWrapper;
@@ -21,6 +22,7 @@ class GlobalFunctions
     protected $tblKurs;
     protected $tblStudent;
     protected $tblFreigeschaltet;
+    protected $tblAuswertung;
     public function __construct()
     {
         $this->sqlWrapper = new SqlWrapper();
@@ -33,6 +35,7 @@ class GlobalFunctions
         $this->tblKurs = new TblKurs();
         $this->tblStudent = new TblStudent();
         $this->tblFreigeschaltet = new TblFreigeschaltet();
+        $this->tblAuswertung = new TblAuswertung();
     }
     protected function handleError($moveTo, $errorCode)
     {
@@ -88,6 +91,10 @@ class GlobalFunctions
             case 'einzelneFrageHinzufügen':
                 $GETString = $errorCode;
                 $this->moveToPage('FragebogenBearbeiten.php', $GETString);
+                break;
+            case 'auswertung':
+                $GETString = $errorCode;
+                $this->moveToPage('Auswertung.php', $GETString);
                 break;
             case 'abschliessen':
                 $GETString = $errorCode;

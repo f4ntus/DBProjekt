@@ -70,7 +70,7 @@ include "navbar.php";
         <button type="submit" name="bearbeiten">bearbeiten</button>
 
     </form>
-    </div>
+    </div>  
 
 
     <?php
@@ -113,7 +113,7 @@ include "navbar.php";
         $befragerController->einzelneFrageLoeschen($_POST['frage_loeschen'], $_GET['fbnr']);
     }
     if (isset($_POST['frage_hinzufügen'])){
-        $befragerController->einzelneFrageHinzufügen($_GET['fbnr'], $_POST['neue_frage']);
+        $befragerController->einzelneFrageHinzufügen($_GET['fbnr'], $_POST['neue_frage']);  
     }
     ?>
 

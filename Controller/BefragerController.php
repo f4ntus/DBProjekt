@@ -287,4 +287,104 @@ class BefragerController extends GlobalFunctions
             $this->handleError('neueMatrikelnummer', 'matrikelnummerInUse');
         }
     }
+
+    public function createDropdownFreigeschaltet($recentUser)
+    {
+
+        $sqlObject = $this->tblFreigeschaltet->selectRecordsFreigeschaltet($recentUser);
+        $dropdownString = '';
+        while ($row = $sqlObject->fetch_object()) {
+            $dropdownString = $dropdownString . "<option>" . $row->Titel . "</option>";
+        }
+        return $dropdownString;
+    }
+
+    public function selectKurseZuFragebogen($fbnr)
+    {
+
+        $sqlObject = $this->tblFreigeschaltet->selectRecordsByFragebogenNr($fbnr);
+
+
+        $dropdownString = "";
+        while ($row = $sqlObject->fetch_object()) {
+            $dropdownString = $dropdownString . "<option>" . $row->Name . "</option>";
+        }
+        return $dropdownString;
+    }
+
+    public function fragebogenAuswählen($titel)
+    {
+        $fbnr = $this->tblFragebogen->selectUniqueRecordByTitel($titel)->FbNr;
+        $suffixString = '?fbnr=' . $fbnr;
+        $this->moveToPage('Auswertung.php', $suffixString);
+    }
+
+    /*public function fragebogenAuswerten($fbnr, $kurs)
+    {
+        $name = $this->tblFreigeschaltet->selectUniqueRecord($kurs)->Name;
+        $suffixString = '?fbnr=' . $fbnr . '&name=' . $name;   
+        $this->moveToPage('Auswertung.php', $suffixString); 
+    }*/
+
+    public function auswertungAnzeigen($fbnr, $kurs)
+    {
+        $sqlObject = $this->tblAuswertung->selectRecordsAuswertung($fbnr, $kurs);
+        if ($sqlObject->num_rows != 0) {
+            $tableString = '';
+            while ($row = $sqlObject->fetch_object()) {
+                $tableString = $tableString . "<tr> 
+                <td>" . $row->FNr . "</td>
+                <td>" . $row->Fragetext . "</td>
+                <td>" . $row->Durchschnitt . "</td>
+                <td>" . $row->Maximal . "</td>
+                <td>" . $row->Minimal . "</td>
+                <td>" . $this->auswertungStandardabweichung($fbnr, $kurs, $row->FNr) . "</td>
+                </tr>";
+            }
+            return $tableString;
+        } else {
+            $suffixString = '?fbnr=' . $fbnr . '&error=noValues';
+            $this->handleError('auswertung',$suffixString);
+        }
+    }
+
+    public function kommentareAnzeigen($fbnr, $kurs)
+    {
+        $sqlObject = $this->tblAuswertung->selectRecordsKommentare($fbnr, $kurs);
+
+        $tableString = '';
+        while ($row = $sqlObject->fetch_object()) {
+            $tableString = $tableString . $row->Kommentar . "</br></br>";
+        }
+        return $tableString;
+    }
+
+    public function auswertungStandardabweichung($fbnr, $kurs, $fnr)
+    {
+        $values = array();
+        $sqlObject = $this->tblAuswertung->SW($fbnr, $kurs, $fnr);
+        while ($row = $sqlObject->fetch_object()) {
+            array_push($values, $row->BewertungSW);
+        }
+        if (!empty($values)) {
+            return $this->standardabweichung($values);
+        } else {
+            return '';
+        }
+    }
+
+
+    function standardabweichung($values)
+    {
+        $mean = array_sum($values) / count($values);
+
+        $sum = 0;
+        foreach ($values as $value) {
+            $sum += pow($value - $mean, 2);
+        }
+
+        $stddev = sqrt($sum / count($values));
+
+        return Round($stddev, 2);
+    }
 }
