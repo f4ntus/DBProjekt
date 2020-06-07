@@ -36,6 +36,9 @@ session_start();
         if ($_GET['error'] == 'notLoggedIn' ){
             echo '<p>Sie sind nicht angemeldet, bitte melden Sie sich an.</p>';
         }
+        if ($_GET['error'] == 'regUnsuccess' ){
+            echo '<p>Etwas ist mit der Registrierung schiefgelaufen. Sind Sie schon registriert?</p>';
+        }
         
 
         echo '</div>';
@@ -45,6 +48,9 @@ session_start();
         echo '<div class="infoKasten">';
         if ($_GET['info'] == 'abgemeldet') {
             echo '<p>Sie wurden erfolgreich abgemeldet</p>';
+        }
+        if ($_GET['info'] == 'regSuccess') {
+            echo '<p>Sie haben sich erfolgreich registriert, bitte melden Sie sich an</p>';
         }
         echo '</div>';
     }
@@ -113,14 +119,7 @@ session_start();
         $indexController = new IndexController();
         $response = $indexController->controllRegister($_POST['benutzername'], $_POST['password']);
     }
-    if (isset($_GET['registriert'])) {
-        if ($_GET['registriert'] == 'success') {
-            echo '<p> Sie haben sich erfolgreich registriert, bitte melden Sie sich an</p>';
-        }
-        if ($_GET['registriert'] == 'unsuccess') {
-            echo '<p class="errorKasten"> Etwas ist mit der Registrierung schiefgelaufen. Sind Sie schon registriert?</p>';
-        }
-    }
+    
     ?>
 
 </body>
