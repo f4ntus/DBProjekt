@@ -45,9 +45,8 @@ if (isset($_GET['fbnr'])) {
     </br>
 <?php
 }
-
 if (isset($_GET['name']))  { 
-    echo "<div>";
+    echo "<div>"
 ?>
 
     <form method="post">
@@ -73,7 +72,7 @@ if (isset($_GET['name']))  {
                 <th>Standardabweichung</th>
             </tr>
             <?php
-            $table = $befragerController->arrayBewertung($_GET['fbnr'], $_GET['name']);
+            $table = $befragerController->auswertungStandardabweichung($_GET['fbnr'], $_GET['name']);   
             echo $table;
             ?>
         </table>
@@ -90,7 +89,7 @@ if (isset($_GET['name']))  {
 
 <?php
     } else echo "<div hidden>";
-    ?>
+?>
 
     </div>
 
@@ -101,8 +100,11 @@ if (isset($_POST['auswählen'])) {
     $befragerController->fragebogenAuswählen($_POST['FragebogenFreigeschaltet']);
 }
 if (isset($_POST['auswerten'])) {
-    $befragerController->fragebogenAuswerten($_GET['fbnr'], $_POST['Kurs']);
+    $befragerController->fragebogenAuswerten($_GET['fbnr'], $_POST['Kurs']);    
 }
+
+//Fehlerhandling
+//Tabellen auf eine Linie
 
 ?>
 

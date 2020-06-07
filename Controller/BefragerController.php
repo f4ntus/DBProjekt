@@ -340,7 +340,8 @@ class BefragerController extends GlobalFunctions
             </tr>";
         }
         return $tableString;
-    }
+  
+    }	
 
     public function kommentareAnzeigen($fbnr, $kurs)
     {
@@ -353,7 +354,7 @@ class BefragerController extends GlobalFunctions
         return $tableString;
     }
 
-    public function arrayBewertung($fbnr, $kurs)
+    public function auswertungStandardabweichung($fbnr, $kurs)
     {
         
         $fragen = $this->tblFrage->selectRecords($fbnr);
@@ -373,14 +374,13 @@ class BefragerController extends GlobalFunctions
             </tr>";
             } 
             else {
-                echo "Keine Werte vorhanden";
+               echo '';
             }
         }
         return $tableString;
     }   
 
     
-
     function standardabweichung($values)
     {
         $mean = array_sum($values) / count($values);
@@ -392,7 +392,7 @@ class BefragerController extends GlobalFunctions
     
         $stddev = sqrt($sum / count($values));
     
-        return $stddev;     
+        return Round($stddev,2);               
     }
 
     
