@@ -278,13 +278,20 @@ class BefragerController extends GlobalFunctions
     {
 
         $matrikelnummer = $_POST["matrikelnummer"];
+        
+        if (is_numeric($matrikelnummer)){
         $sqlObject = $this->tblStudent->selectUniqueRecord($matrikelnummer);
-        if (is_null($sqlObject)) {
-            $name = $_POST["Kurs"];
-            $neuerStudent = $this->tblStudent->insertRecord($matrikelnummer, $name);
-            $this->handleInfo('neuerStudent', 'studentErstellt');
-        } else {
+            if (is_null($sqlObject)) {
+                $name = $_POST["Kurs"];
+                $neuerStudent = $this->tblStudent->insertRecord($matrikelnummer, $name);
+                $this->handleInfo('neuerStudent', 'studentErstellt');
+            } 
+            else {
             $this->handleError('neueMatrikelnummer', 'matrikelnummerInUse');
+            }
+        }
+        else{
+            $this->handleError('richtigeMatrikelnummer', 'matrikelnummerNotNumeric');
         }
     }
 

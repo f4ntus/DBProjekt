@@ -104,6 +104,10 @@ class GlobalFunctions
                 $GETString = '?error=' . $errorCode;
                 $this->moveToPage('MenuStudent.php', $GETString);
                 break;
+            case 'richtigeMatrikelnummer':
+                $GETString = '?error=' . $errorCode;
+                $this->moveToPage('neuerStudent.php', $GETString);
+                break;
 
         }
     }

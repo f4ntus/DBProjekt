@@ -28,6 +28,9 @@ if (isset($_GET['error'])) {
     if ($_GET['error'] == 'matrikelnummerInUse') {
       echo '<p>Die Matrikelnummer ist bereits vorhanden.</p>';
     }
+    if ($_GET['error'] == 'matrikelnummerNotNumeric') {
+      echo '<p>Die Matrikelnummer darf nur Zahlen enthalten.</p>';
+    }
     echo '</div>'; 
 }
 ?>
@@ -39,7 +42,7 @@ if (isset($_GET['error'])) {
 
     <p>Matrikelnummer des Studenten:</p>
     
-    <input type="text" name="matrikelnummer">
+    <input type="text" name="matrikelnummer" maxLength="7" minLength="7">
 
 
         <?php
