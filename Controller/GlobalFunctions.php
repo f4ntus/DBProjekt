@@ -92,6 +92,10 @@ class GlobalFunctions
                 $GETString = $errorCode;
                 $this->moveToPage('FragebogenBearbeiten.php', $GETString);
                 break;
+            case 'auswertung':
+                $GETString = $errorCode;
+                $this->moveToPage('Auswertung.php', $GETString);
+                break;
         }
     }
 

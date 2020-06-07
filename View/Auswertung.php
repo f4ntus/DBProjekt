@@ -17,8 +17,17 @@ $recentUser = $_SESSION['befrager'];
 </head>
 
 <body>
+<?php    
+if (isset($_GET['error'])) {
+        echo '<div class="errorKasten">';
+        
+        if ($_GET['error'] == 'noValues') {
+            echo '<p>Der ausgewählte Fragebogen wurde noch von keinem Studenten abgeschlossen</p>';
+        }
 
-
+        echo '</div>';
+    }
+?>
 <form method="post" action="Auswertung.php">
 
 <?php
@@ -49,43 +58,28 @@ if (isset($_POST['Kurs']))  {
     echo "<div>"
 ?>
 
-    <form method="post">
-        <p>Auswertung:</p>
-        <table cellpadding="6">
-            <tr>
-                <th>Frage</th>
-                <th>Fragetext</th>
-                <th>Durchschnitt</th>
-                <th>Maximal</th>
-                <th>Minimal</th>
-            </tr>
-            <?php
-            $table = $befragerController->auswertungAnzeigen($_GET['fbnr'], $_POST['Kurs']);
-            echo $table;
-            ?>
-        </table>
-    </form>
-
-    <form method="post">    
-        <table cellpadding="6">
-            <tr>
-                <th>Standardabweichung</th>
-            </tr>
-            <?php
-            $table = $befragerController->auswertungStandardabweichung($_GET['fbnr'], $_POST['Kurs']);   
-            echo $table;
-            ?>
-        </table>
-    </form>
+    <p>Auswertung:</p>
+    <table cellpadding="6">
+        <tr>
+            <th>Frage</th>
+            <th>Fragetext</th>
+            <th>Durchschnitt</th>
+            <th>Maximal</th>
+            <th>Minimal</th>
+            <th>Standardabweichung</th>
+        </tr>
+        <?php
+        $table = $befragerController->auswertungAnzeigen($_GET['fbnr'], $_POST['Kurs']);
+        echo $table;
+        ?>
+    </table>
 </br>
 
-    <form method="post">
-        <p><b>Kommentare:</b></p>
-            <?php
-            $string = $befragerController->kommentareAnzeigen($_GET['fbnr'], $_POST['Kurs']);
-            echo $string;
-            ?>
-    </form>
+    <p><b>Kommentare:</b></p>
+    <?php
+    $string = $befragerController->kommentareAnzeigen($_GET['fbnr'], $_POST['Kurs']);
+    echo $string;
+    ?>
 
 <?php
     } else echo "<div hidden>";
