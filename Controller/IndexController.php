@@ -60,9 +60,9 @@ class IndexController extends GlobalFunctions
         //$response = $this->sqlWrapper->insertIntoBefrager($benutzername, $kennwort_hash);
         if ($response == 'success') {
             // weiterleitung zur Anmeldung
-            $this->moveToPage('index.php', '?befrager=Befrager&registriert=success');
+            $this->handleInfo('anmeldungBefrager','regSuccess');
         } else {
-            $this->moveToPage('index.php', '?befrager=Befrager&registriert=unsuccess');
+            $this->handleError('anmeldungBefrager','regUnsuccess');
         }
     }
 }

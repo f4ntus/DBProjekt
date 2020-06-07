@@ -96,12 +96,27 @@ class GlobalFunctions
                 $GETString = $errorCode;
                 $this->moveToPage('Auswertung.php', $GETString);
                 break;
+            case 'abschliessen':
+                $GETString = $errorCode;
+                $this->moveToPage('BeantwortenAbschliessen.php', $GETString);
+                break;
+            case 'menueStudent':
+                $GETString = '?error=' . $errorCode;
+                $this->moveToPage('MenuStudent.php', $GETString);
+                break;
+
         }
     }
 
     protected function handleInfo($moveTo, $infoCode)
     {
         switch ($moveTo) {
+
+            case "anmeldungBefrager":
+                $GETString = '?befrager=Befrager'. '&info=' . $infoCode;
+                $this->moveToPage('index.php', $GETString);
+                break;
+            
             case "fragebogenErstellt":
                 $GETString = '?info=' . $infoCode;
                 $this->moveToPage('menuBefrager.php', $GETString);
@@ -138,6 +153,14 @@ class GlobalFunctions
             case 'einzelneFrageHinzufügen':
                 $GETString = $infoCode;
                 $this->moveToPage('FragebogenBearbeiten.php', $GETString);
+                break;
+            case 'abschliessen':
+                $GETString = $infoCode;
+                $this->moveToPage('BeantwortenAbschliessen.php', $GETString);
+                break;
+            case "MenuStudent":
+                $GETString = '?info=' . $infoCode;
+                $this->moveToPage('MenuStudent.php', $GETString);
                 break;
         }
     }
