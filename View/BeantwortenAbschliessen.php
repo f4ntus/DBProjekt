@@ -14,7 +14,9 @@ $studentController = new StudentController();
 </head>
 
 <body>
+
 <?php 
+include "navbar.php";
     if (isset($_GET['error'])) {
         echo '<div class="errorKasten">';
         if ($_GET['error'] == 'noKommentar') {

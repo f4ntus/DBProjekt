@@ -8,7 +8,6 @@ if (isset($_SESSION['befrager']) == false)
 require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();
 $recentUser = $_SESSION['befrager'];
-include "navbar.php";
 ?>
 <!DOCTYPE html>
 
@@ -25,6 +24,7 @@ include "navbar.php";
 
   <!-- Platzhalter, hier werden potentzielle Fehler und Informationen angezeigt -->
   <?php
+include "navbar.php";
   if (isset($_GET['error'])) {
     echo '<div class="errorKasten">';
     if ($_GET['error'] == 'sqlError') {

@@ -1,13 +1,8 @@
 <?php
 session_start();
-if (isset($_SESSION['befrager']) == false)
-{
-    header ('Location: http://localhost/DBProjekt/view/index.php');
-    exit;
-}
 require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();
-include "navbar.php";
+$befragerController->pruefeBefrager();
 ?>
 
 <!DOCTYPE html>
@@ -25,6 +20,7 @@ include "navbar.php";
 <body>
 
         <?php
+        include "navbar.php";
         if (isset($_GET['info'])) {
                 echo '<div class="infoKasten">';
                 switch ($_GET['info']) {

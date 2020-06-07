@@ -10,7 +10,6 @@ $befragerController = new BefragerController();
 $fbnr = $_GET['Fbnr'];
 $anzFragen = $_GET['AnzahlFragen'];
 $title = $_GET['Titel'];
-include "navbar.php";
 ?>
 
 <!DOCTYPE html>
@@ -28,6 +27,7 @@ include "navbar.php";
 
   <!-- Platzhalter, hier werden potentzielle Fehler angezeigt -->
   <?php
+  include "navbar.php";
   if (isset($_GET['error'])) {
     echo '<div class="errorKasten">';
     if ($_GET['error'] == 'leereFrage') {

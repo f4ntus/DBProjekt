@@ -387,4 +387,15 @@ class BefragerController extends GlobalFunctions
 
         return Round($stddev, 2);
     }
+
+    public function pruefeBefrager($fbnr = '') {
+        if (!isset($_SESSION['befrager']))
+        {
+            $this->handleError('anmeldungBefrager', 'notLoggedIn');
+        }
+
+        if ($fbnr != ''){
+
+        };
+    }
 }

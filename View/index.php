@@ -1,5 +1,7 @@
 <?php
 session_start();
+session_destroy();
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -39,6 +41,7 @@ session_start();
         if ($_GET['error'] == 'regUnsuccess' ){
             echo '<p>Etwas ist mit der Registrierung schiefgelaufen. Sind Sie schon registriert?</p>';
         }
+
         
 
         echo '</div>';

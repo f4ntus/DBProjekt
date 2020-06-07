@@ -7,7 +7,6 @@ if (isset($_SESSION['befrager']) == false)
 }
 require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();
-include "navbar.php";
 ?>
 <!DOCTYPE html>
 
@@ -23,6 +22,7 @@ include "navbar.php";
 <body>
 
 <?php
+include "navbar.php";
 if (isset($_GET['error'])) {
     echo '<div class="errorKasten">';
     if ($_GET['error'] == 'matrikelnummerInUse') {

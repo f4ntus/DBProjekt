@@ -104,7 +104,6 @@ class GlobalFunctions
                 $GETString = '?error=' . $errorCode;
                 $this->moveToPage('MenuStudent.php', $GETString);
                 break;
-
         }
     }
 
@@ -113,10 +112,10 @@ class GlobalFunctions
         switch ($moveTo) {
 
             case "anmeldungBefrager":
-                $GETString = '?befrager=Befrager'. '&info=' . $infoCode;
+                $GETString = '?befrager=Befrager' . '&info=' . $infoCode;
                 $this->moveToPage('index.php', $GETString);
                 break;
-            
+
             case "fragebogenErstellt":
                 $GETString = '?info=' . $infoCode;
                 $this->moveToPage('menuBefrager.php', $GETString);

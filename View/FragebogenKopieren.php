@@ -8,7 +8,6 @@ if (isset($_SESSION['befrager']) == false)
     exit;
 }
 $recentUser = $_SESSION['befrager'];
-include "navbar.php";
 ?>
 
 <!DOCTYPE html>
@@ -25,6 +24,7 @@ include "navbar.php";
 <body>
 
     <?php
+    include "navbar.php";
     if (isset($_GET['error'])) {
         echo '<div class="errorKasten">';
         if ($_GET['error'] == 'titleInUse') {
