@@ -8,9 +8,9 @@ class TblFragebogen extends AbstractSQLWrapper
         $sql = "SELECT FbNr FROM tbl_fragebogen WHERE Titel ='$titel'";
         return $this->globalSelectUniqueRecord($sql);
     }
-    function selectUniqueRecordByNr($fnr)
+    function selectUniqueRecordByFbNr($fbnr)
     {
-        $sql = "SELECT FbNr FROM tbl_fragebogen WHERE FNr ='$fnr'";
+        $sql = "SELECT Benutzername FROM tbl_fragebogen WHERE FbNr ='$fbnr'";
         return $this->globalSelectUniqueRecord($sql);
     }
     function selectRecords($recentUser = '')

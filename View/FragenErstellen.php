@@ -1,12 +1,8 @@
 <?php
 session_start();
-if (isset($_SESSION['befrager']) == false)
-{
-    header ('Location: http://localhost/DBProjekt/view/index.php');
-    exit;
-}
 require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();
+$befragerController->pruefeBefrager($_GET['fbnr']);
 $fbnr = $_GET['Fbnr'];
 $anzFragen = $_GET['AnzahlFragen'];
 $title = $_GET['Titel'];

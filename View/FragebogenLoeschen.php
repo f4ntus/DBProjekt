@@ -2,11 +2,7 @@
 require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();
 session_start();
-if (isset($_SESSION['befrager']) == false)
-{
-    header ('Location: http://localhost/DBProjekt/view/index.php');
-    exit;
-}
+$befragerController->pruefeBefrager();
 $recentUser = $_SESSION['befrager'];
 ?>
 

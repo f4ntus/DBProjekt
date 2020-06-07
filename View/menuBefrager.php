@@ -42,14 +42,17 @@ $befragerController->pruefeBefrager();
                         case 'kursErstellt':
                                 echo '<p>Ihr Kurs wurde erfolgreich angelegt.</p>';
                                 break;
+                        case 'studentErstellt':
+                                echo '<p>Student wurde erfolgreich angelegt.</p>';
+                                break;
                 }
                 echo '</div>';
         }
 
-        if (isset($_GET['info'])) {
-                echo '<div class="infoKasten">';
-                if ($_GET['info'] == 'studentErstellt') {
-                        echo '<p>Student wurde erfolgreich angelegt.</p>';
+        if (isset($_GET['error'])) {
+                echo '<div class="errorKasten">';
+                if ($_GET['error'] == 'andererBefrager') {
+                        echo '<p>Sie haben keinen Zugriff auf den Fragebogen.</p>';
                 }
                 echo '</div>';
         }

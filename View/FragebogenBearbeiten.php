@@ -2,7 +2,7 @@
 require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();
 session_start();
-$befragerController->pruefeBefrager();
+$befragerController->pruefeBefrager($_GET['fbnr']);
 $recentUser = $_SESSION['befrager'];
 ?>
 
