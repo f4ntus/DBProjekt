@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 19. Apr 2020 um 16:36
+-- Erstellungszeit: 07. Jun 2020 um 16:23
 -- Server-Version: 10.4.11-MariaDB
 -- PHP-Version: 7.4.4
 
@@ -56,13 +56,6 @@ CREATE TABLE `tbl_befrager` (
   `Kennwort` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Daten für Tabelle `tbl_befrager`
---
-
-INSERT INTO `tbl_befrager` (`Benutzername`, `Kennwort`) VALUES
-('Luxe', 'stinkt');
-
 -- --------------------------------------------------------
 
 --
@@ -86,13 +79,6 @@ CREATE TABLE `tbl_fragebogen` (
   `Titel` text NOT NULL,
   `Benutzername` varchar(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Daten für Tabelle `tbl_fragebogen`
---
-
-INSERT INTO `tbl_fragebogen` (`FbNr`, `Titel`, `Benutzername`) VALUES
-(1, 'Test Titel keine Ahnung', 'luxe');
 
 -- --------------------------------------------------------
 
@@ -212,13 +198,13 @@ ALTER TABLE `tbl_student`
 -- AUTO_INCREMENT für Tabelle `tbl_frage`
 --
 ALTER TABLE `tbl_frage`
-  MODIFY `FNr` tinyint(4) NOT NULL AUTO_INCREMENT;
+  MODIFY `FNr` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT für Tabelle `tbl_fragebogen`
 --
 ALTER TABLE `tbl_fragebogen`
-  MODIFY `FbNr` mediumint(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `FbNr` mediumint(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- Constraints der exportierten Tabellen
@@ -228,22 +214,22 @@ ALTER TABLE `tbl_fragebogen`
 -- Constraints der Tabelle `tbl_abschliessen`
 --
 ALTER TABLE `tbl_abschliessen`
-  ADD CONSTRAINT `tbl_abschliessen_ibfk_1` FOREIGN KEY (`FbNr`) REFERENCES `tbl_fragebogen` (`FbNr`),
-  ADD CONSTRAINT `tbl_abschliessen_ibfk_2` FOREIGN KEY (`Matrikelnummer`) REFERENCES `tbl_student` (`Matrikelnummer`);
+  ADD CONSTRAINT `tbl_abschliessen_ibfk_1` FOREIGN KEY (`FbNr`) REFERENCES `tbl_fragebogen` (`FbNr`) ON DELETE CASCADE,
+  ADD CONSTRAINT `tbl_abschliessen_ibfk_2` FOREIGN KEY (`Matrikelnummer`) REFERENCES `tbl_student` (`Matrikelnummer`) ON DELETE CASCADE;
 
 --
 -- Constraints der Tabelle `tbl_beantwortet`
 --
 ALTER TABLE `tbl_beantwortet`
-  ADD CONSTRAINT `tbl_beantwortet_ibfk_1` FOREIGN KEY (`FbNr`) REFERENCES `tbl_fragebogen` (`FbNr`),
-  ADD CONSTRAINT `tbl_beantwortet_ibfk_2` FOREIGN KEY (`FNr`) REFERENCES `tbl_frage` (`FNr`),
-  ADD CONSTRAINT `tbl_beantwortet_ibfk_3` FOREIGN KEY (`Matrikelnummer`) REFERENCES `tbl_student` (`Matrikelnummer`);
+  ADD CONSTRAINT `tbl_beantwortet_ibfk_1` FOREIGN KEY (`FbNr`) REFERENCES `tbl_fragebogen` (`FbNr`) ON DELETE CASCADE,
+  ADD CONSTRAINT `tbl_beantwortet_ibfk_2` FOREIGN KEY (`FNr`) REFERENCES `tbl_frage` (`FNr`) ON DELETE CASCADE,
+  ADD CONSTRAINT `tbl_beantwortet_ibfk_3` FOREIGN KEY (`Matrikelnummer`) REFERENCES `tbl_student` (`Matrikelnummer`) ON DELETE CASCADE;
 
 --
 -- Constraints der Tabelle `tbl_frage`
 --
 ALTER TABLE `tbl_frage`
-  ADD CONSTRAINT `tbl_frage_ibfk_1` FOREIGN KEY (`FbNr`) REFERENCES `tbl_fragebogen` (`FbNr`);
+  ADD CONSTRAINT `tbl_frage_ibfk_1` FOREIGN KEY (`FbNr`) REFERENCES `tbl_fragebogen` (`FbNr`) ON DELETE CASCADE;
 
 --
 -- Constraints der Tabelle `tbl_fragebogen`
@@ -255,15 +241,15 @@ ALTER TABLE `tbl_fragebogen`
 -- Constraints der Tabelle `tbl_freigeschaltet`
 --
 ALTER TABLE `tbl_freigeschaltet`
-  ADD CONSTRAINT `tbl_freigeschaltet_ibfk_1` FOREIGN KEY (`FbNr`) REFERENCES `tbl_fragebogen` (`FbNr`),
-  ADD CONSTRAINT `tbl_freigeschaltet_ibfk_2` FOREIGN KEY (`Name`) REFERENCES `tbl_kurs` (`Name`);
+  ADD CONSTRAINT `tbl_freigeschaltet_ibfk_1` FOREIGN KEY (`FbNr`) REFERENCES `tbl_fragebogen` (`FbNr`) ON DELETE CASCADE,
+  ADD CONSTRAINT `tbl_freigeschaltet_ibfk_2` FOREIGN KEY (`Name`) REFERENCES `tbl_kurs` (`Name`) ON DELETE CASCADE;
 
 --
 -- Constraints der Tabelle `tbl_kommentiert`
 --
 ALTER TABLE `tbl_kommentiert`
-  ADD CONSTRAINT `tbl_kommentiert_ibfk_1` FOREIGN KEY (`FbNr`) REFERENCES `tbl_fragebogen` (`FbNr`),
-  ADD CONSTRAINT `tbl_kommentiert_ibfk_2` FOREIGN KEY (`Matrikelnummer`) REFERENCES `tbl_student` (`Matrikelnummer`);
+  ADD CONSTRAINT `tbl_kommentiert_ibfk_1` FOREIGN KEY (`FbNr`) REFERENCES `tbl_fragebogen` (`FbNr`) ON DELETE CASCADE,
+  ADD CONSTRAINT `tbl_kommentiert_ibfk_2` FOREIGN KEY (`Matrikelnummer`) REFERENCES `tbl_student` (`Matrikelnummer`) ON DELETE CASCADE;
 
 --
 -- Constraints der Tabelle `tbl_student`
