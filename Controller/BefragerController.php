@@ -318,17 +318,18 @@ class BefragerController extends GlobalFunctions
         $this->moveToPage('Auswertung.php', $suffixString);
     }
 
-    public function fragebogenAuswerten($fbnr, $kurs)
+    /*public function fragebogenAuswerten($fbnr, $kurs)
     {
         $name = $this->tblFreigeschaltet->selectUniqueRecord($kurs)->Name;
         $suffixString = '?fbnr=' . $fbnr . '&name=' . $name;   
         $this->moveToPage('Auswertung.php', $suffixString); 
-    }
+    }*/
 
     public function auswertungAnzeigen($fbnr, $kurs)
     {
         $sqlObject = $this->tblAuswertung->selectRecordsAuswertung($fbnr, $kurs);
         
+        if($sqlObject !== 0){
         $tableString = '';
         while ($row = $sqlObject->fetch_object()) {
             $tableString = $tableString . "<tr> 
@@ -337,9 +338,15 @@ class BefragerController extends GlobalFunctions
             <td>" . $row->Durchschnitt . "</td>
             <td>" . $row->Maximal . "</td>
             <td>" . $row->Minimal . "</td>
+            <td>" . $this->auswertungStandardabweichung($fbnr, $kurs) . "</td>
             </tr>";
         }
         return $tableString;
+    }
+    else{
+        $suffixString = '?fbnr=' . $fbnr . '&error=noValues'; 
+        $this->moveToPage('Auswertung.php', $suffixString);
+    }
   
     }	
 

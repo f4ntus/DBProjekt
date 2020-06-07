@@ -45,7 +45,7 @@ if (isset($_GET['fbnr'])) {
     </br>
 <?php
 }
-if (isset($_GET['name']))  { 
+if (isset($_POST['Kurs']))  { 
     echo "<div>"
 ?>
 
@@ -60,7 +60,7 @@ if (isset($_GET['name']))  {
                 <th>Minimal</th>
             </tr>
             <?php
-            $table = $befragerController->auswertungAnzeigen($_GET['fbnr'], $_GET['name']);
+            $table = $befragerController->auswertungAnzeigen($_GET['fbnr'], $_POST['Kurs']);
             echo $table;
             ?>
         </table>
@@ -72,7 +72,7 @@ if (isset($_GET['name']))  {
                 <th>Standardabweichung</th>
             </tr>
             <?php
-            $table = $befragerController->auswertungStandardabweichung($_GET['fbnr'], $_GET['name']);   
+            $table = $befragerController->auswertungStandardabweichung($_GET['fbnr'], $_POST['Kurs']);   
             echo $table;
             ?>
         </table>
@@ -82,7 +82,7 @@ if (isset($_GET['name']))  {
     <form method="post">
         <p><b>Kommentare:</b></p>
             <?php
-            $string = $befragerController->kommentareAnzeigen($_GET['fbnr'], $_GET['name']);
+            $string = $befragerController->kommentareAnzeigen($_GET['fbnr'], $_POST['Kurs']);
             echo $string;
             ?>
     </form>
@@ -100,7 +100,7 @@ if (isset($_POST['auswählen'])) {
     $befragerController->fragebogenAuswählen($_POST['FragebogenFreigeschaltet']);
 }
 if (isset($_POST['auswerten'])) {
-    $befragerController->fragebogenAuswerten($_GET['fbnr'], $_POST['Kurs']);    
+    $befragerController->auswertungAnzeigen($_GET['fbnr'], $_POST['Kurs']);    
 }
 
 //Fehlerhandling
