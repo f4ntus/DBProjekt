@@ -198,13 +198,12 @@ ALTER TABLE `tbl_student`
 -- AUTO_INCREMENT für Tabelle `tbl_frage`
 --
 ALTER TABLE `tbl_frage`
-  MODIFY `FNr` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
-
+  MODIFY `FNr` tinyint(4) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT für Tabelle `tbl_fragebogen`
 --
 ALTER TABLE `tbl_fragebogen`
-  MODIFY `FbNr` mediumint(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `FbNr` mediumint(9) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints der exportierten Tabellen
