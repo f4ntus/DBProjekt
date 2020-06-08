@@ -29,6 +29,12 @@ if (isset($_GET['error'])) {
     }
 ?>
 
+<?php
+if( !((isset($_GET['fbnr'])) && (isset($_POST['Kurs']))) ){
+    echo "<div>";
+    
+?>
+
 <form method="post" action="Auswertung.php">
     <?php
     $dropdown = $befragerController->createDropdownFreigeschaltet($recentUser);
@@ -40,8 +46,9 @@ if (isset($_GET['error'])) {
 
 </form></br>
 
+
 <?php 
-if (isset($_GET['fbnr'])) { 
+if (isset($_GET['fbnr'])) {
 ?>
     
     <form method="post">
@@ -52,8 +59,15 @@ if (isset($_GET['fbnr'])) {
    ?>
     </form>
     </br>
+    
+<?php } 
+
+} else echo "<div hidden>";?>
+</div>
+
+
 <?php
-}
+
 if (isset($_POST['Kurs']))  { 
     echo "<div>"
 ?>
