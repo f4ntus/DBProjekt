@@ -394,7 +394,7 @@ class BefragerController extends GlobalFunctions
             $this->handleError('anmeldungBefrager', 'notLoggedIn');
         }
         if ($fbnr != ''){
-            $benutzername = $this->tblFragebogen->selectUniqueRecordByFbNr($fbnr);
+            $benutzername = $this->tblFragebogen->selectUniqueRecordByFbNr($fbnr)->Benutzername;
             if ($benutzername != $_SESSION['befrager'])
             $this->handleError('andererBefrager', 'andererBefrager');
         };

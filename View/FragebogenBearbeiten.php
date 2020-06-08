@@ -2,7 +2,8 @@
 require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();
 session_start();
-$befragerController->pruefeBefrager($_GET['fbnr']);
+//$_GET['fbnr'] = '';
+$befragerController->pruefeBefrager();
 $recentUser = $_SESSION['befrager'];
 ?>
 
@@ -71,6 +72,7 @@ $recentUser = $_SESSION['befrager'];
 
     <?php
     if (isset($_GET['fbnr'])) {
+        $befragerController->pruefeBefrager($_GET['fbnr']);
         echo "<div>";
     ?>
 

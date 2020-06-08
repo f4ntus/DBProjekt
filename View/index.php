@@ -49,9 +49,6 @@ session_start();
 
     if (isset($_GET['info'])) {
         echo '<div class="infoKasten">';
-        if ($_GET['info'] == 'abgemeldet') {
-            echo '<p>Sie wurden erfolgreich abgemeldet</p>';
-        }
         if ($_GET['info'] == 'regSuccess') {
             echo '<p>Sie haben sich erfolgreich registriert, bitte melden Sie sich an</p>';
         }

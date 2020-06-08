@@ -2,7 +2,7 @@
 session_start();
 require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();
-$befragerController->pruefeBefrager($_GET['fbnr']);
+$befragerController->pruefeBefrager();
 $fbnr = $_GET['Fbnr'];
 $anzFragen = $_GET['AnzahlFragen'];
 $title = $_GET['Titel'];
@@ -58,7 +58,7 @@ $title = $_GET['Titel'];
   </form>
   <?php
   if (isset($_POST['fragenspeichern'])) {
-    echo $befragerController->createFragen($fbnr, $anzFragen, $_POST, $_GET['Titel']);
+    echo $befragerController->createFragen($fbnr, $anzFragen, $_POST, $title);
   }
   ?>
 
