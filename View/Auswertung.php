@@ -28,15 +28,15 @@ if (isset($_GET['error'])) {
         echo '</div>';
     }
 ?>
+
 <form method="post" action="Auswertung.php">
+    <?php
+    $dropdown = $befragerController->createDropdownFreigeschaltet($recentUser);
+    echo "<label>Welchen Fragebogen möchten Sie auswerten?</br></br><select name='FragebogenFreigeschaltet'>" . $dropdown . "</select></label>";
 
-<?php
-$dropdown = $befragerController->createDropdownFreigeschaltet($recentUser);
-echo "<label>Welchen Fragebogen möchten Sie auswerten?</br></br><select name='FragebogenFreigeschaltet'>" . $dropdown . "</select></label>";
-
-?>
-</br></br>
-<button type="submit" name="auswählen">auswählen</button>
+    ?>
+    </br></br>
+    <button type="submit" name="auswählen">auswählen</button>
 
 </form></br>
 
@@ -96,9 +96,6 @@ if (isset($_POST['auswählen'])) {
 if (isset($_POST['auswerten'])) {
     $befragerController->auswertungAnzeigen($_GET['fbnr'], $_POST['Kurs']);    
 }
-
-//Fehlerhandling
-//Tabellen auf eine Linie
 
 ?>
 
