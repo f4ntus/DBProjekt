@@ -29,7 +29,10 @@ $befragerController->pruefeBefrager();
       echo '<p>Ups da ist etwas schief gelaufen versuchen sie es nochmal oder wenden Sie sich an ihren Systemadmistrator</p>';
     }
     if ($_GET['error'] == 'keineFragen') {
-      echo '<p>Ihr Fragebogen muss mindestens eine Frage beinhalten. Bitte versuchen Sie es erneut.</p>';
+      echo '<p>Ihr Fragebogen muss mindestens eine Frage beinhalten. Bitte versuchen Sie es erneut</p>';
+    }
+    if ($_GET['error'] == 'leererTitel') {
+      echo '<p>Bitte vergeben Sie einen Titel</p>';
     }
 
     echo '</div>';

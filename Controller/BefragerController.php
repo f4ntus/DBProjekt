@@ -69,9 +69,14 @@ class BefragerController extends GlobalFunctions
     public function controllTitelFragebogen($titel, $benutzername, $anzFragen)
     {
         $sqlObject = $this->tblFragebogen->selectUniqueRecordByTitel($titel);
+        if($titel == '') {
+            $this->handleError('neuerFragebogen', 'leererTitel');
+            exit;
+        }
         if (is_null($sqlObject)) {
             if ($anzFragen <= 0) {
                 $this->handleError('neuerFragebogen', 'keineFragen');
+                exit;
             } else {
                 $sqlResult = $this->tblFragebogen->insertRecord($titel, $benutzername);
                 if ($sqlResult != 'error') {
