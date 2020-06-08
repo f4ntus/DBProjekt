@@ -1,13 +1,8 @@
 <?php
 session_start();
-if (isset($_SESSION['befrager']) == false)
-{
-    header ('Location: http://localhost/DBProjekt/view/index.php');
-    exit;
-}
 require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();
-include "navbar.php";
+$befragerController->pruefeBefrager();
 ?>
 
 <!DOCTYPE html>
@@ -25,6 +20,7 @@ include "navbar.php";
 <body>
 
         <?php
+        include "navbar.php";
         if (isset($_GET['info'])) {
                 echo '<div class="infoKasten">';
                 switch ($_GET['info']) {
@@ -46,14 +42,17 @@ include "navbar.php";
                         case 'kursErstellt':
                                 echo '<p>Ihr Kurs wurde erfolgreich angelegt.</p>';
                                 break;
+                        case 'studentErstellt':
+                                echo '<p>Student wurde erfolgreich angelegt.</p>';
+                                break;
                 }
                 echo '</div>';
         }
 
-        if (isset($_GET['info'])) {
-                echo '<div class="infoKasten">';
-                if ($_GET['info'] == 'studentErstellt') {
-                        echo '<p>Student wurde erfolgreich angelegt.</p>';
+        if (isset($_GET['error'])) {
+                echo '<div class="errorKasten">';
+                if ($_GET['error'] == 'andererBefrager') {
+                        echo '<p>Sie haben keinen Zugriff auf den Fragebogen.</p>';
                 }
                 echo '</div>';
         }

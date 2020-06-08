@@ -14,7 +14,9 @@
 	</head>
 
 	<body>
-	    <?php
+
+        <?php
+        include "navbar.php";
         if (isset($_GET['error'])) {
             echo '<div class="errorKasten">';
             if ($_GET['error'] == 'notFreigegeben') {
@@ -36,11 +38,11 @@
         
         ?>
 
-	    <h1><?php echo "Hallo" . " " . $_SESSION['matrikelnummer']; ?></h1>
+	    <h1><?php echo "Hallo " . $_SESSION['matrikelnummer']; ?></h1>
 
 	    <p>Diese Fragebögen sind für Sie freigeschaltet:</p>
-	    <form method="POST" action="">
-	        <table border='8' cellpadding='20'>
+	    <form method="POST">
+	        <table>
 	            <tr>
 	                <th>FragebogenNr</th>
 	                <th>Titel</th>

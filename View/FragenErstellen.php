@@ -1,16 +1,11 @@
 <?php
 session_start();
-if (isset($_SESSION['befrager']) == false)
-{
-    header ('Location: http://localhost/DBProjekt/view/index.php');
-    exit;
-}
 require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();
+$befragerController->pruefeBefrager();
 $fbnr = $_GET['Fbnr'];
 $anzFragen = $_GET['AnzahlFragen'];
 $title = $_GET['Titel'];
-include "navbar.php";
 ?>
 
 <!DOCTYPE html>
@@ -28,6 +23,7 @@ include "navbar.php";
 
   <!-- Platzhalter, hier werden potentzielle Fehler angezeigt -->
   <?php
+  include "navbar.php";
   if (isset($_GET['error'])) {
     echo '<div class="errorKasten">';
     if ($_GET['error'] == 'leereFrage') {
@@ -62,7 +58,7 @@ include "navbar.php";
   </form>
   <?php
   if (isset($_POST['fragenspeichern'])) {
-    echo $befragerController->createFragen($fbnr, $anzFragen, $_POST, $_GET['Titel']);
+    echo $befragerController->createFragen($fbnr, $anzFragen, $_POST, $title);
   }
   ?>
 

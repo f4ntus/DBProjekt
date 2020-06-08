@@ -1,14 +1,9 @@
 <?php
 session_start();
-if (isset($_SESSION['befrager']) == false)
-{
-    header ('Location: http://localhost/DBProjekt/view/index.php');
-    exit;
-}
 require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();
+$befragerController->pruefeBefrager();
 $recentUser = $_SESSION['befrager'];
-include "navbar.php";
 ?>
 <!DOCTYPE html>
 
@@ -25,6 +20,7 @@ include "navbar.php";
 
   <!-- Platzhalter, hier werden potentzielle Fehler und Informationen angezeigt -->
   <?php
+include "navbar.php";
   if (isset($_GET['error'])) {
     echo '<div class="errorKasten">';
     if ($_GET['error'] == 'sqlError') {

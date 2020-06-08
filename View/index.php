@@ -1,5 +1,7 @@
 <?php
 session_start();
+session_destroy();
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -39,6 +41,7 @@ session_start();
         if ($_GET['error'] == 'regUnsuccess' ){
             echo '<p>Etwas ist mit der Registrierung schiefgelaufen. Sind Sie schon registriert?</p>';
         }
+
         
 
         echo '</div>';
@@ -46,9 +49,6 @@ session_start();
 
     if (isset($_GET['info'])) {
         echo '<div class="infoKasten">';
-        if ($_GET['info'] == 'abgemeldet') {
-            echo '<p>Sie wurden erfolgreich abgemeldet</p>';
-        }
         if ($_GET['info'] == 'regSuccess') {
             echo '<p>Sie haben sich erfolgreich registriert, bitte melden Sie sich an</p>';
         }

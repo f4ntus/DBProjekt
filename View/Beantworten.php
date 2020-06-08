@@ -15,6 +15,8 @@ $anzFragen = $studentController->anzahlSeitenProFB($_GET["Fragebogen"]);
 </head>
 
 <body>
+    <?php include "navbar.php";
+    ?>
     <div class="SeiteFrage">
         <div class="Aktuelle Seite">
             <h4>Aktuelle Frage:
