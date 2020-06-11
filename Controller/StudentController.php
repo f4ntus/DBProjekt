@@ -221,7 +221,7 @@ class StudentController extends GlobalFunctions
         $this->moveToPage('Beantworten.php','?Fragebogen='. $fbnr . '&Frage=' . $recordFrage->maxFnr);
     }
 
-    private function StudentUndFragebogenPruefen($fbnr)
+    public function StudentUndFragebogenPruefen($fbnr='')
     {
         // prüfen ob angemeldet
         $recordStudent = $this->tblStudent->selectUniqueRecord($_SESSION["matrikelnummer"]);
@@ -230,18 +230,21 @@ class StudentController extends GlobalFunctions
             return false;
         }
 
-        // prüfen ob freigeschaltet
-        $recordFreigeschaltet = $this->tblFreigeschaltet->selectUniqueRecord($recordStudent->Name, $fbnr);
-        if (!isset($recordFreigeschaltet)) {
-            $this->handleError('menueStudent', 'notFreigegeben');
-            return false;
-        }
+        if ($fbnr != ''){
 
-        // prüfen ob nicht abgeschlossen
-        $recordAbgeschlossen = $this->tblAbschliessen->selectUniqueRecord($_SESSION["matrikelnummer"], $fbnr);
-        if (isset($recordAbgeschlossen)) {
-            $this->handleError('menueStudent', 'abgeschlossen');
-            return false;
+            // prüfen ob freigeschaltet
+            $recordFreigeschaltet = $this->tblFreigeschaltet->selectUniqueRecord($recordStudent->Name, $fbnr);
+            if (!isset($recordFreigeschaltet)) {
+                $this->handleError('menueStudent', 'notFreigegeben');
+                return false;
+            }
+            
+            // prüfen ob nicht abgeschlossen
+            $recordAbgeschlossen = $this->tblAbschliessen->selectUniqueRecord($_SESSION["matrikelnummer"], $fbnr);
+            if (isset($recordAbgeschlossen)) {
+                $this->handleError('menueStudent', 'abgeschlossen');
+                return false;
+            }
         }
 
         return true;
