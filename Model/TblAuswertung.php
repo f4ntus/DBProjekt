@@ -22,7 +22,7 @@ class TblAuswertung extends AbstractSQLWrapper
         return $this->globalSelectRecords($sql);  
     }
 
-    function SW($fbnr, $kurs, $fnr)
+    function selectRecordsStandardabweichung($fbnr, $kurs, $fnr)
     {
         $sql ="SELECT tbl_beantwortet.Bewertung AS BewertungSW FROM tbl_beantwortet, tbl_abschliessen, tbl_student, tbl_frage
         where tbl_beantwortet.FbNr = tbl_abschliessen.FbNr and tbl_beantwortet.Matrikelnummer = tbl_abschliessen.Matrikelnummer and 

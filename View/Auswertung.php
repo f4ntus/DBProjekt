@@ -30,20 +30,27 @@ if (isset($_GET['error'])) {
         echo '</div>';
     }
 ?>
-<form method="post" action="Auswertung.php">
 
 <?php
-$dropdown = $befragerController->createDropdownFreigeschaltet($recentUser);
-echo "<label>Welchen Fragebogen möchten Sie auswerten?</br></br><select name='FragebogenFreigeschaltet'>" . $dropdown . "</select></label>";
-
+if( !((isset($_GET['fbnr'])) && (isset($_POST['Kurs']))) ){
+    echo "<div>";
+    
 ?>
-</br></br>
-<button type="submit" name="auswählen">auswählen</button>
+
+<form method="post" action="Auswertung.php">
+    <?php
+    $dropdown = $befragerController->createDropdownFreigeschaltet($recentUser);
+    echo "<label>Welchen Fragebogen möchten Sie auswerten?</br></br><select name='FragebogenFreigeschaltet'>" . $dropdown . "</select></label>";
+
+    ?>
+    </br></br>
+    <button type="submit" name="auswählen">auswählen</button>
 
 </form></br>
 
+
 <?php 
-if (isset($_GET['fbnr'])) { 
+if (isset($_GET['fbnr'])) {
 ?>
     
     <form method="post">
@@ -54,8 +61,15 @@ if (isset($_GET['fbnr'])) {
    ?>
     </form>
     </br>
+    
+<?php } 
+
+} else echo "<div hidden>";?>
+</div>
+
+
 <?php
-}
+
 if (isset($_POST['Kurs']))  { 
     echo "<div>"
 ?>
@@ -98,9 +112,6 @@ if (isset($_POST['auswählen'])) {
 if (isset($_POST['auswerten'])) {
     $befragerController->auswertungAnzeigen($_GET['fbnr'], $_POST['Kurs']);    
 }
-
-//Fehlerhandling
-//Tabellen auf eine Linie
 
 ?>
 

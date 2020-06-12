@@ -283,13 +283,20 @@ class BefragerController extends GlobalFunctions
     {
 
         $matrikelnummer = $_POST["matrikelnummer"];
+        
+        if (is_numeric($matrikelnummer)){
         $sqlObject = $this->tblStudent->selectUniqueRecord($matrikelnummer);
-        if (is_null($sqlObject)) {
-            $name = $_POST["Kurs"];
-            $neuerStudent = $this->tblStudent->insertRecord($matrikelnummer, $name);
-            $this->handleInfo('neuerStudent', 'studentErstellt');
-        } else {
+            if (is_null($sqlObject)) {
+                $name = $_POST["Kurs"];
+                $neuerStudent = $this->tblStudent->insertRecord($matrikelnummer, $name);
+                $this->handleInfo('neuerStudent', 'studentErstellt');
+            } 
+            else {
             $this->handleError('neueMatrikelnummer', 'matrikelnummerInUse');
+            }
+        }
+        else{
+            $this->handleError('richtigeMatrikelnummer', 'matrikelnummerNotNumeric');
         }
     }
 
@@ -324,12 +331,6 @@ class BefragerController extends GlobalFunctions
         $this->moveToPage('Auswertung.php', $suffixString);
     }
 
-    /*public function fragebogenAuswerten($fbnr, $kurs)
-    {
-        $name = $this->tblFreigeschaltet->selectUniqueRecord($kurs)->Name;
-        $suffixString = '?fbnr=' . $fbnr . '&name=' . $name;   
-        $this->moveToPage('Auswertung.php', $suffixString); 
-    }*/
 
     public function auswertungAnzeigen($fbnr, $kurs)
     {
@@ -367,7 +368,7 @@ class BefragerController extends GlobalFunctions
     public function auswertungStandardabweichung($fbnr, $kurs, $fnr)
     {
         $values = array();
-        $sqlObject = $this->tblAuswertung->SW($fbnr, $kurs, $fnr);
+        $sqlObject = $this->tblAuswertung->selectRecordsStandardabweichung($fbnr, $kurs, $fnr);
         while ($row = $sqlObject->fetch_object()) {
             array_push($values, $row->BewertungSW);
         }
