@@ -5,6 +5,8 @@ class TblAbschliessen extends AbstractSQLWrapper
 {
     function selectUniqueRecord($matrikelnummer,$fbnr)
     {
+        $matrikelnummer = $this->escapeString($matrikelnummer);
+        $fbnr = $this->escapeString($fbnr);
         $sql = "SELECT * FROM tbl_abschliessen where Matrikelnummer='$matrikelnummer' and FbNr='$fbnr' ";
         return $this->globalSelectUniqueRecord($sql);
     }
