@@ -6,8 +6,14 @@ class BefragerController extends GlobalFunctions
     {
         parent::__construct();
     }
-    /* @Author: Chris
-        Hier stehen alle relevanten Funktionen für das Menü des Befragers.*/
+
+    /**
+     * @author Christoph Böhringer
+     * Diese Funktion ruft alle erstellten Fragebögen des angemeldeten Befragers auf und gibt diese zurück.
+     *
+     * @param  mixed $recentUser
+     * @return string $tableString
+     */
     public function createInnerTableBefrager($recentUser)
     {
 
@@ -19,6 +25,13 @@ class BefragerController extends GlobalFunctions
         return $tableString;
     }
 
+    /**
+     * @author Christoph Böhringer
+     * Dient zur Erstellung der einzelnen Fragefelder nach der Anzahl der eingegebenen Fragen.
+     *
+     * @param  mixed $anzFragen
+     * @return string $frageString 
+     */
     public function createFrageFelder($anzFragen)
     {
 
@@ -31,16 +44,24 @@ class BefragerController extends GlobalFunctions
         return $frageString;
     }
 
-
-    // noch in Bearbeitung --> @JOSC
-    // Fragen müssen noch geprüft werden --> @JOSC
+    /**
+     * @author Christoph Böhringer
+     * Speichert die einzelnen Fragen in der Datenbank.
+     *
+     * @param  mixed $fbnr
+     * @param  mixed $anzFragen
+     * @param  mixed $post
+     * @param  mixed $titel
+     * @return void 
+     */
     public function createFragen($fbnr, $anzFragen, $post, $titel)
     {
 
         for ($fnr = 1; $fnr <= $anzFragen; $fnr++) {
             $postArrayName = 'fragetext' . $fnr;
             $fragetext = $post[$postArrayName];
-
+            
+            //Prüfung, ob gleiche Frage vorhanden. Eine Frage darf nur einmal im Fragebogen vorkommen.
             for ($fnr1 = 1; $fnr1 < $anzFragen; $fnr1++) {
 
                 if ($fnr == $fnr1) {
@@ -54,6 +75,7 @@ class BefragerController extends GlobalFunctions
                     exit;
                 }
             }
+            //Prüfung ob Frage leer
             if ($fragetext == '') {
                 $suffixString = '?AnzahlFragen=' . $anzFragen . '&Fbnr=' . $fbnr . '&Titel=' . $titel . '&error=leereFrage';
                 $this->handleError('fragenErstellen', $suffixString);
@@ -61,18 +83,27 @@ class BefragerController extends GlobalFunctions
             }
 
             $this->tblFrage->insertRecord($fbnr, $fnr, $fragetext);
-            //keine "success" sql Error abfrage da "DUPLICATE ENTRY PRIMARY" kommt, hat aber keinen Einfluss auf die funktionsweise, ist auch komischerweise kein Duplikat zu finden.
         }
         $this->handleInfo('fragebogenErstellt', 'fb_erstellt');
     }
-
+    /**
+     * @author Christoph Böhringer
+     * Speichert den Fragebogen in der Datenbank
+     *
+     * @param  mixed $titel
+     * @param  mixed $benutzername
+     * @param  mixed $anzFragen
+     * @return void 
+     */
     public function controllTitelFragebogen($titel, $benutzername, $anzFragen)
     {
-        $sqlObject = $this->tblFragebogen->selectUniqueRecordByTitel($titel);
-        if($titel == '') {
+        //Prüfung ob Titel = leer
+        if ($titel == '') {
             $this->handleError('neuerFragebogen', 'leererTitel');
             exit;
         }
+        $sqlObject = $this->tblFragebogen->selectUniqueRecordByTitel($titel);
+        //Prüfung ob Titel bereits vorhanden
         if (is_null($sqlObject)) {
             if ($anzFragen <= 0) {
                 $this->handleError('neuerFragebogen', 'keineFragen');
@@ -91,16 +122,14 @@ class BefragerController extends GlobalFunctions
         }
     }
 
-    public function createKursFelder()
-    {
-
-        $kurse = $this->tblKurs->selectRecords();
-        while ($kurs = $kurse->fetch_object()) {
-            echo "<input type='checkbox' name='" . $kurs->Name . "'><label for='" . $kurs->Name . "'>" . $kurs->Name . "</label></br>";
-            echo "</br>";
-        }
-    }
-
+    /**
+     * @author Christoph Böhringer
+     * Schaltet den ausgewählten Fragebogen für den jeweiligen Kurs frei.
+     *
+     * @param  mixed $fragebogen
+     * @param  mixed $kurs
+     * @return void 
+     */
     public function freischaltenKurs($fragebogen, $kurs)
     {
         $fbnr = $this->tblFragebogen->selectUniqueRecordByTitel($fragebogen)->FbNr;
@@ -283,19 +312,17 @@ class BefragerController extends GlobalFunctions
     {
 
         $matrikelnummer = $_POST["matrikelnummer"];
-        
-        if (is_numeric($matrikelnummer)){
-        $sqlObject = $this->tblStudent->selectUniqueRecord($matrikelnummer);
+
+        if (is_numeric($matrikelnummer)) {
+            $sqlObject = $this->tblStudent->selectUniqueRecord($matrikelnummer);
             if (is_null($sqlObject)) {
                 $name = $_POST["Kurs"];
                 $neuerStudent = $this->tblStudent->insertRecord($matrikelnummer, $name);
                 $this->handleInfo('neuerStudent', 'studentErstellt');
-            } 
-            else {
-            $this->handleError('neueMatrikelnummer', 'matrikelnummerInUse');
+            } else {
+                $this->handleError('neueMatrikelnummer', 'matrikelnummerInUse');
             }
-        }
-        else{
+        } else {
             $this->handleError('richtigeMatrikelnummer', 'matrikelnummerNotNumeric');
         }
     }
@@ -311,6 +338,12 @@ class BefragerController extends GlobalFunctions
         return $dropdownString;
     }
 
+    /**
+     * selectKurseZuFragebogen
+     *
+     * @param  mixed $fbnr
+     * @return void
+     */
     public function selectKurseZuFragebogen($fbnr)
     {
 
@@ -350,7 +383,7 @@ class BefragerController extends GlobalFunctions
             return $tableString;
         } else {
             $suffixString = '?fbnr=' . $fbnr . '&error=noValues';
-            $this->handleError('auswertung',$suffixString);
+            $this->handleError('auswertung', $suffixString);
         }
     }
 
@@ -394,15 +427,15 @@ class BefragerController extends GlobalFunctions
         return Round($stddev, 2);
     }
 
-    public function pruefeBefrager($fbnr = '') {
-        if (!isset($_SESSION['befrager']))
-        {
+    public function pruefeBefrager($fbnr = '')
+    {
+        if (!isset($_SESSION['befrager'])) {
             $this->handleError('anmeldungBefrager', 'notLoggedIn');
         }
-        if ($fbnr != ''){
+        if ($fbnr != '') {
             $benutzername = $this->tblFragebogen->selectUniqueRecordByFbNr($fbnr)->Benutzername;
             if ($benutzername != $_SESSION['befrager'])
-            $this->handleError('andererBefrager', 'andererBefrager');
+                $this->handleError('andererBefrager', 'andererBefrager');
         };
     }
 }
