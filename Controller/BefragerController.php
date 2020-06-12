@@ -11,13 +11,13 @@ class BefragerController extends GlobalFunctions
      * @author Christoph Böhringer
      * Diese Funktion ruft alle erstellten Fragebögen des angemeldeten Befragers auf und gibt diese zurück.
      *
-     * @param  mixed $recentUser
+     * @param $recentUser
      * @return string $tableString
      */
-    public function createInnerTableBefrager($recentUser)
+    public function createInnerTableBefrager($benutzername)
     {
 
-        $sqlObject = $this->tblFragebogen->selectRecords($recentUser);
+        $sqlObject = $this->tblFragebogen->selectRecords($benutzername);
         $tableString = '';
         while ($row = $sqlObject->fetch_object()) {
             $tableString = $tableString . '<tr> <td>' . $row->FbNr . '</td><td>' . $row->Titel . '</td></tr>';
@@ -29,7 +29,7 @@ class BefragerController extends GlobalFunctions
      * @author Christoph Böhringer
      * Dient zur Erstellung der einzelnen Fragefelder nach der Anzahl der eingegebenen Fragen.
      *
-     * @param  mixed $anzFragen
+     * @param $anzFragen
      * @return string $frageString 
      */
     public function createFrageFelder($anzFragen)
@@ -48,10 +48,10 @@ class BefragerController extends GlobalFunctions
      * @author Christoph Böhringer
      * Speichert die einzelnen Fragen in der Datenbank.
      *
-     * @param  mixed $fbnr
-     * @param  mixed $anzFragen
-     * @param  mixed $post
-     * @param  mixed $titel
+     * @param $fbnr
+     * @param $anzFragen
+     * @param $post
+     * @param $titel
      * @return void 
      */
     public function createFragen($fbnr, $anzFragen, $post, $titel)
@@ -90,9 +90,9 @@ class BefragerController extends GlobalFunctions
      * @author Christoph Böhringer
      * Speichert den Fragebogen in der Datenbank
      *
-     * @param  mixed $titel
-     * @param  mixed $benutzername
-     * @param  mixed $anzFragen
+     * @param $titel
+     * @param $benutzername
+     * @param $anzFragen
      * @return void 
      */
     public function controllTitelFragebogen($titel, $benutzername, $anzFragen)
@@ -126,8 +126,8 @@ class BefragerController extends GlobalFunctions
      * @author Christoph Böhringer
      * Schaltet den ausgewählten Fragebogen für den jeweiligen Kurs frei.
      *
-     * @param  mixed $fragebogen
-     * @param  mixed $kurs
+     * @param $fragebogen
+     * @param $kurs
      * @return void 
      */
     public function freischaltenKurs($fragebogen, $kurs)
@@ -139,6 +139,13 @@ class BefragerController extends GlobalFunctions
         } else $this->handleInfo('kurseFreischalten', 'freigeschalten');
     }
 
+    /**
+     * @author Christoph Böhringer
+     * Funktion für das Auflisten von bereits freigeschalteten Kursen eines ausgewählten Fragebogens.
+     *
+     * @param  $fragebogen
+     * @return string 
+     */
     public function showBereitsFreigeschaltet($fragebogen)
     {
         $fbnr = $this->tblFragebogen->selectUniqueRecordByTitel($fragebogen)->FbNr;
@@ -153,11 +160,17 @@ class BefragerController extends GlobalFunctions
         return "<br> <p>Liste der bereits freigegebenen Kurse für den Fragebogen " . $fragebogen . ":</p>" . $freigeschaltetString;
     }
 
-
-    public function createDropdownFragebogen($recentUser)
+    /**
+     * @author Christoph Böhringer
+     * Erzeugt ein Dropdownmenü von bereits angelegten Fragebogen eines Befragers.
+     *
+     * @param $benutzername
+     * @return string $dropdownString 
+     */
+    public function createDropdownFragebogen($benutzername)
     {
 
-        $sqlObject = $this->tblFragebogen->selectRecords($recentUser);
+        $sqlObject = $this->tblFragebogen->selectRecords($benutzername);
         $dropdownString = '';
 
         while ($row = $sqlObject->fetch_object()) {
