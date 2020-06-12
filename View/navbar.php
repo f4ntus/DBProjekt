@@ -16,7 +16,6 @@ Klasse beinhaltet die Navbar für den Student und Befrager.
             ?>
             </li>
                 <li><a href="index.php">Logout</a></li>
-                <a class="text">Befragungstool der DHBW Ravensburg</a>
             </ul>
         </nav>
     </header>

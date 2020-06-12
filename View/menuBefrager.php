@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Christoph Böhringer
  * Diese Klasse dient als Basis für die Oberfläche des Hauptmenüs des Befragers. 
@@ -66,38 +67,17 @@ $befragerController->pruefeBefrager();
         echo "<h2>Was möchten Sie tun?</h2>"
         ?>
 
-        <form method="post" action="neuerFragebogen.php">
-                <button type="submit" name="fb_neu">+ Neuen Fragebogen erstellen</button>
-        </form>
-        </br>
-        <form mehthod="post" action="FreischaltungKurs.php">
-                <button type="submit" name="fb_freischalten">Kurs freischalten</button>
-        </form>
-        </br>
-        <form method="post" action="FragebogenBearbeiten.php">
-                <button type="submit" name="fb_bearbeiten">Fragebogen bearbeiten</button>
-        </form>
-        </br>
-        <form method="post" action="FragebogenKopieren.php">
-                <button type="submit" name="fb_kopieren">Fragebogen kopieren</button>
-        </form>
-        </br>
-        <form method="post" action="FragebogenLoeschen.php">
-                <button type="submit" name="fb_löschen">Fragebogen löschen</button>
-        </form>
-        </br>
-        <form method="post" action="neuerKurs.php">
-                <button type="submit" name="kursanlegen">Neuen Kurs anlegen</button>
-        </form>
-        </br>
-        <form method="post" action="neuerStudent.php">
-                <button type="submit" name="studentanlegen">Neuen Student anlegen</button>
-        </form>
-        </br>
-        <form method="post" action="Auswertung.php">
-                <button type="submit" name="studentanlegen">Auswertung</button>
-        </form>
-
+        <p>Optionen Fragebogen:</p>
+        <a href="neuerFragebogen.php"><button>+ Neuen Fragebogen erstellen</button></a>
+        <a href="FragebogenBearbeiten.php"><button>Fragebogen bearbeiten</button></a>
+        <a href="FragebogenKopieren.php"><button>Fragebogen kopieren</button></a>
+        <a href="FragebogenLoeschen.php"><button>Fragebogen löschen</button></a>
+        <a href="FreischaltungKurs.php"><button>Kurs freischalten</button></a>
+        <p>Anlegen:</p>
+        <a href="neuerKurs.php"><button>Neuen Kurs anlegen</button></a>
+        <a href="neuerStudent.php"><button>Neuen Student anlegen</button></a>
+        <p>Ergebnisse:</p>
+        <a href="Auswertung.php"><button>Auswertung</button></a>
 
         <p>Übersicht Ihrer bereits erstellen Fragebögen:</p>
 
