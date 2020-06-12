@@ -234,7 +234,7 @@ class BefragerController extends GlobalFunctions
 
     public function sortFragen($fbnr, $fnr)
     {
-        $sqlObject = $this->tblFrage->selectRecords($fbnr, "FNr > '$fnr'");
+        $sqlObject = $this->tblFrage->selectRecords($fbnr, $fnr);
         while ($row = $sqlObject->fetch_object()) {
             $fragetext = $row->Fragetext;
             $update = $this->tblFrage->updateRecord($fbnr, $fnr, $fragetext);

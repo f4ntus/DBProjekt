@@ -39,7 +39,7 @@ class StudentController extends GlobalFunctions
             $this->tblBeantwortet->insertRecord($fbnr, $fnr, $_SESSION['matrikelnummer'], $post['bewertung']);
         }
         var_dump($fnr);
-        $sqlObjectFragen = $this->tblFrage->selectRecords($fbnr, 'FNr>' . $fnr); // liefert ab der aktuellen Frage
+        $sqlObjectFragen = $this->tblFrage->selectRecords($fbnr, $fnr); // liefert ab der aktuellen Frage
         $newFnr = $sqlObjectFragen->fetch_object()->FNr; // die nächste Fragennummer
         if (is_null($newFnr)) {
             // Befragung ist fertig
