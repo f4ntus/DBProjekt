@@ -11,7 +11,7 @@ abstract class AbstractSQLWrapper {
         $this->db = new MySQLi(self::DBHOST, self::DBUSER, self::DBPASSWORD, self::DATABASE);
     }
     function escapeString($escapeString){
-       return mysqli_real_escape_string($escapeString,$this->db);
+       return mysqli_real_escape_string($this->db,$escapeString);
     }
 
     function globalSelectUniqueRecord($sql){
