@@ -10,15 +10,15 @@ class TblFrage extends AbstractSQLWrapper
         $sql = "SELECT * FROM tbl_frage where FbNr = '$fbnr' and fnr ='$fnr'";
         return $this->globalSelectUniqueRecord($sql);
     }
-    function selectRecords($fbnr, $filter='')
+    function selectRecords($fbnr, $largerThanFNr='')
     {
         $fbnr = $this->escapeString($fbnr);
-        $filter = $this->escapeString($filter);
+        $largerThanFNr = $this->escapeString($largerThanFNr);
 
-        if ($filter == ''){
+        if ($largerThanFNr == ''){
             $sql = "SELECT * FROM tbl_frage where FbNr = '$fbnr'";
         } else {
-            $sql = "SELECT * FROM tbl_frage where FbNr = '$fbnr' AND $filter";
+            $sql = "SELECT * FROM tbl_frage where FbNr = '$fbnr' AND FNr > $largerThanFNr";
         } 
         return $this->globalSelectRecords($sql);
     }
