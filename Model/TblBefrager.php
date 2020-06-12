@@ -15,7 +15,7 @@ class TblBefrager extends AbstractSQLWrapper {
     }
     function insertRecord($benutzername,$kennwort){
         $benutzername = $this->escapeString($benutzername);
-        $kennwort = $this->escapeString($kennwort);
+        // Kennwort wird nicht escaped da breits verschlüsselt
         $sql = "INSERT INTO tbl_befrager (Benutzername, Kennwort) VALUES ('$benutzername', '$kennwort')";
         return $this->globalInsertRecord($sql);
       
