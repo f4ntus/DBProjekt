@@ -10,7 +10,7 @@ require '../Model/TblKurs.php';
 require '../Model/TblStudent.php';
 require '../Model/TblFreigeschaltet.php';
 require '../Model/TblAuswertung.php';
-class GlobalFunctions
+abstract class GlobalFunctions
 {
     protected $sqlWrapper;
     protected $tblAbschliessen;

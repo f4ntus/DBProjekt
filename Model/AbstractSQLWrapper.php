@@ -10,30 +10,33 @@ abstract class AbstractSQLWrapper {
     {
         $this->db = new MySQLi(self::DBHOST, self::DBUSER, self::DBPASSWORD, self::DATABASE);
     }
+    function escapeString($escapeString){
+       return mysqli_real_escape_string($escapeString,$this->db);
+    }
 
-    protected function globalSelectUniqueRecord($sql){
+    function globalSelectUniqueRecord($sql){
         $result = $this->db->query($sql);
         return $result->fetch_object(); 
     }
-    protected function globalSelectRecords($sql){
+    function globalSelectRecords($sql){
         return $this->db->query($sql);
 
     }
-    protected function globalUpdateRecord($sql){
+    function globalUpdateRecord($sql){
         if ($this->db->query($sql)) {
             return 'success';
         } else {
             return $this->db->error;
         }
     }
-    protected function globalInsertRecord($sql){
+    function globalInsertRecord($sql){
         if ($this->db->query($sql)) {
             return 'success';
         } else {
             return $this->db->error;
         }
     }
-    protected function globalDeleteRecord($sql){
+   function globalDeleteRecord($sql){
         if ($this->db->query($sql)) {
             return 'success';
         } else {
