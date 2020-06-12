@@ -5,6 +5,7 @@ class TblKurs extends AbstractSQLWrapper
 {
     function selectUniqueRecord($name)
     {
+        $name = $this->escapeString($name);
         $sql = "SELECT Name FROM tbl_kurs WHERE Name = '$name'";
         return $this->globalSelectUniqueRecord($sql);
     }
@@ -20,6 +21,7 @@ class TblKurs extends AbstractSQLWrapper
     }
     function insertRecord($name)
     {
+        $name = $this->escapeString($name);
         $sql = "INSERT INTO tbl_kurs (Name) VALUES ('$name')";
         return $this->globalInsertRecord($sql);
     }
