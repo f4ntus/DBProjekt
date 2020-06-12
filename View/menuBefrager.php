@@ -106,7 +106,7 @@ $befragerController->pruefeBefrager();
         if ($uebersicht == '') {
                 echo '<p>Sie haben noch keinen Fragebogen erstellt.</p>';
         } else {
-                echo "<table> <tr> <th>FbNr</th> <th>Titel</th> </tr>" . $response . "</table>";
+                echo "<table> <tr> <th>FbNr</th> <th>Titel</th> </tr>" . $uebersicht . "</table>";
         }
         ?>
 
