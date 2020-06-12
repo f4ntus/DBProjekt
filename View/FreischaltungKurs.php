@@ -1,9 +1,12 @@
 <?php
+/**
+ * @author Christoph Böhringer
+ * Diese Klasse dient als Basis für die Oberfläche der Freischalten-Kurs Funktion.
+ */
 session_start();
 require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();
 $befragerController->pruefeBefrager();
-$recentUser = $_SESSION['befrager'];
 ?>
 <!DOCTYPE html>
 
@@ -18,9 +21,9 @@ $recentUser = $_SESSION['befrager'];
 
 <body>
 
-  <!-- Platzhalter, hier werden potentzielle Fehler und Informationen angezeigt -->
   <?php
 include "navbar.php";
+  //Hier werden potentielle Fehler und Infos aufgelistet.
   if (isset($_GET['error'])) {
     echo '<div class="errorKasten">';
     if ($_GET['error'] == 'sqlError') {
@@ -50,7 +53,7 @@ include "navbar.php";
   ?>
   <form method="post">
     <?php
-    $dropdownFragebogen = $befragerController->createDropdownFragebogen($recentUser);
+    $dropdownFragebogen = $befragerController->createDropdownFragebogen($_SESSION['befrager']);
     echo "<label>Welchen Fragebogen möchten Sie freischalten?</br></br><select name='Fragebogen'>" . $dropdownFragebogen . "</select></label>";
     echo "</br></br>";
 

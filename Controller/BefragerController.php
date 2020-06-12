@@ -1,4 +1,10 @@
 <?php
+/**
+* @author Christoph Böhringer, Lukas Schick
+* Diese Klasse beinhaltet die Business-Logik auf der Befragerseite.
+*
+*/
+
 require 'GlobalFunctions.php';
 class BefragerController extends GlobalFunctions
 {
@@ -60,7 +66,7 @@ class BefragerController extends GlobalFunctions
         for ($fnr = 1; $fnr <= $anzFragen; $fnr++) {
             $postArrayName = 'fragetext' . $fnr;
             $fragetext = $post[$postArrayName];
-            
+
             //Prüfung, ob gleiche Frage vorhanden. Eine Frage darf nur einmal im Fragebogen vorkommen.
             for ($fnr1 = 1; $fnr1 < $anzFragen; $fnr1++) {
 
@@ -180,6 +186,12 @@ class BefragerController extends GlobalFunctions
         return $dropdownString;
     }
 
+    /**
+     * @author Christoph Böhringer
+     * Erzeugt ein Dropdownmenü von angelegten Kursen.
+     *
+     * @return string $dropdownString 
+     */
     public function createDropdownKurs()
     {
         $sqlObject = $this->tblKurs->selectRecords();
@@ -192,17 +204,26 @@ class BefragerController extends GlobalFunctions
         return $dropdownString;
     }
 
-    public function fragebogenKopieren($recentUser, $oldTitle, $copyTitle)
+    /**
+     * @author Christoph Böhringer
+     * Dient zum Kopieren eines bereits angelegten Fragebogens.
+     *
+     * @param $benutzername
+     * @param $alterTitel
+     * @param $copyTitel
+     * @return void 
+     */
+    public function fragebogenKopieren($benutzername, $alterTitel, $copyTitel)
     {
-        $oldFbNr = $this->tblFragebogen->selectUniqueRecordByTitel($oldTitle)->FbNr;
-        $checkTitle = $this->tblFragebogen->selectUniqueRecordByTitel($copyTitle);
+        $alteFbNr = $this->tblFragebogen->selectUniqueRecordByTitel($alterTitel)->FbNr;
+        $checkTitle = $this->tblFragebogen->selectUniqueRecordByTitel($copyTitel);
         if (is_null($checkTitle)) {
-            $newFbNr = $this->tblFragebogen->insertRecord($copyTitle, $recentUser);
-            $sqlObject1 = $this->tblFrage->selectRecords($oldFbNr);
+            $neueFbNr = $this->tblFragebogen->insertRecord($copyTitel, $benutzername);
+            $sqlObject1 = $this->tblFrage->selectRecords($alteFbNr);
             $fnr = 1;
             while ($frage = $sqlObject1->fetch_object()) {
                 $fragetext = $frage->Fragetext;
-                $sqlObject = $this->tblFrage->insertRecord($newFbNr, $fnr, $fragetext);
+                $sqlObject = $this->tblFrage->insertRecord($neueFbNr, $fnr, $fragetext);
                 if ($sqlObject != 'success') {
                     $this->handleError('fragenKopieren', 'sqlError');
                     exit;
@@ -228,6 +249,13 @@ class BefragerController extends GlobalFunctions
         }
     }
 
+    /**
+     * @author Christoph Böhringer
+     * Löscht den gesamten Fragebogen inklusive Fragen.
+     *
+     * @param $titel
+     * @return void 
+     */
     public function fragebogenLoeschen($titel)
     {
         $fbnr = $this->tblFragebogen->selectUniqueRecordByTitel($titel)->FbNr;
@@ -239,6 +267,13 @@ class BefragerController extends GlobalFunctions
         }
     }
 
+    /**
+     * @author Christoph Böhringer
+     * Navigiert zu ausgewähltem Fragebogen der bearbeitet werden soll und gibt die Fragebogennummer mit.
+     *
+     * @param $titel
+     * @return void 
+     */
     public function fragebogenBearbeiten($titel)
     {
         $fbnr = $this->tblFragebogen->selectUniqueRecordByTitel($titel)->FbNr;
@@ -246,6 +281,13 @@ class BefragerController extends GlobalFunctions
         $this->moveToPage('FragebogenBearbeiten.php', $suffixString);
     }
 
+    /**
+     * @author Christoph Böhringer
+     * Zeigt vom ausgewählten Fragebogen alle Fragen an mit der Option sie zu löschen.
+     *
+     * @param $fbnr
+     * @return string $tableString 
+     */
     public function fragenAnzeigenBearbeiten($fbnr)
     {
 
@@ -261,19 +303,33 @@ class BefragerController extends GlobalFunctions
         return $tableString;
     }
 
+    /**
+     * @author Christoph Böhringer
+     * Löscht die ausgewählte Frage und sortiert die Fragen neu.
+     *
+     * @param $fnr
+     * @param $fbnr
+     * @return void
+     */
     public function einzelneFrageLoeschen($fnr, $fbnr)
     {
         $sqlObject = $this->tblFrage->deleteRecord($fnr, $fbnr);
         if ($sqlObject == "success") {
             $this->sortFragen($fbnr, $fnr);
-            //$suffixString = '?fbnr=' . $fbnr . '&info=frage_geloescht'; 
-            //$this->handleInfo('einzelneFrageLoeschen', $suffixString);
         } else {
             $suffixString = '?fbnr=' . $fbnr . '&error=sqlError';
             $this->handleError('einzelneFrageLoeschen', $suffixString);
         }
     }
 
+    /**
+     * @author Christoph Böhringer
+     * Funktion für das Neusortieren der Fragen, nachdem eine einzelne Frage gelöscht wurde.
+     *
+     * @param $fbnr
+     * @param $fnr
+     * @return void
+     */
     public function sortFragen($fbnr, $fnr)
     {
         $sqlObject = $this->tblFrage->selectRecords($fbnr, $fnr);
@@ -292,10 +348,19 @@ class BefragerController extends GlobalFunctions
         }
     }
 
+    /**
+     * @author Christoph Böhringer
+     * Funktion für das Hinzufügen einer neuen Frage am Ende des Fragebogens.
+     *
+     * @param $fbnr
+     * @param $fragetext
+     * @return void
+     */
     public function einzelneFrageHinzufügen($fbnr, $fragetext)
     {
         $maxFnr = $this->tblFrage->maxRecord($fbnr)->maxFnr;
         $neueFnr = $maxFnr + 1;
+        //Prüfung ob gleiche Frage
         for ($fnr1 = 1; $fnr1 <= $maxFnr; $fnr1++) {
             $fragetext1 = $this->tblFrage->selectUniqueRecord($fbnr, $fnr1)->Fragetext;
             if ($fragetext == $fragetext1) {
@@ -304,6 +369,7 @@ class BefragerController extends GlobalFunctions
                 exit;
             }
         }
+        //Prüfung ob Frage leer
         if ($fragetext == '') {
             $suffixString = $suffixString = $suffixString = '?fbnr=' . $fbnr . '&error=leereFrage';
             $this->handleError('einzelneFrageHinzufügen', $suffixString);
@@ -434,6 +500,13 @@ class BefragerController extends GlobalFunctions
         return Round($stddev, 2);
     }
 
+    /**
+     * @author Christoph Böhringer
+     * Prüfung ob ein Befrager angemeldet ist und ob er Zugriff auf einen bestimmten Fragebogen hat.
+     *
+     * @param $fbnr
+     * @return void
+     */
     public function pruefeBefrager($fbnr = '')
     {
         if (!isset($_SESSION['befrager'])) {

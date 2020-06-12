@@ -1,9 +1,12 @@
 <?php
+/**
+ * @author Christoph Böhringer
+ * Diese Klasse dient als Basis für die Oberfläche der Fragebogen-Löschen Funktion.
+ */
 require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();
 session_start();
 $befragerController->pruefeBefrager();
-$recentUser = $_SESSION['befrager'];
 ?>
 
 <!DOCTYPE html>
@@ -20,6 +23,7 @@ $recentUser = $_SESSION['befrager'];
 <body>
     <?php
     include "navbar.php";
+    //Hier werden potentielle Fehler und Infos aufgelistet.
     if (isset($_GET['error'])) {
         echo '<div class="errorKasten">';
         if ($_GET['error'] == 'sqlError') {
@@ -33,7 +37,7 @@ $recentUser = $_SESSION['befrager'];
 
     <form method="post">
         <?php
-        $dropdown = $befragerController->createDropdownFragebogen($recentUser);
+        $dropdown = $befragerController->createDropdownFragebogen($_SESSION['befrager']);
         echo "<label>Welchen Fragebogen möchten Sie löschen?</br></br><select name='Fragebogen'>" . $dropdown . "</select></label>";
         ?>
 

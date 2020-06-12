@@ -1,10 +1,13 @@
 <?php
+/**
+ * @author Christoph Böhringer
+ * Diese Klasse dient als Basis für die Oberfläche der Fragebogen-Bearbeiten Funktion.
+ */
+
 require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();
 session_start();
-//$_GET['fbnr'] = '';
 $befragerController->pruefeBefrager();
-$recentUser = $_SESSION['befrager'];
 ?>
 
 <!DOCTYPE html>
@@ -22,6 +25,7 @@ $recentUser = $_SESSION['befrager'];
 
     <?php
     include "navbar.php";
+    //Hier werden potentielle Fehler und Infos aufgelistet.
     if (isset($_GET['error'])) {
         echo '<div class="errorKasten">';
         if ($_GET['error'] == 'sqlError') {
@@ -29,7 +33,8 @@ $recentUser = $_SESSION['befrager'];
         }
         if ($_GET['error'] == 'gleicheFrage') {
             echo '<p>Die eingegebene Frage ist bereits im Fragebogen vorhanden</p>';
-        }if ($_GET['error'] == 'leereFrage') {
+        }
+        if ($_GET['error'] == 'leereFrage') {
             echo '<p>Eine Frage darf nicht leer sein, bitte füllen sie das Feld nochmals aus</p>';
         }
 
@@ -60,14 +65,14 @@ $recentUser = $_SESSION['befrager'];
 
     <form method="post">
         <?php
-        $dropdown = $befragerController->createDropdownFragebogen($recentUser);
+        $dropdown = $befragerController->createDropdownFragebogen($_SESSION['befrager']);
         echo "<label>Welchen Fragebogen möchten Sie bearbeiten?</br></br><select name='Fragebogen'>" . $dropdown . "</select></label>";
         ?>
         </br></br>
         <button type="submit" name="bearbeiten">bearbeiten</button>
 
     </form>
-    </div>  
+    </div>
 
 
     <?php
@@ -89,7 +94,7 @@ $recentUser = $_SESSION['befrager'];
                 ?>
             </table>
         </form>
-    </br>
+        </br>
 
         <form method="post">
             <label for='neue_frage'>Frage hinzufügen:</label></br>
@@ -110,8 +115,8 @@ $recentUser = $_SESSION['befrager'];
     if (isset($_POST['frage_loeschen'])) {
         $befragerController->einzelneFrageLoeschen($_POST['frage_loeschen'], $_GET['fbnr']);
     }
-    if (isset($_POST['frage_hinzufügen'])){
-        $befragerController->einzelneFrageHinzufügen($_GET['fbnr'], $_POST['neue_frage']);  
+    if (isset($_POST['frage_hinzufügen'])) {
+        $befragerController->einzelneFrageHinzufügen($_GET['fbnr'], $_POST['neue_frage']);
     }
     ?>
 

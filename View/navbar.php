@@ -1,3 +1,13 @@
+<!--
+@author Christoph Böhringer
+Klasse beinhaltet die Navbar für den Student und Befrager.
+//-->
+
+/**
+ * @author Christoph Böhringer
+ * Diese Klasse dient als Basis für die Oberfläche der Freischalten-Kurs Funktion.
+ */
+    
     <header>
         <nav>
             <ul>
