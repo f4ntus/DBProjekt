@@ -38,7 +38,11 @@
         
         ?>
 
-	    <h1><?php echo "Hallo " . $_SESSION['matrikelnummer']; ?></h1>
+        <h1><?php 
+            $studentController->StudentUndFragebogenPruefen();
+            echo "Hallo " . $_SESSION['matrikelnummer']; 
+        
+        ?></h1>
 
 	    <p>Diese Fragebögen sind für Sie freigeschaltet:</p>
 	    <form method="POST">
