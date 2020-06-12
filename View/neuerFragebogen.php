@@ -1,13 +1,8 @@
 <?php
 session_start();
-if (isset($_SESSION['befrager']) == false)
-{
-    header ('Location: http://localhost/DBProjekt/view/index.php');
-    exit;
-}
 require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();
-include "navbar.php";
+$befragerController->pruefeBefrager();
 ?>
 <!DOCTYPE html>
 
@@ -24,6 +19,7 @@ include "navbar.php";
 
   <!-- Platzhalter, hier werden potentzielle Fehler angezeigt -->
   <?php
+  include "navbar.php";
   if (isset($_GET['error'])) {
     echo '<div class="errorKasten">';
     if ($_GET['error'] == 'titleInUse') {
@@ -33,7 +29,10 @@ include "navbar.php";
       echo '<p>Ups da ist etwas schief gelaufen versuchen sie es nochmal oder wenden Sie sich an ihren Systemadmistrator</p>';
     }
     if ($_GET['error'] == 'keineFragen') {
-      echo '<p>Ihr Fragebogen muss mindestens eine Frage beinhalten. Bitte versuchen Sie es erneut.</p>';
+      echo '<p>Ihr Fragebogen muss mindestens eine Frage beinhalten. Bitte versuchen Sie es erneut</p>';
+    }
+    if ($_GET['error'] == 'leererTitel') {
+      echo '<p>Bitte vergeben Sie einen Titel</p>';
     }
 
     echo '</div>';

@@ -4,7 +4,6 @@ session_start();
 
 require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();
-include "navbar.php";
 $recentUser = $_SESSION['befrager'];
 ?>
 
@@ -12,12 +11,15 @@ $recentUser = $_SESSION['befrager'];
 <html>
 
 <head>
-    <meta charset="utf-8" />
-    <title>Auswertung</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="style.css" />
+        <title>Befragungstool</title>
 </head>
 
 <body>
-<?php    
+<?php 
+include "navbar.php";   
 if (isset($_GET['error'])) {
         echo '<div class="errorKasten">';
         
