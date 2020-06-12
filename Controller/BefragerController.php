@@ -338,12 +338,6 @@ class BefragerController extends GlobalFunctions
         return $dropdownString;
     }
 
-    /**
-     * selectKurseZuFragebogen
-     *
-     * @param  mixed $fbnr
-     * @return void
-     */
     public function selectKurseZuFragebogen($fbnr)
     {
 
