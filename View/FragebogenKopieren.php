@@ -1,9 +1,12 @@
 <?php
+/**
+ * @author Christoph Böhringer
+ * Diese Klasse dient als Basis für die Oberfläche der Fragebogen-Kopieren Funktion.
+ */
 require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();
 session_start();
 $befragerController->pruefeBefrager();
-$recentUser = $_SESSION['befrager'];
 ?>
 
 <!DOCTYPE html>
@@ -21,6 +24,7 @@ $recentUser = $_SESSION['befrager'];
 
     <?php
     include "navbar.php";
+    //Hier werden potentielle Fehler und Infos aufgelistet.
     if (isset($_GET['error'])) {
         echo '<div class="errorKasten">';
         if ($_GET['error'] == 'titleInUse') {
@@ -40,7 +44,7 @@ $recentUser = $_SESSION['befrager'];
 
     <form method="post">
         <?php
-        $dropdown = $befragerController->createDropdownFragebogen($recentUser);
+        $dropdown = $befragerController->createDropdownFragebogen($_SESSION['befrager']);
         echo "<label>Welchen Fragebogen möchten Sie kopieren?</br></br><select name='Fragebogen'>" . $dropdown . "</select></label>";
         ?>
         </br></br>
@@ -54,7 +58,7 @@ $recentUser = $_SESSION['befrager'];
     <?php
     if (isset($_POST['kopieren'])) {
 
-        $result = $befragerController->fragebogenKopieren($recentUser, $_POST['Fragebogen'], $_POST['title_copy']);
+        $result = $befragerController->fragebogenKopieren($_SESSION['befrager'], $_POST['Fragebogen'], $_POST['title_copy']);
         echo $result;
     }
     ?>

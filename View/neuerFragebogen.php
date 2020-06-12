@@ -1,4 +1,8 @@
 <?php
+/**
+ * @author Christoph Böhringer
+ * Diese Klasse dient als Basis für die Oberfläche der neuer-Fragebogen Funktion.
+ */
 session_start();
 require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();
@@ -17,9 +21,9 @@ $befragerController->pruefeBefrager();
 
 <body>
 
-  <!-- Platzhalter, hier werden potentzielle Fehler angezeigt -->
   <?php
   include "navbar.php";
+  //Hier werden potentielle Fehler und Infos aufgelistet.
   if (isset($_GET['error'])) {
     echo '<div class="errorKasten">';
     if ($_GET['error'] == 'titleInUse') {

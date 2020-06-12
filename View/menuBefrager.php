@@ -1,4 +1,8 @@
 <?php
+/**
+ * @author Christoph Böhringer
+ * Diese Klasse dient als Basis für die Oberfläche des Hauptmenüs des Befragers. 
+ */
 session_start();
 require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();
@@ -21,6 +25,7 @@ $befragerController->pruefeBefrager();
 
         <?php
         include "navbar.php";
+        //Hier werden potentielle Fehler und Infos aufgelistet.
         if (isset($_GET['info'])) {
                 echo '<div class="infoKasten">';
                 switch ($_GET['info']) {
@@ -57,8 +62,7 @@ $befragerController->pruefeBefrager();
                 echo '</div>';
         }
 
-        $recentUser = $_SESSION['befrager'];
-        echo "<h1>Willkommen zurück, $recentUser!</h1>";
+        echo "<h1>Willkommen zurück, " . $_SESSION['befrager'] . "!</h1>";
         echo "<h2>Was möchten Sie tun?</h2>"
         ?>
 
@@ -98,8 +102,8 @@ $befragerController->pruefeBefrager();
         <p>Übersicht Ihrer bereits erstellen Fragebögen:</p>
 
         <?php
-        $response = $befragerController->createInnerTableBefrager($recentUser);
-        if ($response == '') {
+        $uebersicht = $befragerController->createInnerTableBefrager($_SESSION['befrager']);
+        if ($uebersicht == '') {
                 echo '<p>Sie haben noch keinen Fragebogen erstellt.</p>';
         } else {
                 echo "<table> <tr> <th>FbNr</th> <th>Titel</th> </tr>" . $response . "</table>";

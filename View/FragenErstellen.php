@@ -1,11 +1,12 @@
 <?php
+/**
+ * @author Christoph Böhringer
+ * Diese Klasse dient als Basis für die Oberfläche der Fragen-Erstellen Funktion.
+ */
 session_start();
 require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();
 $befragerController->pruefeBefrager();
-$fbnr = $_GET['Fbnr'];
-$anzFragen = $_GET['AnzahlFragen'];
-$title = $_GET['Titel'];
 ?>
 
 <!DOCTYPE html>
@@ -21,9 +22,9 @@ $title = $_GET['Titel'];
 
 <body>
 
-  <!-- Platzhalter, hier werden potentzielle Fehler angezeigt -->
   <?php
   include "navbar.php";
+  //Hier werden potentielle Fehler und Infos aufgelistet.
   if (isset($_GET['error'])) {
     echo '<div class="errorKasten">';
     if ($_GET['error'] == 'leereFrage') {
@@ -51,14 +52,14 @@ $title = $_GET['Titel'];
 
     Fragen: </br></br>
     <?php
-    $fragefelder = $befragerController->createFrageFelder($anzFragen);
+    $fragefelder = $befragerController->createFrageFelder($_GET['AnzahlFragen']);
     echo $fragefelder;
     ?>
     <button type="submit" name="fragenspeichern">Fragen Speichern</button>
   </form>
   <?php
   if (isset($_POST['fragenspeichern'])) {
-    echo $befragerController->createFragen($fbnr, $anzFragen, $_POST, $title);
+    echo $befragerController->createFragen($_GET['Fbnr'], $_GET['AnzahlFragen'], $_POST, $_GET['Titel']);
   }
   ?>
 
