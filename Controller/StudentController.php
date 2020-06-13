@@ -83,49 +83,34 @@ class StudentController extends GlobalFunctions
             return;
         }
 
-        $Fnr = $this->getFirstNotAnswerdQuestion($fbnr, $_SESSION["matrikelnummer"]);
-        if ($Fnr == false) {
-            echo '<p> Ups es ist etwas schiefgelaufen</p>';
-            //ToDo: Besseres Errorhandling;
-        } else {
-            $suffix = '?Fragebogen=' . $fbnr . '&Frage=' . $Fnr;
-            $this->moveToPage('Beantworten.php', $suffix);
-        }
-    }
-
-    // Liefert die Erste Frage in einem Fragebogen, welche nicht beantwortet wurde
-    // Sollten alle Fragen beantwortet sein, so wird False ausgegeben.
-    private function getFirstNotAnswerdQuestion($fbnr, $matrikelnummer)
-    {
-        $sqlObjectBeantwortet = $this->tblBeantwortet->selectRecords($fbnr, $matrikelnummer);
+        $sqlObjectBeantwortet = $this->tblBeantwortet->selectRecords($fbnr, $_SESSION["matrikelnummer"]);
         $sqlObjectFrage = $this->tblFrage->selectRecords($fbnr);
-        if (is_null($sqlObjectFrage)) {
-            //ToDo: Handle Error
-            echo 'Frage ist leer';
-            return false;
-        }
-        if (is_null($sqlObjectBeantwortet)) {
-            // das heißt es wurde keine Frage beantwortet -> erste Fragennummer zurückgeben
-            return $sqlObjectFrage->fetch_object()->FNr;
-        }
         while ($recordFrage = $sqlObjectFrage->fetch_object()) {
             $recordBeantwortet = $sqlObjectBeantwortet->fetch_object();
-            var_dump($recordBeantwortet);
-            var_dump($recordFrage);
-            // funktioniert nur wenn Beantwortet und Frage beider nach der FNr sortiert sind. 
+            // funktioniert nur wenn Beantwortet und Frage beide nach der FNr sortiert sind. 
             // Davon kann ausgeganngen werden, da FNr ein Primärschlüssel ist.
-            if ($recordBeantwortet->FNr != $recordFrage->FNr) {
-                return $recordFrage->FNr;
+            if (!isset($recordBeantwortet)) {
+                $suffix = '?Fragebogen=' . $fbnr . '&Frage=' . $recordFrage->FNr;
+                $this->moveToPage('Beantworten.php', $suffix);
+                return;
             }
         }
         // Befragung ist fertig
         $this->moveToPage('BeantwortenAbschliessen.php', '?Fragebogen=' . $fbnr);
     }
 
+    /**
+     * @author Johannes Scheffold
+     * gibt die Anzahl der Fragen pro Fragebogen zurück
+     *
+     * @param $fbnr (Fragebogennummer) 
+     * 
+     * @return int 
+     */
     public function anzahlSeitenProFB($fbnr)
     {
-        $test = $this->sqlWrapper->anzahlSeiten($fbnr);
-        return $test;
+        $sqlResult = $this->tblFrage->selectRecords($fbnr);
+        return $sqlResult->num_rows;
     }
 
     public function showFrage($fbnr, $fnr)
