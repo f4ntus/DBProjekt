@@ -7,6 +7,13 @@ class StudentController extends GlobalFunctions
         parent::__construct();
     }
 
+     /**
+     * @author Johannes Scheffold
+     * Erzeugt eine Tabelle mit allen relavanten Fragebögen.
+     *
+     * 
+     * @return string $tableString der String mit der die Tabelle aufgebaut wird 
+     */
     public function createInnerTable()
     {
         $recordFreigeschaltet = $this->tblFreigeschaltet->selectRecords($_SESSION['kurs']);
@@ -22,6 +29,15 @@ class StudentController extends GlobalFunctions
         return $tableString;
     }
 
+
+     /**
+     * @author Johannes Scheffold
+     * Erzeugt eine Tabelle mit allen relavanten Fragebögen.
+     *
+     * @param $post 
+     * 
+     * @return string $tableString der String mit der die Tabelle aufgebaut wird 
+     */
     public function saveAndNavigateToNext($post, $fbnr, $fnr)
     {
         // prüfen ob student angegemeldet ist
@@ -51,6 +67,14 @@ class StudentController extends GlobalFunctions
         }
     }
 
+    /**
+     * @author Johannes Scheffold
+     * Navigiert zur ersten nicht beantworteten Frage eines Studenten. 
+     *
+     * @param $fbnr (Fragebogennummer) 
+     * 
+     * @return void  
+     */
 
     public function navigateToFirstNotAnswerdQuestion($fbnr)
     {
