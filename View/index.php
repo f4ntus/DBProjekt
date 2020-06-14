@@ -1,4 +1,8 @@
 <?php
+/**
+ * @author Johannes Scheffold
+ * Diese Page dient als Basis für die Oberfläche der Anmelde- und Registrieren-Funktion.
+ */
 session_start();
 session_destroy();
 session_start();

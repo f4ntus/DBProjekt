@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <?php
+/**
+ * @author Johannes Scheffold
+ * Diese Page dient als Basis für die Oberfläche der Fragebogen beantworten Funktion.
+ */
 session_start();
 require '../Controller/StudentController.php';
 $studentController = new StudentController();
