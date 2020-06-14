@@ -7,21 +7,12 @@ class TblBefrager extends AbstractSQLWrapper {
         $sql = "SELECT * FROM tbl_befrager WHERE Benutzername = '$benutzername'";
         return $this->globalSelectUniqueRecord($sql);
     }
-    function selectRecords(){
-
-    }
-    function updateRecord(){
-
-    }
     function insertRecord($benutzername,$kennwort){
         $benutzername = $this->escapeString($benutzername);
         // Kennwort wird nicht escaped da breits verschlüsselt
         $sql = "INSERT INTO tbl_befrager (Benutzername, Kennwort) VALUES ('$benutzername', '$kennwort')";
         return $this->globalInsertRecord($sql);
       
-    }
-    function deleteRecord(){
-
     }
 
 }

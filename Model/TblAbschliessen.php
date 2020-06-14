@@ -17,17 +17,6 @@ class TblAbschliessen extends AbstractSQLWrapper
         $sql = "SELECT * FROM tbl_abschliessen where Matrikelnummer='$matrikelnummer' and FbNr='$fbnr' ";
         return $this->globalSelectUniqueRecord($sql);
     }
-    function selectRecords()
-    {
-        $sql = '';
-        return $this->globalSelectRecords($sql);
-    }
-    function updateRecord()
-    {
-        $sql = '';
-        return $this->globalUpdateRecord($sql);
-    }
-
 
     /**
      * @author Johannes Scheffold
@@ -44,11 +33,5 @@ class TblAbschliessen extends AbstractSQLWrapper
         return $this->globalInsertRecord($sql);
     }
 
-    function deleteRecord($fbnr)
-    {
-        $fbnr = $this->escapeString($fbnr);
-        $sql = "DELETE FROM tbl_abschliessen WHERE FbNr = '$fbnr'";
-        return $this->globalDeleteRecord($sql);
-    }
 }
 ?>

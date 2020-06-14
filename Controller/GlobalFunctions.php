@@ -25,7 +25,6 @@ abstract class GlobalFunctions
     protected $tblAuswertung;
     public function __construct()
     {
-        $this->sqlWrapper = new SqlWrapper();
         $this->tblAbschliessen = new TblAbschliessen();
         $this->tblBeantwortet = new TblBeantwortet();
         $this->tblBefrager = new TblBefrager();

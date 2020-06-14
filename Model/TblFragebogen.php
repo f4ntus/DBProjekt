@@ -21,11 +21,6 @@ class TblFragebogen extends AbstractSQLWrapper
         $sql = "SELECT * FROM tbl_fragebogen WHERE Benutzername = '$recentUser'";;
         return $this->globalSelectRecords($sql);
     }
-    function updateRecord()
-    {
-        $sql = '';
-        return $this->globalUpdateRecord($sql);
-    }
     function insertRecord($titel, $benutzername)
     {
         $titel = $this->escapeString($titel);
