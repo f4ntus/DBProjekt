@@ -4,7 +4,7 @@
  * SQL-Joins für die Auswertung
 */
 require_once 'AbstractSQLWrapper.php';
-class TblAuswertung extends AbstractSQLWrapper
+class SqlAuswertung extends AbstractSQLWrapper
 {
     /**
      * @author Lukas Schick
