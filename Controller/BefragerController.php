@@ -1,9 +1,10 @@
 <?php
+
 /**
-* @author Christoph Böhringer, Lukas Schick
-* Diese Klasse beinhaltet die Business-Logik auf der Befragerseite.
-*
-*/
+ * @author Christoph Böhringer, Lukas Schick
+ * Diese Klasse beinhaltet die Business-Logik auf der Befragerseite.
+ *
+ */
 
 require 'GlobalFunctions.php';
 class BefragerController extends GlobalFunctions
@@ -215,6 +216,10 @@ class BefragerController extends GlobalFunctions
         $checkTitle = $this->tblFragebogen->selectUniqueRecordByTitel($copyTitel);
         if (is_null($checkTitle)) {
             $neueFbNr = $this->tblFragebogen->insertRecord($copyTitel, $benutzername);
+            if ($neueFbNr = 'error') {
+                $this->handleError('fragenKopieren', 'sqlError');
+                exit;
+            }
             $sqlObject1 = $this->tblFrage->selectRecords($alteFbNr);
             $fnr = 1;
             while ($frage = $sqlObject1->fetch_object()) {
@@ -229,25 +234,6 @@ class BefragerController extends GlobalFunctions
             $this->handleInfo('fragebogenKopieren', 'kopiert');
         } else {
             $this->handleError('fragebogenKopieren', 'titleInUse');
-        }
-    }
-
-/** 
- * @author Lukas Schick
- * Die Methode überprüft den Namen eines eingegebenen Kurses, ob dieser schon existiert.
- * Wenn nicht, wird der Datensatz importiert.
-*/
-public function controllNameKurs()
-    {
-
-        $name = $_POST["kursname"];
-        $sqlObject = $this->tblKurs->selectUniqueRecord($name);
-        if (is_null($sqlObject)) {
-            $neuerKurs = $this->tblKurs->insertRecord($name);
-            // ToDo: mit $neuerKurs wird nichts gemacht, Fehlerbehandlung ?
-            $this->handleInfo('neuerKurs', 'kursErstellt');
-        } else {
-            $this->handleError('neuerKurs', 'nameInUse');
         }
     }
 
@@ -387,12 +373,31 @@ public function controllNameKurs()
         }
     }
 
-   /** 
- * @author Lukas Schick
- * Die Methode überprüft eine eigegebene Matrikelnummer, ob sie numerisch ist und ob sie bereits existiert.
- * Wenn sie noch nicht existiert, wird die Matrikelnummer mit dem zugehörigen Kurs in die Datenbank importiert.
-*/
-public function controllMatrikelnummer()
+    /**
+     * @author Christoph Böhringer
+     * Prüfung ob ein Befrager angemeldet ist und ob er Zugriff auf einen bestimmten Fragebogen hat.
+     *
+     * @param $fbnr
+     * @return void
+     */
+    public function pruefeBefrager($fbnr = '')
+    {
+        if (!isset($_SESSION['befrager'])) {
+            $this->handleError('anmeldungBefrager', 'notLoggedIn');
+        }
+        if ($fbnr != '') {
+            $benutzername = $this->tblFragebogen->selectUniqueRecordByFbNr($fbnr)->Benutzername;
+            if ($benutzername != $_SESSION['befrager'])
+                $this->handleError('andererBefrager', 'andererBefrager');
+        };
+    }
+
+    /** 
+     * @author Lukas Schick
+     * Die Methode überprüft eine eigegebene Matrikelnummer, ob sie numerisch ist und ob sie bereits existiert.
+     * Wenn sie noch nicht existiert, wird die Matrikelnummer mit dem zugehörigen Kurs in die Datenbank importiert.
+     */
+    public function controllMatrikelnummer()
     {
 
         $matrikelnummer = $_POST["matrikelnummer"];
@@ -412,14 +417,14 @@ public function controllMatrikelnummer()
     }
 
 
-/** 
- * @author Lukas Schick
- * Die Methode speichert alle Fragebögen, die vom angemeldeten Nutzer freigeschalten wurden und gibt die Titel in einem String zurück
- * 
- * @param $recentUser
- * @return string $dropdownString
-*/
-public function createDropdownFreigeschaltet($recentUser)
+    /** 
+     * @author Lukas Schick
+     * Die Methode speichert alle Fragebögen, die vom angemeldeten Nutzer freigeschalten wurden und gibt die Titel in einem String zurück
+     * 
+     * @param $recentUser
+     * @return string $dropdownString
+     */
+    public function createDropdownFreigeschaltet($recentUser)
     {
 
         $sqlObject = $this->tblFreigeschaltet->selectRecordsFreigeschaltet($recentUser);
@@ -430,14 +435,14 @@ public function createDropdownFreigeschaltet($recentUser)
         return $dropdownString;
     }
 
-/** 
- * @author Lukas Schick
- * Die Methode speichert alle freigechalteten Kurse zu einer FragebogenNr und gibt die Namen in einem String zurück
- * 
- * @param $fbnr
- * @return string $dropdownString
-*/
-public function selectKurseZuFragebogen($fbnr)
+    /** 
+     * @author Lukas Schick
+     * Die Methode speichert alle freigechalteten Kurse zu einer FragebogenNr und gibt die Namen in einem String zurück
+     * 
+     * @param $fbnr
+     * @return string $dropdownString
+     */
+    public function selectKurseZuFragebogen($fbnr)
     {
 
         $sqlObject = $this->tblFreigeschaltet->selectRecordsByFragebogenNr($fbnr);
@@ -450,13 +455,13 @@ public function selectKurseZuFragebogen($fbnr)
         return $dropdownString;
     }
 
-/** 
- * @author Lukas Schick
- * Diese Funktion speichert die FragebogenNr zu einem gegebenen Fragebogentitel in einer Variable und schreibt die FragebogenNr in die URL
- * 
- * @param $titel
- * @return void
-*/
+    /** 
+     * @author Lukas Schick
+     * Diese Funktion speichert die FragebogenNr zu einem gegebenen Fragebogentitel in einer Variable und schreibt die FragebogenNr in die URL
+     * 
+     * @param $titel
+     * @return void
+     */
     public function fragebogenAuswählen($titel)
     {
         $fbnr = $this->tblFragebogen->selectUniqueRecordByTitel($titel)->FbNr;
@@ -464,15 +469,15 @@ public function selectKurseZuFragebogen($fbnr)
         $this->moveToPage('Auswertung.php', $suffixString);
     }
 
-/** 
- * @author Lukas Schick
- * Diese Funktion gibt die Berechnung von Durchschnitt, Maximalwert und Minimalwert in einem String zurück
- * 
- * @param $fbnr
- * @param $kurs
- * @return string $tableString
-*/
-public function auswertungAnzeigen($fbnr, $kurs)
+    /** 
+     * @author Lukas Schick
+     * Diese Funktion gibt die Berechnung von Durchschnitt, Maximalwert und Minimalwert in einem String zurück
+     * 
+     * @param $fbnr
+     * @param $kurs
+     * @return string $tableString
+     */
+    public function auswertungAnzeigen($fbnr, $kurs)
     {
         $sqlObject = $this->tblAuswertung->selectRecordsAuswertung($fbnr, $kurs);
         if ($sqlObject->num_rows != 0) {
@@ -494,15 +499,15 @@ public function auswertungAnzeigen($fbnr, $kurs)
         }
     }
 
-/** 
- * @author Lukas Schick
- * Diese Funktion gibt alle Kommentare zu einer gegebenen FragebogenNr und einem gegebenen Kurs in einem String zurück
- * 
- * @param $fbnr
- * @param $kurs
- * @return string $tableString
-*/
-public function kommentareAnzeigen($fbnr, $kurs)
+    /** 
+     * @author Lukas Schick
+     * Diese Funktion gibt alle Kommentare zu einer gegebenen FragebogenNr und einem gegebenen Kurs in einem String zurück
+     * 
+     * @param $fbnr
+     * @param $kurs
+     * @return string $tableString
+     */
+    public function kommentareAnzeigen($fbnr, $kurs)
     {
         $sqlObject = $this->tblAuswertung->selectRecordsKommentare($fbnr, $kurs);
 
@@ -513,16 +518,16 @@ public function kommentareAnzeigen($fbnr, $kurs)
         return $tableString;
     }
 
-/** 
- * @author Lukas Schick
- * Diese Funktion gibt die Standardabweichung mit einem Array zurück, in dem die Werte zu einer Frage enthalten sind
- * 
- * @param $fbnr
- * @param $kurs
- * @param $fnr
- * @return string $tableString
-*/
-public function auswertungStandardabweichung($fbnr, $kurs, $fnr)
+    /** 
+     * @author Lukas Schick
+     * Diese Funktion gibt die Standardabweichung mit einem Array zurück, in dem die Werte zu einer Frage enthalten sind
+     * 
+     * @param $fbnr
+     * @param $kurs
+     * @param $fnr
+     * @return string $tableString
+     */
+    public function auswertungStandardabweichung($fbnr, $kurs, $fnr)
     {
         $werte = array();
         $sqlObject = $this->tblAuswertung->selectRecordsStandardabweichung($fbnr, $kurs, $fnr);
@@ -536,14 +541,14 @@ public function auswertungStandardabweichung($fbnr, $kurs, $fnr)
         }
     }
 
-/** 
- * @author Lukas Schick
- * Diese Funktion berechnet die Standardabweichung mithilfe des gegebenen Arrays
- * 
- * @param $werte
- * @return float $stdabw
-*/
-function standardabweichung($werte)
+    /** 
+     * @author Lukas Schick
+     * Diese Funktion berechnet die Standardabweichung mithilfe des gegebenen Arrays
+     * 
+     * @param $werte
+     * @return float $stdabw
+     */
+    function standardabweichung($werte)
     {
         $avg = array_sum($werte) / count($werte);
 
@@ -556,24 +561,23 @@ function standardabweichung($werte)
 
         return Round($stdabw, 2);
     }
-    
 
-    /**
-     * @author Christoph Böhringer
-     * Prüfung ob ein Befrager angemeldet ist und ob er Zugriff auf einen bestimmten Fragebogen hat.
-     *
-     * @param $fbnr
-     * @return void
+    /** 
+     * @author Lukas Schick
+     * Die Methode überprüft den Namen eines eingegebenen Kurses, ob dieser schon existiert.
+     * Wenn nicht, wird der Datensatz importiert.
      */
-    public function pruefeBefrager($fbnr = '')
+    public function controllNameKurs()
     {
-        if (!isset($_SESSION['befrager'])) {
-            $this->handleError('anmeldungBefrager', 'notLoggedIn');
+
+        $name = $_POST["kursname"];
+        $sqlObject = $this->tblKurs->selectUniqueRecord($name);
+        if (is_null($sqlObject)) {
+            $neuerKurs = $this->tblKurs->insertRecord($name);
+            // ToDo: mit $neuerKurs wird nichts gemacht, Fehlerbehandlung ?
+            $this->handleInfo('neuerKurs', 'kursErstellt');
+        } else {
+            $this->handleError('neuerKurs', 'nameInUse');
         }
-        if ($fbnr != '') {
-            $benutzername = $this->tblFragebogen->selectUniqueRecordByFbNr($fbnr)->Benutzername;
-            if ($benutzername != $_SESSION['befrager'])
-                $this->handleError('andererBefrager', 'andererBefrager');
-        };
     }
 }

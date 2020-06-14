@@ -2,7 +2,7 @@
 
 /**
  * @author Christoph Böhringer
- * Diese Klasse dient als Basis für die Oberfläche des Hauptmenüs des Befragers. 
+ * Diese Page dient als Basis für die Oberfläche des Hauptmenüs des Befragers. 
  */
 session_start();
 require '../Controller/BefragerController.php';

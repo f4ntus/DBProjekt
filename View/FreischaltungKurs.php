@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Christoph Böhringer
- * Diese Klasse dient als Basis für die Oberfläche der Freischalten-Kurs Funktion.
+ * Diese Page dient als Basis für die Oberfläche der Freischalten-Kurs Funktion.
  */
 session_start();
 require '../Controller/BefragerController.php';
