@@ -39,7 +39,7 @@ include "navbar.php";
     }
 ?>
     <h1>Vielen Dank für das beantworten der Fragen</h1>
-    <p> Wenn Sie möchten, können Sie noch einen Kommentar darlassen</p>
+    <p> Wenn Sie möchten, können Sie noch einen Kommentar hinterlassen</p>
     <form method="post" action="">
         <textarea id="text" name="text" cols="35" rows="4"><?php echo $studentController->getKommentar($_GET['Fragebogen']) ?></textarea>
         </br>
