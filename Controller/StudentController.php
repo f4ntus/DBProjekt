@@ -7,6 +7,13 @@ class StudentController extends GlobalFunctions
         parent::__construct();
     }
 
+     /**
+     * @author Johannes Scheffold
+     * Erzeugt eine Tabelle mit allen relavanten Fragebögen.
+     *
+     * 
+     * @return string $tableString der String mit der die Tabelle aufgebaut wird 
+     */
     public function createInnerTable()
     {
         $recordFreigeschaltet = $this->tblFreigeschaltet->selectRecords($_SESSION['kurs']);
@@ -22,6 +29,51 @@ class StudentController extends GlobalFunctions
         return $tableString;
     }
 
+
+     
+    /**
+     * @author Johannes Scheffold
+     * Navigiert zur ersten nicht beantworteten Frage eines Studenten. 
+     *
+     * @param $fbnr (Fragebogennummer) 
+     * 
+     * @return void  
+     */
+
+    public function navigateToFirstNotAnswerdQuestion($fbnr)
+    {
+        // prüfen ob student angegemeldet ist
+        if (!$this->studentUndFragebogenPruefen($fbnr)) {
+            return;
+        }
+
+        $sqlObjectBeantwortet = $this->tblBeantwortet->selectRecords($fbnr, $_SESSION["matrikelnummer"]);
+        $sqlObjectFrage = $this->tblFrage->selectRecords($fbnr);
+        while ($recordFrage = $sqlObjectFrage->fetch_object()) {
+            $recordBeantwortet = $sqlObjectBeantwortet->fetch_object();
+            // funktioniert nur wenn Beantwortet und Frage beide nach der FNr sortiert sind. 
+            // Davon kann ausgeganngen werden, da FNr ein Primärschlüssel ist.
+            if (!isset($recordBeantwortet)) {
+                $suffix = '?Fragebogen=' . $fbnr . '&Frage=' . $recordFrage->FNr;
+                $this->moveToPage('Beantworten.php', $suffix);
+                return;
+            }
+        }
+        // Befragung ist fertig
+        $this->moveToPage('BeantwortenAbschliessen.php', '?Fragebogen=' . $fbnr);
+    }
+
+
+    /**
+     * @author Johannes Scheffold
+     * speichert und navigiert zur nächsten Frage
+     *
+     * @param $post (Eingabe des Benutzers)
+     * @param $fbnr (Fragebogennummer) 
+     * @param $fnr (Fragenummer) 
+     * 
+     * @return void
+     */
     public function saveAndNavigateToNext($post, $fbnr, $fnr)
     {
         // prüfen ob student angegemeldet ist
@@ -50,69 +102,16 @@ class StudentController extends GlobalFunctions
             $this->moveToPage('Beantworten.php', $suffix);
         }
     }
-
-
-    public function navigateToFirstNotAnswerdQuestion($fbnr)
-    {
-        // prüfen ob student angegemeldet ist
-        if (!$this->studentUndFragebogenPruefen($fbnr)) {
-            return;
-        }
-
-        $Fnr = $this->getFirstNotAnswerdQuestion($fbnr, $_SESSION["matrikelnummer"]);
-        if ($Fnr == false) {
-            echo '<p> Ups es ist etwas schiefgelaufen</p>';
-            //ToDo: Besseres Errorhandling;
-        } else {
-            $suffix = '?Fragebogen=' . $fbnr . '&Frage=' . $Fnr;
-            $this->moveToPage('Beantworten.php', $suffix);
-        }
-    }
-
-    // Liefert die Erste Frage in einem Fragebogen, welche nicht beantwortet wurde
-    // Sollten alle Fragen beantwortet sein, so wird False ausgegeben.
-    private function getFirstNotAnswerdQuestion($fbnr, $matrikelnummer)
-    {
-        $sqlObjectBeantwortet = $this->tblBeantwortet->selectRecords($fbnr, $matrikelnummer);
-        $sqlObjectFrage = $this->tblFrage->selectRecords($fbnr);
-        if (is_null($sqlObjectFrage)) {
-            //ToDo: Handle Error
-            echo 'Frage ist leer';
-            return false;
-        }
-        if (is_null($sqlObjectBeantwortet)) {
-            // das heißt es wurde keine Frage beantwortet -> erste Fragennummer zurückgeben
-            return $sqlObjectFrage->fetch_object()->FNr;
-        }
-        while ($recordFrage = $sqlObjectFrage->fetch_object()) {
-            $recordBeantwortet = $sqlObjectBeantwortet->fetch_object();
-            var_dump($recordBeantwortet);
-            var_dump($recordFrage);
-            // funktioniert nur wenn Beantwortet und Frage beider nach der FNr sortiert sind. 
-            // Davon kann ausgeganngen werden, da FNr ein Primärschlüssel ist.
-            if ($recordBeantwortet->FNr != $recordFrage->FNr) {
-                return $recordFrage->FNr;
-            }
-        }
-        // Befragung ist fertig
-        $this->moveToPage('BeantwortenAbschliessen.php', '?Fragebogen=' . $fbnr);
-    }
-
-    public function anzahlSeitenProFB($fbnr)
-    {
-        $test = $this->sqlWrapper->anzahlSeiten($fbnr);
-        return $test;
-    }
-
-    public function showFrage($fbnr, $fnr)
-    {
-        $frage = $this->tblFrage->selectUniqueRecord($fbnr, $fnr);
-        if (is_null($frage)) {
-            //ToDo: Handle Error -> Frage not Found
-        } else {
-            return $frage->Fragetext;
-        }
-    }
+    
+    
+    /**
+     * @author Johannes Scheffold
+     * Navigiert eine Frage zurück
+     *
+     * @param $fbnr (Fragebogennummer) 
+     * @param $fnr (Fragenummer)
+     * @return void
+     */
     public function goBack($fbnr, $fnr)
     {
         $recordsFrage = $this->tblFrage->selectRecords($fbnr);
@@ -127,26 +126,97 @@ class StudentController extends GlobalFunctions
             $this->moveToPage('Beantworten.php', $suffix);
         }
     }
-    public function fragebogenKommentieren($fbnr, $kommentar)
-    {
-        // to Do: check student
+
+
+    /**
+     * @author Johannes Scheffold
+     * 
+     * Navigiert zu der letzten Frage eines Fragebogens
+     * 
+     * @param $fbnr (Fragebogennummer) 
+     * @return void
+     */
+    public function goToLastQuestion($fbnr){
         if (!$this->studentUndFragebogenPruefen($fbnr)) {
             return;
         }
+        $recordFrage =$this->tblFrage->maxRecord($fbnr);
+        $this->moveToPage('Beantworten.php','?Fragebogen='. $fbnr . '&Frage=' . $recordFrage->maxFnr);
+    }
+
+
+    /**
+     * @author Johannes Scheffold
+     * gibt die Anzahl der Fragen pro Fragebogen zurück
+     *
+     * @param $fbnr (Fragebogennummer) 
+     * 
+     * @return int 
+     */
+    public function anzahlSeitenProFB($fbnr)
+    {
+        $sqlResult = $this->tblFrage->selectRecords($fbnr);
+        return $sqlResult->num_rows;
+    }
+
+     /**
+     * @author Johannes Scheffold
+     * gibt den Fragetext der Frage zurück
+     *
+     * @param $fbnr (Fragebogennummer) 
+     * @param $fnr (Fragenummer)
+     * @return String 
+     */
+    public function getFragetext($fbnr, $fnr)
+    {
+        $frage = $this->tblFrage->selectUniqueRecord($fbnr, $fnr);
+        return $frage->Fragetext;
+    }
+    
+
+    /**
+     * @author Johannes Scheffold
+     * Kommentiert Fragebogen
+     *
+     * @param $fbnr (Fragebogennummer) 
+     * @param $kommentar
+     * @return void
+     */
+    public function fragebogenKommentieren($fbnr, $kommentar)
+    {
+        // prüfe Student
+        if (!$this->studentUndFragebogenPruefen($fbnr)) {
+            return;
+        }
+        
+        // prüfen ob Kommentar ausgefüllt wurde
+        if (!isset($kommentar)) {
+            // Fehler: kein Kommentar
+            $this->handleError('abschliessen', 'noKommentar');
+            return;
+        }
+
         $recordKommentare = $this->tblKommentiert->selectUniqueRecord($fbnr, $_SESSION["matrikelnummer"]);
+        
         if (isset($recordKommentare)) {
+            // wenn bereits kommentiert -> Kommentar updaten
             $this->tblKommentiert->updateRecord($fbnr, $_SESSION["matrikelnummer"], $kommentar);
         } else {
-            if (isset($kommentar)) {
-                $this->tblKommentiert->insertRecord($fbnr, $_SESSION["matrikelnummer"], $kommentar);
-            } else {
-                // Fehler: kein Kommentar
-                $this->handleError('abschliessen', 'noKommentar');
-            }
+            // ansonsten neuer Datensatz
+            $this->tblKommentiert->insertRecord($fbnr, $_SESSION["matrikelnummer"], $kommentar);
         }
+
         // Handle Info Kommentar gespeichert
         $this->handleInfo('abschliessen','?Fragebogen=' . $fbnr . '&info=gespeichert');
     }
+    
+    /**
+     * @author Johannes Scheffold
+     * schließt einen Fragebogen ab
+     *
+     * @param $fbnr (Fragebogennummer) 
+     * @return void
+     */
     public function fragebogenAbschliessen($fbnr)
     {
         // prüfen ob student angegemeldet ist
@@ -159,15 +229,24 @@ class StudentController extends GlobalFunctions
         // zurück zum Hauptmenue
         $this->handleInfo('MenuStudent', 'abgeschlossen');
     }
-    public function showRadioButtons($fbnr, $fnr, $matrikelnummer)
+
+    /**
+     * @author Johannes Scheffold
+     * gibt die Radiobuttons für das Beatworten der Frage aus und regelt die Vorbelegung, 
+     * falls eine Frage bereits beantwortet ist. 
+     *
+     * @param $fbnr (Fragebogennummer) 
+     * @param $fnr (Fragenummer) 
+     * @return void
+     */
+    public function showRadioButtons($fbnr, $fnr)
     {
         // prüfen ob student angegemeldet ist
         if (!$this->studentUndFragebogenPruefen($fbnr)) {
             return;
         }
-        $recordBeantwortet = $this->tblBeantwortet->selectUniqueRecord($fbnr, $fnr, $matrikelnummer);
+        $recordBeantwortet = $this->tblBeantwortet->selectUniqueRecord($fbnr, $fnr, $_SESSION["matrikelnummer"] );
         if (isset($recordBeantwortet)) {
-
             switch ($recordBeantwortet->Bewertung) {
                 case 1:
                     echo ' <input type="radio" name="bewertung" value="1" checked> 1
@@ -205,7 +284,7 @@ class StudentController extends GlobalFunctions
                     <input type="radio" name="bewertung" value="5" checked> 5 ';
                     break;
             }
-        } else {
+        } else { // wenn die Frage nicht beantwortet wurde
             echo ' <input type="radio" name="bewertung" value="1"> 1
                 <input type="radio" name="bewertung" value="2"> 2
                 <input type="radio" name="bewertung" value="3"> 3
@@ -213,13 +292,17 @@ class StudentController extends GlobalFunctions
                 <input type="radio" name="bewertung" value="5"> 5 ';
         }
     }
-    public function goToLastQuestion($fbnr){
-        if (!$this->studentUndFragebogenPruefen($fbnr)) {
-            return;
-        }
-        $recordFrage =$this->tblFrage->maxRecord($fbnr);
-        $this->moveToPage('Beantworten.php','?Fragebogen='. $fbnr . '&Frage=' . $recordFrage->maxFnr);
-    }
+
+
+
+    /**
+     * @author Johannes Scheffold
+     * 
+     * holt sich den aktuellen Kommentar für die Vorbelegung des Textfelds
+     * 
+     * @param $fbnr (Fragebogennummer) 
+     * @return void
+     */
     public function getKommentar($fbnr){
         if (!$this->studentUndFragebogenPruefen($fbnr)){
             return;
@@ -230,7 +313,17 @@ class StudentController extends GlobalFunctions
         }
         return '';
     }
-
+   
+   
+    /**
+     * @author Johannes Scheffold
+     * 
+     * überprüft ob Student angemeldet ist, ob der Fragebogen dem Studenten freigegeben ist 
+     * und ob der Student den Fragebogen nicht schon abgeschlossen hat.
+     * 
+     * @param $fbnr (Fragebogennummer) 
+     * @return boolean (false für fehler)
+     */
     public function studentUndFragebogenPruefen($fbnr='')
     {
         // prüfen ob angemeldet
@@ -256,7 +349,6 @@ class StudentController extends GlobalFunctions
                 return false;
             }
         }
-
         return true;
     }
 }

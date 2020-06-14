@@ -30,7 +30,7 @@ $anzFragen = $studentController->anzahlSeitenProFB($_GET["Fragebogen"]);
         </div>
 
         <div class="AktuelleFrage">
-            <h2><?php echo $studentController->showFrage($_GET["Fragebogen"],$_GET["Frage"]); ?></h2> 
+            <h2><?php echo $studentController->getFragetext($_GET["Fragebogen"],$_GET["Frage"]); ?></h2> 
            </br></br>    
            
             <form action="" method="POST">
