@@ -479,7 +479,7 @@ class BefragerController extends GlobalFunctions
      */
     public function auswertungAnzeigen($fbnr, $kurs)
     {
-        $sqlObject = $this->tblAuswertung->selectRecordsAuswertung($fbnr, $kurs);
+        $sqlObject = $this->sqlAuswertung->selectRecordsAuswertung($fbnr, $kurs);
         if ($sqlObject->num_rows != 0) {
             $tableString = '';
             while ($row = $sqlObject->fetch_object()) {
@@ -509,7 +509,7 @@ class BefragerController extends GlobalFunctions
      */
     public function kommentareAnzeigen($fbnr, $kurs)
     {
-        $sqlObject = $this->tblAuswertung->selectRecordsKommentare($fbnr, $kurs);
+        $sqlObject = $this->sqlAuswertung->selectRecordsKommentare($fbnr, $kurs);
 
         $tableString = '';
         while ($row = $sqlObject->fetch_object()) {
@@ -530,7 +530,7 @@ class BefragerController extends GlobalFunctions
     public function auswertungStandardabweichung($fbnr, $kurs, $fnr)
     {
         $werte = array();
-        $sqlObject = $this->tblAuswertung->selectRecordsStandardabweichung($fbnr, $kurs, $fnr);
+        $sqlObject = $this->sqlAuswertung->selectRecordsStandardabweichung($fbnr, $kurs, $fnr);
         while ($row = $sqlObject->fetch_object()) {
             array_push($werte, $row->BewertungSW);
         }
