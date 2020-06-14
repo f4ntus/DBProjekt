@@ -8,10 +8,6 @@
 require 'GlobalFunctions.php';
 class BefragerController extends GlobalFunctions
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     /**
      * @author Christoph Böhringer

@@ -2,10 +2,6 @@
 require 'GlobalFunctions.php';
 class IndexController extends GlobalFunctions
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
     public function controllAnmeldung($post)
     {
         if (isset($post["matrikelnummer"])) {

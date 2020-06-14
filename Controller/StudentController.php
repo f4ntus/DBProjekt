@@ -2,10 +2,6 @@
 require 'GlobalFunctions.php';
 class StudentController extends GlobalFunctions
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
      /**
      * @author Johannes Scheffold
