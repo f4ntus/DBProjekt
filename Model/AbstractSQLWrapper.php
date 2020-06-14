@@ -4,7 +4,7 @@ abstract class AbstractSQLWrapper {
     const DBUSER = "root";
     const DBPASSWORD = "";
     const DATABASE = "befragungstool";
-    protected $db;
+    private $db;
 
     public function __construct()
     {
