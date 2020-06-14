@@ -3,10 +3,12 @@
  * @author Lukas Schick
  * Zeigt die Auswertung an
 */
-session_start();
+
 require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();
+session_start();
 $recentUser = $_SESSION['befrager'];
+$befragerController->pruefeBefrager();
 ?>
 
 <!DOCTYPE html>

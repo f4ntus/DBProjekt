@@ -3,9 +3,10 @@
  * @author Lukas Schick
  * Neuen Student anlegen
 */
-session_start();
+
 require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();
+session_start();
 $befragerController->pruefeBefrager();
 ?>
 <!DOCTYPE html>

@@ -8,7 +8,7 @@ require '../Model/TblKommentiert.php';
 require '../Model/TblKurs.php';
 require '../Model/TblStudent.php';
 require '../Model/TblFreigeschaltet.php';
-require '../Model/TblAuswertung.php';
+require '../Model/SqlAuswertung.php';
 abstract class GlobalFunctions
 {
     protected $tblAbschliessen;
@@ -20,7 +20,7 @@ abstract class GlobalFunctions
     protected $tblKurs;
     protected $tblStudent;
     protected $tblFreigeschaltet;
-    protected $tblAuswertung;
+    protected $sqlAuswertung;
     public function __construct()
     {
         $this->tblAbschliessen = new TblAbschliessen();
@@ -32,7 +32,7 @@ abstract class GlobalFunctions
         $this->tblKurs = new TblKurs();
         $this->tblStudent = new TblStudent();
         $this->tblFreigeschaltet = new TblFreigeschaltet();
-        $this->tblAuswertung = new TblAuswertung();
+        $this->sqlAuswertung = new SqlAuswertung();
     }
      /**
      * @author Johannes Scheffold
