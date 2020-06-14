@@ -1,11 +1,14 @@
 <?php
+/** 
+ * @author Lukas Schick
+ * Neuen Kurs anlegen
+*/
 session_start();
 require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();
 $befragerController->pruefeBefrager();
 ?>
 <!DOCTYPE html>
-
 <html lang="de">
 
 <head>

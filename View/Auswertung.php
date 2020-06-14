@@ -1,14 +1,16 @@
-
 <?php
+/** 
+ * @author Lukas Schick
+ * Zeigt die Auswertung an
+*/
 session_start();
-
 require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();
 $recentUser = $_SESSION['befrager'];
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="de">
 
 <head>
         <meta charset="utf-8" />
@@ -102,8 +104,6 @@ if (isset($_POST['Kurs']))  {
 ?>
 
     </div>
-
-
 
 <?php
 if (isset($_POST['auswählen'])) {
