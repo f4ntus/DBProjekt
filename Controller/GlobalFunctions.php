@@ -34,7 +34,7 @@ abstract class GlobalFunctions
         $this->tblFreigeschaltet = new TblFreigeschaltet();
         $this->sqlAuswertung = new SqlAuswertung();
     }
-     /**
+    /**
      * @author Johannes Scheffold
      * 
      * Hilfsfunktion, macht das Errorhandling einfacher
@@ -43,7 +43,7 @@ abstract class GlobalFunctions
      * @param $errorCode, dieser Code wird als parameter im Link mitangegeben und kann auf einzelnen Pages abgefragt werden (Error-Boxen)
      * @return void
      */
-    
+
     function handleError($moveTo, $errorCode)
     {
         switch ($moveTo) {
@@ -119,7 +119,6 @@ abstract class GlobalFunctions
                 $GETString = '?error=' . $errorCode;
                 $this->moveToPage('menuBefrager.php', $GETString);
                 break;
-
         }
     }
 

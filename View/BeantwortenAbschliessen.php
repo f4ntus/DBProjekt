@@ -20,8 +20,8 @@ $studentController = new StudentController();
 
 <body>
 
-<?php 
-include "navbar.php";
+    <?php
+    include "navbar.php";
     if (isset($_GET['error'])) {
         echo '<div class="errorKasten">';
         if ($_GET['error'] == 'noKommentar') {
@@ -37,7 +37,7 @@ include "navbar.php";
         }
         echo '</div>';
     }
-?>
+    ?>
     <h1>Vielen Dank für das beantworten der Fragen</h1>
     <p> Wenn Sie möchten, können Sie noch einen Kommentar hinterlassen</p>
     <form method="post" action="">
@@ -46,28 +46,26 @@ include "navbar.php";
         <button type="submit" name="action" value="back">Zurück zur letzten Frage</button>
         <button type="submit" name="action" value="speichern">Fragebogen kommentieren</button>
         <button type="submit" name="action" value="abschliessen">Fragebogen abschliessen</button>
-        
+
     </form>
-<?php
-    if (isset($_POST['action'])){
-        if ($_POST['action'] == 'speichern'){
-            $studentController->fragebogenKommentieren($_GET['Fragebogen'],$_POST['text']);
+    <?php
+    if (isset($_POST['action'])) {
+        if ($_POST['action'] == 'speichern') {
+            $studentController->fragebogenKommentieren($_GET['Fragebogen'], $_POST['text']);
         }
     }
-    if (isset($_POST['action'])){
-        if ($_POST['action'] == 'abschliessen'){
+    if (isset($_POST['action'])) {
+        if ($_POST['action'] == 'abschliessen') {
             $studentController->fragebogenAbschliessen($_GET['Fragebogen']);
         }
     }
-    if (isset($_POST['action'])){
-        if ($_POST['action'] == 'back'){
+    if (isset($_POST['action'])) {
+        if ($_POST['action'] == 'back') {
             $studentController->goToLastQuestion($_GET['Fragebogen']);
         }
     }
-?>
+    ?>
 
 </body>
 
 </html>
-
-

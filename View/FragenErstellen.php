@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Christoph Böhringer
  * Diese Page dient als Basis für die Oberfläche der Fragen-Erstellen Funktion.
@@ -45,7 +46,7 @@ $befragerController->pruefeBefrager();
 
   <?php
   echo "<h2>Fragebogentitel: " . $_GET['Titel'] . "</h2>";
-?>
+  ?>
 
   <form method="post">
     </br>

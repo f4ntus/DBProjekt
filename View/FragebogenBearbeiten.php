@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Christoph Böhringer
  * Diese Klasse dient als Basis für die Oberfläche der Fragebogen-Bearbeiten Funktion.

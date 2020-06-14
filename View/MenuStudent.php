@@ -1,8 +1,9 @@
 <?php
+
 /**
-*  @author Johannes Scheffold
-* Diese Page dient als Basis für die Oberfläche des Hauptmenues auf Studentensicht. 
-*/
+ *  @author Johannes Scheffold
+ * Diese Page dient als Basis für die Oberfläche des Hauptmenues auf Studentensicht. 
+ */
 session_start();
 require '../Controller/StudentController.php';
 $studentController = new StudentController();
@@ -30,8 +31,8 @@ $studentController = new StudentController();
             echo '<p>Sie haben die Befragung des Fragebogens abgeschlossen und können sie nicht nochmal durchführen</p>';
         }
         echo '</div>';
-    } 
-    
+    }
+
     if (isset($_GET['info'])) {
         echo '<div class="infoKasten">';
         if ($_GET['info'] == 'abgeschlossen') {
@@ -39,14 +40,14 @@ $studentController = new StudentController();
         }
         echo '</div>';
     }
-    
+
     ?>
 
-    <h1><?php 
+    <h1><?php
         $studentController->StudentUndFragebogenPruefen();
-        echo "Hallo " . $_SESSION['matrikelnummer']; 
-    
-    ?></h1>
+        echo "Hallo " . $_SESSION['matrikelnummer'];
+
+        ?></h1>
 
     <p>Diese Fragebögen sind für Sie freigeschaltet:</p>
     <form method="POST">

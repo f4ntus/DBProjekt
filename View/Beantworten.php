@@ -34,25 +34,25 @@ $anzFragen = $studentController->anzahlSeitenProFB($_GET["Fragebogen"]);
         </div>
 
         <div class="AktuelleFrage">
-            <h2><?php echo $studentController->getFragetext($_GET["Fragebogen"],$_GET["Frage"]); ?></h2> 
-           </br></br>    
-           
+            <h2><?php echo $studentController->getFragetext($_GET["Fragebogen"], $_GET["Frage"]); ?></h2>
+            </br></br>
+
             <form action="" method="POST">
-                    
-               <?php $studentController->showRadioButtons($_GET["Fragebogen"],$_GET["Frage"],$_SESSION['matrikelnummer'])?>
-            </br>
+
+                <?php $studentController->showRadioButtons($_GET["Fragebogen"], $_GET["Frage"], $_SESSION['matrikelnummer']) ?>
+                </br>
                 <input type="submit" name="back" value="Zurück">
                 <input type="submit" name="bsubmit" value="Next">
             </form>
 
-            <?php 
-            if (isset($_POST['bsubmit'])){
-                $studentController->SaveAndNavigateToNext($_POST,$_GET["Fragebogen"],$_GET["Frage"]);
+            <?php
+            if (isset($_POST['bsubmit'])) {
+                $studentController->SaveAndNavigateToNext($_POST, $_GET["Fragebogen"], $_GET["Frage"]);
             }
-            if (isset($_POST['back'])){
-                $studentController->goBack($_GET["Fragebogen"],$_GET["Frage"]);
+            if (isset($_POST['back'])) {
+                $studentController->goBack($_GET["Fragebogen"], $_GET["Frage"]);
             }
-             
+
             ?>
         </div>
     </div>
@@ -61,5 +61,3 @@ $anzFragen = $studentController->anzahlSeitenProFB($_GET["Fragebogen"]);
 </body>
 
 </html>
-
-

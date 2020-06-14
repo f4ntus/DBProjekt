@@ -65,14 +65,14 @@ class IndexController extends GlobalFunctions
             exit;
         }
         $kennwort_hash = password_hash($kennwort, PASSWORD_DEFAULT);
-        
+
         $response = $this->tblBefrager->insertRecord($benutzername, $kennwort_hash);
         //$response = $this->sqlWrapper->insertIntoBefrager($benutzername, $kennwort_hash);
         if ($response == 'success') {
             // weiterleitung zur Anmeldung
-            $this->handleInfo('anmeldungBefrager','regSuccess');
+            $this->handleInfo('anmeldungBefrager', 'regSuccess');
         } else {
-            $this->handleError('anmeldungBefrager','regUnsuccess');
+            $this->handleError('anmeldungBefrager', 'regUnsuccess');
         }
     }
 }

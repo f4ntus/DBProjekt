@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Christoph Böhringer
  * Diese Page dient als Basis für die Oberfläche der Fragebogen-Kopieren Funktion.
