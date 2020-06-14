@@ -14,21 +14,11 @@ class TblKurs extends AbstractSQLWrapper
         $sql = "SELECT * FROM tbl_kurs";
         return $this->globalSelectRecords($sql);
     }
-    function updateRecord()
-    {
-        $sql = '';
-        return $this->globalUpdateRecord($sql);
-    }
     function insertRecord($name)
     {
         $name = $this->escapeString($name);
         $sql = "INSERT INTO tbl_kurs (Name) VALUES ('$name')";
         return $this->globalInsertRecord($sql);
-    }
-    function deleteRecord()
-    {
-        $sql = '';
-        return $this->globalDeleteRecord($sql);
     }
 }
 ?>

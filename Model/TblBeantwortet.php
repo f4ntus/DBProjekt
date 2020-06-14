@@ -76,11 +76,5 @@ class TblBeantwortet extends AbstractSQLWrapper
         $sql = "INSERT INTO tbl_beantwortet (FNr, FbNr, Matrikelnummer, Bewertung) VALUES ('$fnr', '$fbnr', '$matrikelnummer', '$bewertung')";
         return $this->globalInsertRecord($sql);
     }
-    function deleteRecord($fbnr)
-    {
-        $fbnr = $this->escapeString($fbnr);
-        $sql = "DELETE FROM tbl_beantwortet WHERE FbNr = '$fbnr'";
-        return $this->globalDeleteRecord($sql);
-    }
 }
 ?>

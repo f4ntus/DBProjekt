@@ -34,11 +34,6 @@ class TblFreigeschaltet extends AbstractSQLWrapper
         return $this->globalSelectRecords($sql);
     }
     
-    function updateRecord()
-    {
-        $sql = '';
-        return $this->globalUpdateRecord($sql);
-    }
     function insertRecord($fbnr,$kurs)
     {
         $fbnr = $this->escapeString($fbnr);

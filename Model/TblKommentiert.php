@@ -18,11 +18,6 @@ class TblKommentiert extends AbstractSQLWrapper
         $sql = "SELECT * FROM tbl_kommentiert where FbNr='$fbnr' and Matrikelnummer='$matrikelnummer'";
         return $this->globalSelectUniqueRecord($sql);
     }
-    function selectRecords()
-    {
-        $sql = '';
-        return $this->globalSelectRecords($sql);
-    }
 
 
     /**
@@ -59,12 +54,6 @@ class TblKommentiert extends AbstractSQLWrapper
         $kommentar = $this->escapeString($kommentar);
         $sql = "INSERT INTO tbl_kommentiert(FbNr, Matrikelnummer, Kommentar) VALUES ('$fbnr','$matrikelnummer','$kommentar')";
         return $this->globalInsertRecord($sql);
-    }
-    function deleteRecord($fbnr)
-    {
-        $fbnr = $this->escapeString($fbnr);
-        $sql = "DELETE FROM tbl_kommentiert WHERE FbNr = '$fbnr'";
-        return $this->globalDeleteRecord($sql);
     }
 }
 ?>
