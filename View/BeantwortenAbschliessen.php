@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <?php
+/**
+ * @author Johannes Scheffold
+ * Diese Page dient als Basis für das abschließen des Fragebogens, 
+ * hier ist auch die möglichkeit den Fragebogen zu kommentieren implentiert.
+ */
 session_start();
 require '../Controller/StudentController.php';
 $studentController = new StudentController();
