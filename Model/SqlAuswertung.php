@@ -6,7 +6,13 @@
 require_once 'AbstractSQLWrapper.php';
 class TblAuswertung extends AbstractSQLWrapper
 {
-    
+    /**
+     * @author Lukas Schick
+     * Liefert Datensätze für Durchschnitt, Maximal und Minimum
+     * @param $fbnr
+     * @param $kurs
+     * @return object
+     */
     function selectRecordsAuswertung($fbnr, $kurs)
     {
         $fbnr = $this->escapeString($fbnr);
@@ -19,7 +25,13 @@ class TblAuswertung extends AbstractSQLWrapper
         tbl_beantwortet.FbNr = '$fbnr' and tbl_student.Name = '$kurs' GROUP BY tbl_beantwortet.FNr";
         return $this->globalSelectRecords($sql);  
     }
-
+    /**
+     * @author Lukas Schick
+     * Liefert Datensätze der Kommentare
+     * @param $fbnr
+     * @param $kurs
+     * @return object
+     */
     function selectRecordsKommentare($fbnr, $kurs)
     {
         $fbnr = $this->escapeString($fbnr);
@@ -30,6 +42,14 @@ class TblAuswertung extends AbstractSQLWrapper
         return $this->globalSelectRecords($sql);  
     }
 
+    /**
+     * @author Lukas Schick
+     * Liefert Datensätze für Standardabweichung
+     * @param $fbnr
+     * @param $kurs
+     * @param $fnr
+     * @return object
+     */
     function selectRecordsStandardabweichung($fbnr, $kurs, $fnr)
     {
         $fbnr = $this->escapeString($kurs);

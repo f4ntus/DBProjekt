@@ -244,7 +244,6 @@ public function controllNameKurs()
         $sqlObject = $this->tblKurs->selectUniqueRecord($name);
         if (is_null($sqlObject)) {
             $neuerKurs = $this->tblKurs->insertRecord($name);
-            // ToDo: mit $neuerKurs wird nichts gemacht, Fehlerbehandlung ?
             $this->handleInfo('neuerKurs', 'kursErstellt');
         } else {
             $this->handleError('neuerKurs', 'nameInUse');
