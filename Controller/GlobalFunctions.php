@@ -1,5 +1,4 @@
 <?php
-require '../Model/SqlWrapper.php';
 require '../Model/TblAbschliessen.php';
 require '../Model/TblBeantwortet.php';
 require '../Model/TblBefrager.php';
@@ -12,7 +11,6 @@ require '../Model/TblFreigeschaltet.php';
 require '../Model/TblAuswertung.php';
 abstract class GlobalFunctions
 {
-    protected $sqlWrapper;
     protected $tblAbschliessen;
     protected $tblBeantwortet;
     protected $tblBefrager;
