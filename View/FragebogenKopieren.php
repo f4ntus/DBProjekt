@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Christoph Böhringer
- * Diese Klasse dient als Basis für die Oberfläche der Fragebogen-Kopieren Funktion.
+ * Diese Page dient als Basis für die Oberfläche der Fragebogen-Kopieren Funktion.
  */
 require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();

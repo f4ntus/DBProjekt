@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Christoph Böhringer
- * Diese Klasse dient als Basis für die Oberfläche der Fragebogen-Löschen Funktion.
+ * Diese Page dient als Basis für die Oberfläche der Fragebogen-Löschen Funktion.
  */
 require '../Controller/BefragerController.php';
 $befragerController = new BefragerController();

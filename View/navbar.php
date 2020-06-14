@@ -1,6 +1,6 @@
 <!--
 @author Christoph Böhringer
-Klasse beinhaltet die Navbar für den Student und Befrager.
+Page beinhaltet die Navbar für den Student und Befrager.
 //-->
     <header>
         <nav>
