@@ -216,7 +216,7 @@ class BefragerController extends GlobalFunctions
         $checkTitle = $this->tblFragebogen->selectUniqueRecordByTitel($copyTitel);
         if (is_null($checkTitle)) {
             $neueFbNr = $this->tblFragebogen->insertRecord($copyTitel, $benutzername);
-            if ($neueFbNr = 'error') {
+            if ($neueFbNr == 'error') {
                 $this->handleError('fragenKopieren', 'sqlError');
                 exit;
             }
