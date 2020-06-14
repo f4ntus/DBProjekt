@@ -2,6 +2,12 @@
 require 'GlobalFunctions.php';
 class IndexController extends GlobalFunctions
 {
+    /**
+     * @author Johannes Scheffold
+     * regelt die Anmeldung von Student und Befrager
+     * @param $post (Benutzereingabe)
+     * @return void 
+     */
     public function controllAnmeldung($post)
     {
         if (isset($post["matrikelnummer"])) {
@@ -39,6 +45,14 @@ class IndexController extends GlobalFunctions
             }
         }
     }
+
+    /**
+     * @author Johannes Scheffold
+     * regelt das Registrieren vom Befrager
+     * @param $benutzername (Befrager)
+     * @param $Kennwort
+     * @return void
+     */
     public function controllRegister($benutzername, $kennwort)
     {
         if (empty($benutzername)) {
