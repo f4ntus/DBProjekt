@@ -37,7 +37,17 @@ abstract class GlobalFunctions
         $this->tblFreigeschaltet = new TblFreigeschaltet();
         $this->tblAuswertung = new TblAuswertung();
     }
-    protected function handleError($moveTo, $errorCode)
+     /**
+     * @author Johannes Scheffold
+     * 
+     * Hilfsfunktion, macht das Errorhandling einfacher
+     * 
+     * @param $moveTo Code, sagt wo der Fehler angezeigt werden soll.
+     * @param $errorCode, dieser Code wird als parameter im Link mitangegeben und kann auf einzelnen Pages abgefragt werden (Error-Boxen)
+     * @return void
+     */
+    
+    function handleError($moveTo, $errorCode)
     {
         switch ($moveTo) {
             case 'anmeldungBefrager':
@@ -116,6 +126,15 @@ abstract class GlobalFunctions
         }
     }
 
+    /**
+     * @author Johannes Scheffold
+     * 
+     * Hilfsfunktion, macht das handling von Infos einfacher
+     * 
+     * @param $moveTo Code, sagt wo die Info angezeigt werden soll.
+     * @param $infoCode, dieser Code wird als parameter im Link mitangegeben und kann auf einzelnen Pages abgefragt werden (Info-Boxen)
+     * @return void
+     */
     protected function handleInfo($moveTo, $infoCode)
     {
         switch ($moveTo) {
@@ -172,6 +191,16 @@ abstract class GlobalFunctions
                 break;
         }
     }
+
+    /**
+     * @author Johannes Scheffold
+     * 
+     * Hilfsfunktion, macht das navigieren zwischen den pages leichter
+     * 
+     * @param $pageName (zur welcher Page navigiert werden soll)
+     * @param $suffix (optional) wird verwendet, wenn im Link noch Parameter angegeben werden sollen. 
+     * @return void
+     */
     protected function moveToPage($pageName, $suffix = '')
     {
         // Redirect auf eine andere Seite im aktuell angeforderten Verzeichnis 

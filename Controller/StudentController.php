@@ -30,43 +30,7 @@ class StudentController extends GlobalFunctions
     }
 
 
-     /**
-     * @author Johannes Scheffold
-     * Erzeugt eine Tabelle mit allen relavanten Fragebögen.
-     *
-     * @param $post 
-     * 
-     * @return string $tableString der String mit der die Tabelle aufgebaut wird 
-     */
-    public function saveAndNavigateToNext($post, $fbnr, $fnr)
-    {
-        // prüfen ob student angegemeldet ist
-        if (!$this->studentUndFragebogenPruefen($fbnr)) {
-            return;
-        }
-
-        // prüfen ob Frage schon beantwortet wurde 
-        $recordBeantwortet = $this->tblBeantwortet->selectUniqueRecord($fbnr, $fnr, $_SESSION['matrikelnummer']);
-        if (isset($recordBeantwortet)) {
-            //Updaten wenn sie schonmal beantwortet wurde
-            $this->tblBeantwortet->updateRecord($fbnr, $fnr, $_SESSION['matrikelnummer'], $post['bewertung']);
-        } else {
-            // Neuer Datensatz, wenn sie noch nicht beantwortet wurde
-            $this->tblBeantwortet->insertRecord($fbnr, $fnr, $_SESSION['matrikelnummer'], $post['bewertung']);
-        }
-        var_dump($fnr);
-        $sqlObjectFragen = $this->tblFrage->selectRecords($fbnr, $fnr); // liefert ab der aktuellen Frage
-        $newFnr = $sqlObjectFragen->fetch_object()->FNr; // die nächste Fragennummer
-        if (is_null($newFnr)) {
-            // Befragung ist fertig
-            $this->moveToPage('BeantwortenAbschliessen.php', '?Fragebogen=' . $fbnr);
-        } else {
-            // es gibt noch unbeantwortete Fragen
-            $suffix = '?Fragebogen=' . $fbnr . '&Frage=' . $newFnr;
-            $this->moveToPage('Beantworten.php', $suffix);
-        }
-    }
-
+     
     /**
      * @author Johannes Scheffold
      * Navigiert zur ersten nicht beantworteten Frage eines Studenten. 
@@ -99,29 +63,55 @@ class StudentController extends GlobalFunctions
         $this->moveToPage('BeantwortenAbschliessen.php', '?Fragebogen=' . $fbnr);
     }
 
+
     /**
      * @author Johannes Scheffold
-     * gibt die Anzahl der Fragen pro Fragebogen zurück
+     * speichert und navigiert zur nächsten Frage
      *
+     * @param $post (Eingabe des Benutzers)
      * @param $fbnr (Fragebogennummer) 
+     * @param $fnr (Fragenummer) 
      * 
-     * @return int 
+     * @return void
      */
-    public function anzahlSeitenProFB($fbnr)
+    public function saveAndNavigateToNext($post, $fbnr, $fnr)
     {
-        $sqlResult = $this->tblFrage->selectRecords($fbnr);
-        return $sqlResult->num_rows;
-    }
+        // prüfen ob student angegemeldet ist
+        if (!$this->studentUndFragebogenPruefen($fbnr)) {
+            return;
+        }
 
-    public function showFrage($fbnr, $fnr)
-    {
-        $frage = $this->tblFrage->selectUniqueRecord($fbnr, $fnr);
-        if (is_null($frage)) {
-            //ToDo: Handle Error -> Frage not Found
+        // prüfen ob Frage schon beantwortet wurde 
+        $recordBeantwortet = $this->tblBeantwortet->selectUniqueRecord($fbnr, $fnr, $_SESSION['matrikelnummer']);
+        if (isset($recordBeantwortet)) {
+            //Updaten wenn sie schonmal beantwortet wurde
+            $this->tblBeantwortet->updateRecord($fbnr, $fnr, $_SESSION['matrikelnummer'], $post['bewertung']);
         } else {
-            return $frage->Fragetext;
+            // Neuer Datensatz, wenn sie noch nicht beantwortet wurde
+            $this->tblBeantwortet->insertRecord($fbnr, $fnr, $_SESSION['matrikelnummer'], $post['bewertung']);
+        }
+        var_dump($fnr);
+        $sqlObjectFragen = $this->tblFrage->selectRecords($fbnr, $fnr); // liefert ab der aktuellen Frage
+        $newFnr = $sqlObjectFragen->fetch_object()->FNr; // die nächste Fragennummer
+        if (is_null($newFnr)) {
+            // Befragung ist fertig
+            $this->moveToPage('BeantwortenAbschliessen.php', '?Fragebogen=' . $fbnr);
+        } else {
+            // es gibt noch unbeantwortete Fragen
+            $suffix = '?Fragebogen=' . $fbnr . '&Frage=' . $newFnr;
+            $this->moveToPage('Beantworten.php', $suffix);
         }
     }
+    
+    
+    /**
+     * @author Johannes Scheffold
+     * Navigiert eine Frage zurück
+     *
+     * @param $fbnr (Fragebogennummer) 
+     * @param $fnr (Fragenummer)
+     * @return void
+     */
     public function goBack($fbnr, $fnr)
     {
         $recordsFrage = $this->tblFrage->selectRecords($fbnr);
@@ -136,26 +126,97 @@ class StudentController extends GlobalFunctions
             $this->moveToPage('Beantworten.php', $suffix);
         }
     }
-    public function fragebogenKommentieren($fbnr, $kommentar)
-    {
-        // to Do: check student
+
+
+    /**
+     * @author Johannes Scheffold
+     * 
+     * Navigiert zu der letzten Frage eines Fragebogens
+     * 
+     * @param $fbnr (Fragebogennummer) 
+     * @return void
+     */
+    public function goToLastQuestion($fbnr){
         if (!$this->studentUndFragebogenPruefen($fbnr)) {
             return;
         }
+        $recordFrage =$this->tblFrage->maxRecord($fbnr);
+        $this->moveToPage('Beantworten.php','?Fragebogen='. $fbnr . '&Frage=' . $recordFrage->maxFnr);
+    }
+
+
+    /**
+     * @author Johannes Scheffold
+     * gibt die Anzahl der Fragen pro Fragebogen zurück
+     *
+     * @param $fbnr (Fragebogennummer) 
+     * 
+     * @return int 
+     */
+    public function anzahlSeitenProFB($fbnr)
+    {
+        $sqlResult = $this->tblFrage->selectRecords($fbnr);
+        return $sqlResult->num_rows;
+    }
+
+     /**
+     * @author Johannes Scheffold
+     * gibt den Fragetext der Frage zurück
+     *
+     * @param $fbnr (Fragebogennummer) 
+     * @param $fnr (Fragenummer)
+     * @return String 
+     */
+    public function getFragetext($fbnr, $fnr)
+    {
+        $frage = $this->tblFrage->selectUniqueRecord($fbnr, $fnr);
+        return $frage->Fragetext;
+    }
+    
+
+    /**
+     * @author Johannes Scheffold
+     * Kommentiert Fragebogen
+     *
+     * @param $fbnr (Fragebogennummer) 
+     * @param $kommentar
+     * @return void
+     */
+    public function fragebogenKommentieren($fbnr, $kommentar)
+    {
+        // prüfe Student
+        if (!$this->studentUndFragebogenPruefen($fbnr)) {
+            return;
+        }
+        
+        // prüfen ob Kommentar ausgefüllt wurde
+        if (!isset($kommentar)) {
+            // Fehler: kein Kommentar
+            $this->handleError('abschliessen', 'noKommentar');
+            return;
+        }
+
         $recordKommentare = $this->tblKommentiert->selectUniqueRecord($fbnr, $_SESSION["matrikelnummer"]);
+        
         if (isset($recordKommentare)) {
+            // wenn bereits kommentiert -> Kommentar updaten
             $this->tblKommentiert->updateRecord($fbnr, $_SESSION["matrikelnummer"], $kommentar);
         } else {
-            if (isset($kommentar)) {
-                $this->tblKommentiert->insertRecord($fbnr, $_SESSION["matrikelnummer"], $kommentar);
-            } else {
-                // Fehler: kein Kommentar
-                $this->handleError('abschliessen', 'noKommentar');
-            }
+            // ansonsten neuer Datensatz
+            $this->tblKommentiert->insertRecord($fbnr, $_SESSION["matrikelnummer"], $kommentar);
         }
+
         // Handle Info Kommentar gespeichert
         $this->handleInfo('abschliessen','?Fragebogen=' . $fbnr . '&info=gespeichert');
     }
+    
+    /**
+     * @author Johannes Scheffold
+     * schließt einen Fragebogen ab
+     *
+     * @param $fbnr (Fragebogennummer) 
+     * @return void
+     */
     public function fragebogenAbschliessen($fbnr)
     {
         // prüfen ob student angegemeldet ist
@@ -168,15 +229,24 @@ class StudentController extends GlobalFunctions
         // zurück zum Hauptmenue
         $this->handleInfo('MenuStudent', 'abgeschlossen');
     }
-    public function showRadioButtons($fbnr, $fnr, $matrikelnummer)
+
+    /**
+     * @author Johannes Scheffold
+     * gibt die Radiobuttons für das Beatworten der Frage aus und regelt die Vorbelegung, 
+     * falls eine Frage bereits beantwortet ist. 
+     *
+     * @param $fbnr (Fragebogennummer) 
+     * @param $fnr (Fragenummer) 
+     * @return void
+     */
+    public function showRadioButtons($fbnr, $fnr)
     {
         // prüfen ob student angegemeldet ist
         if (!$this->studentUndFragebogenPruefen($fbnr)) {
             return;
         }
-        $recordBeantwortet = $this->tblBeantwortet->selectUniqueRecord($fbnr, $fnr, $matrikelnummer);
+        $recordBeantwortet = $this->tblBeantwortet->selectUniqueRecord($fbnr, $fnr, $_SESSION["matrikelnummer"] );
         if (isset($recordBeantwortet)) {
-
             switch ($recordBeantwortet->Bewertung) {
                 case 1:
                     echo ' <input type="radio" name="bewertung" value="1" checked> 1
@@ -214,7 +284,7 @@ class StudentController extends GlobalFunctions
                     <input type="radio" name="bewertung" value="5" checked> 5 ';
                     break;
             }
-        } else {
+        } else { // wenn die Frage nicht beantwortet wurde
             echo ' <input type="radio" name="bewertung" value="1"> 1
                 <input type="radio" name="bewertung" value="2"> 2
                 <input type="radio" name="bewertung" value="3"> 3
@@ -222,13 +292,17 @@ class StudentController extends GlobalFunctions
                 <input type="radio" name="bewertung" value="5"> 5 ';
         }
     }
-    public function goToLastQuestion($fbnr){
-        if (!$this->studentUndFragebogenPruefen($fbnr)) {
-            return;
-        }
-        $recordFrage =$this->tblFrage->maxRecord($fbnr);
-        $this->moveToPage('Beantworten.php','?Fragebogen='. $fbnr . '&Frage=' . $recordFrage->maxFnr);
-    }
+
+
+
+    /**
+     * @author Johannes Scheffold
+     * 
+     * holt sich den aktuellen Kommentar für die Vorbelegung des Textfelds
+     * 
+     * @param $fbnr (Fragebogennummer) 
+     * @return void
+     */
     public function getKommentar($fbnr){
         if (!$this->studentUndFragebogenPruefen($fbnr)){
             return;
@@ -239,7 +313,17 @@ class StudentController extends GlobalFunctions
         }
         return '';
     }
-
+   
+   
+    /**
+     * @author Johannes Scheffold
+     * 
+     * überprüft ob Student angemeldet ist, ob der Fragebogen dem Studenten freigegeben ist 
+     * und ob der Student den Fragebogen nicht schon abgeschlossen hat.
+     * 
+     * @param $fbnr (Fragebogennummer) 
+     * @return boolean (false für fehler)
+     */
     public function studentUndFragebogenPruefen($fbnr='')
     {
         // prüfen ob angemeldet
@@ -265,7 +349,6 @@ class StudentController extends GlobalFunctions
                 return false;
             }
         }
-
         return true;
     }
 }
